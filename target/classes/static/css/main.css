@@ -1,0 +1,42 @@
+/* ----------------------------------------------- */
+html, body{
+  height: 100%;
+}
+
+/* 캐러셀 크기 조절 */
+.carousel-inner img {
+  width: 100%; /* 넓이를 100%로 설정하여 반응형으로 만들어줍니다 */
+  height: 400px; /* 높이를 400px로 설정 (원하는 높이로 조절 가능) */
+  object-fit: cover; /* 이미지가 영역에 맞게 크기 조정 */
+}
+
+/* 전체 캐러셀 크기 조정 */
+.carousel {
+  max-width: 100%; /* 최대 넓이를 화면 크기에 맞게 설정 */
+  height: 400px; /* 전체 높이를 400px로 설정 (원하는 높이로 조절 가능) */
+  margin: 0 auto; /* 가운데 정렬 */
+}
+
+/* ----------------------------------------------------------------------------- */
+/* 중간 푸터에 마진 추가 */
+.public-facilities-section {
+  margin-top: 30px;  /* 상단 마진 */
+  margin-bottom: 30px;  /* 하단 마진 */
+}
+
+/* 카드의 스타일을 좀 더 다듬기 위해 추가 */
+.public-facilities-section .card {
+  margin-bottom: 20px;  /* 카드 간 간격 추가 */
+}
+
+/* 제목 스타일 */
+.public-facilities-section h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.public-facilities-section p {
+  text-align: center;
+  margin-bottom: 30px;
+}
+

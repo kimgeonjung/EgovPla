@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>관리자 페이지</title>
+  <link rel="stylesheet" href="/css/noticeDetail.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/adminapply.css">
+</head>
+<body>
+<th:block th:replace="admin/adminHeader :: headerLayout"></th:block>
+<div class="ft">
+  <div class="container">
+    <div class="main-title">
+      <h1>상세분석 신청</h1>
+      <div class="split--div"></div>
+      <div class="container">
+        <div class="split--div-post"></div>
+      </div>
+      <form id="frm" method="post">
+        <input type="hidden" name="id" th:value="${apply.id}" />
+        <input type="hidden" name="completedYn" th:value="${apply.completedYn}" />
+        <table class="board_detail">
+          <tbody>
+          <tr>
+            <th>글 번호</th>
+            <td th:text="${apply.id }"></td>
+            <th>작성자</th>
+            <td th:text="${apply.author }"></td>
+          </tr>
+          <tr>
+            <th>작성일</th>
+            <td th:text="${#temporals.format(now, 'yyyy-MM-dd').equals(#temporals.format(apply.createdAt, 'yyyy-MM-dd'))} ? ${#temporals.format(apply.createdAt, 'HH:mm')} : ${#temporals.format(apply.createdAt, 'yyyy-MM-dd')}"></td>
+          </tr>
+          <tr>
+            <th>제목</th>
+            <td colspan="3"><input type="text" id="title" name="title" th:value="${apply.title }"
+                                   th:attr="readonly=${session.authInfo == null || session.authInfo.role != 'ADMIN'}" readonly/></td>
+          </tr>
+          <tr>
+            <th>내용</th>
+            <td colspan="3"><textarea title="내용" id="content" name="content" th:text="${apply.content }"
+                                      th:attr="readonly=${session.authInfo == null || session.authInfo.role != 'ADMIN'}" readonly></textarea>
+            </td>
+          </tr>
+          <th:block th:if="${apply.files != null and !apply.files.isEmpty()}">
+          <tr>
+            <th>첨부 파일</th>
+            <td colspan="3">
+              <div th:each="file : ${apply.files}">
+                <div th:if="${#strings.endsWith(file.fileName, '.jpg') or
+                         #strings.endsWith(file.fileName, '.jpeg') or
+                         #strings.endsWith(file.fileName, '.png') or
+                         #strings.endsWith(file.fileName, '.gif')}">
+                  <img th:src="${file.filePath}" alt="Uploaded Image" style="max-width: 300px;" />
+                  <br />
+                  <a th:href="@{/download(filename=${file.fileName})}" download>
+                       <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
+                   </a>
+                </div>
+
+                <div th:if="${file.fileName != null and file.fileName != '' and !(#strings.endsWith(file.fileName, '.jpg') or
+                                                                  #strings.endsWith(file.fileName, '.jpeg') or
+                                                                  #strings.endsWith(file.fileName, '.png') or
+                                                                  #strings.endsWith(file.fileName, '.gif'))}">
+                  <p th:text="${file.fileName}"></p>
+                  <a th:href="@{/download(filename=${file.fileName})}" download>
+                       <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
+                   </a>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </th:block>
+          <tr>
+          <tr>
+            <th>지역</th>
+            <td colspan="3">
+              <select id="location" name="location" onchange="updateOptions()">
+                <option value="cheonan">천안</option>
+                <option value="gwangju">광주</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>선택 항목</th>
+            <td colspan="3">
+              <select id="type" name="type">
+                <!-- Default options, to be updated dynamically -->
+                <option value="library">도서관</option>
+                <option value="kiosk">무인발급기</option>
+                <option value="wifi">와이파이</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th>결과 파일</th>
+            <td colspan="3"><input type="text" id="link" name="link" th:value="${apply.link}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </form>
+      <div class="button-group">
+        <a href="#this" id="list" class="mbtn" >목록으로</a>
+        <a href="#this" id="result" class="mbtn" >결과 전송</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#list").on("click", function(){
+    	location.href = "/admin/admin_apply";
+    });
+    $("#result").on("click", function(){
+      var frm = $("#frm")[0];
+      frm.action = "/admin/admin_apply_result";
+      frm.submit();
+    });
+  });
+  
+  function updateOptions() {
+	    const citySelect = document.getElementById('location');
+	    const optionSelect = document.getElementById('type');
+	    const selectedCity = citySelect.value;
+
+	    // Clear current options
+	    optionSelect.innerHTML = '';
+
+	    if (selectedCity === 'cheonan') {
+	      // 천안 선택 시 옵션
+	      const cheonanOptions = [
+	        { value: 'library', text: '도서관' },
+	        { value: 'kiosk', text: '무인발급기' },
+	        { value: 'wifi', text: '와이파이' }
+	      ];
+	      cheonanOptions.forEach(function(option) {
+	        const opt = document.createElement('option');
+	        opt.value = option.value;
+	        opt.textContent = option.text;
+	        optionSelect.appendChild(opt);
+	      });
+	    } else if (selectedCity === 'gwangju') {
+	      // 광주 선택 시 옵션
+	      const gwangjuOptions = [
+	        { value: 'library', text: '도서관' },
+	        { value: 'kiosk', text: '무인발급기' },
+	        { value: 'wifi', text: '와이파이' },
+	        { value: 'shade', text: '그늘막' }
+	      ];
+	      gwangjuOptions.forEach(function(option) {
+	        const opt = document.createElement('option');
+	        opt.value = option.value;
+	        opt.textContent = option.text;
+	        optionSelect.appendChild(opt);
+	      });
+	    }
+	  }
+	  // Initialize options based on default city
+	  updateOptions();
+</script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>데이터 상세</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> <!-- Bootstrap 스타일 -->
+  <link rel="stylesheet" href="/css/noticeDetail.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+<th:block th:replace="layout/header :: headerLayout"></th:block>
+<div class="ft">
+  <div class="main-container">
+    <div class="main-title">
+      <h1>데이터 상세</h1>
+    </div>
+    <form id="frm" method="post">
+      <div class="split--div-post"></div>
+      <input type="hidden" name="id" th:value="${dataList.id}" />
+      <table class="board_detail">
+        <tbody>
+        <tr>
+          <th>제목</th>
+          <td colspan="3"><input type="text" id="title" name="title" th:value="${dataList.title }" readonly/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td colspan="3" >
+            <input type="text" id="content" name="content" th:value="${dataList.content }" readonly/></td>
+        </tr>
+        <th:block th:if="${dataList.files != null and !dataList.files.isEmpty()}">
+          <tr>
+            <th>첨부 파일</th>
+            <td colspan="3">
+              <div th:each="file : ${dataList.files}">
+                <div th:if="${#strings.endsWith(file.fileName, '.jpg') or
+                                 #strings.endsWith(file.fileName, '.jpeg') or
+                                 #strings.endsWith(file.fileName, '.png') or
+                                 #strings.endsWith(file.fileName, '.gif')}">
+                   <a th:href="@{/download(filename=${file.fileName})}" download>
+                       <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
+                   </a>
+                  <img th:src="${file.filePath}" alt="Uploaded Image" style="max-width: 300px;" />
+                </div>
+                <!--사진과 파일 코드 구분 선-->
+                <div th:if="${file.fileName != null and file.fileName != '' and !(#strings.endsWith(file.fileName, '.jpg') or
+                                                                        #strings.endsWith(file.fileName, '.jpeg') or
+                                                                        #strings.endsWith(file.fileName, '.png') or
+                                                                        #strings.endsWith(file.fileName, '.gif'))}"
+                     style="display: flex; align-items: center; gap: 10px;">
+                  <a th:href="${file.filePath}" download><img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" /></a>
+                  <p th:text="${file.fileName}" style="margin: 0;"></p>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </th:block>
+        </tbody>
+      </table>
+      <div class="main-title">
+        <h3>미리보기</h3>
+        <div style="max-height: 150px; max-width: 100%; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background-color: #fff; white-space: normal; font-size: 14px; line-height: 1.6;">
+          <p th:utext="${dataList.preview}" style="margin: 0;"></p>
+        </div>
+      </div>
+      <div class="main-title">
+        <h1>파일데이터 정보</h1>
+      </div>
+      <table class="board_detail">
+        <tbody>
+        <tr>
+          <th>파일데이터명</th>
+          <td colspan="3">
+            <input type="text" id="a1" name="a1" th:value="${dataList.a1}" readonly />
+          </td>
+        </tr>
+        <tr>
+          <th>분류체계</th>
+          <td>
+            <input type="text" id="a2" name="a2" th:value="${dataList.a2}" readonly />
+          </td>
+          <th>제공기관</th>
+          <td>
+            <input type="text" id="a3" name="a3" th:value="${dataList.a3}" readonly />
+          </td>
+        </tr>
+        <tr>
+          <th>관리부서명</th>
+          <td>
+            <input type="text" id="a4" name="a4" th:value="${dataList.a4}" readonly />
+          </td>
+          <th>관리부서 전화번호</th>
+          <td>
+            <input type="text" id="a5" name="a5" th:value="${dataList.a5}" readonly />
+          </td>
+        </tr>
+        <tr>
+          <th>보유근거</th>
+          <td>
+            <input type="text" id="a6" name="a6" th:value="${dataList.a6}" readonly />
+          </td>
+          <th>수집방법</th>
+          <td>
+            <input type="text" id="a7" name="a7" th:value="${dataList.a7}" readonly />
+          </td>
+        </tr>
+        <tr>
+          <th>업데이트 주기</th>
+          <td>
+            <input type="text" id="a8" name="a8" th:value="${dataList.a8}" readonly />
+          </td>
+          <th>차기 등록 예정일</th>
+          <td>
+            <input type="text" id="a9" name="a9" th:value="${dataList.a9}" readonly />
+          </td>
+        </tr>
+        <tr>
+          <th>매체유형</th>
+          <td>
+            <input type="text" id="a10" name="a10" th:value="${dataList.a10}" readonly />
+          </td>
+          <th>전체 행</th>
+          <td>
+            <input type="text" id="a11" name="a11" th:value="${dataList.a11}" readonly />
+          </td>
+        </tr>
+        <tr>
+          <th>확장자</th>
+          <td>
+            <input type="text" id="a12" name="a12" th:value="${dataList.a12}" readonly />
+          </td>
+          <th>키워드</th>
+          <td>
+            <input type="text" id="a13" name="a13" th:value="${dataList.a13}" readonly />
+          </td>
+        </tr>
+        <tr>
+          <th>등록일</th>
+          <td>
+            <input type="text" id="createdAt" name="createdAt" th:value="${#temporals.format(dataList.createdAt,'yyyy-MM-dd')}" readonly />
+          </td>
+          <th>수정일</th>
+          <td>
+            <input type="text" id="updatedAt" name="updatedAt" th:value="${#temporals.format(dataList.updatedAt,'yyyy-MM-dd')}" readonly />
+          </td>
+        </tr>
+        <tr>
+          <th>데이터한계</th>
+          <td colspan="3">
+            <input type="text" id="a14" name="a14" th:value="${dataList.a14}" readonly />
+          </td>
+        </tr>
+        <tr>
+          <th>제공형태</th>
+          <td colspan="3">
+            <input type="text" id="a15" name="a15" th:value="${dataList.a15}" readonly />
+          </td>
+        </tr>
+        <tr>
+          <th>설명</th>
+          <td colspan="3">
+            <input type="text" id="a16" name="a16" th:value="${dataList.a16}" readonly />
+          </td>
+        </tr>
+        <tr>
+          <th>기타 유의사항</th>
+          <td colspan="3">
+            <input type="text" id="a17" name="a17" th:value="${dataList.a17}" readonly />
+          </td>
+        </tr>
+        <tr>
+          <th>비용부과 유무</th>
+          <td>
+            <input type="text" id="a18" name="a18" th:value="${dataList.a18}" readonly />
+          </td>
+          <th>비용부과기준 및 단위</th>
+          <td>
+            <input type="text" id="a19" name="a19" th:value="${dataList.a19}" readonly />
+          </td>
+        </tr>
+        <tr>
+          <th>이용허락범위</th>
+          <td colspan="3">
+            <input type="text" id="a20" name="a20" th:value="${dataList.a20}" readonly />
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+    </form>
+    <div class="button-group">
+      <a href="#this" id="list" class="mbtn" >목록으로</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#list").on("click", function(){
+      location.href = "/dataList";
+    });
+  });
+</script>
+</div>
+<div class="footers"></div> <!-- 이거 지우면 안됨 -->
+<th:block th:replace="layout/footer :: footerLayout"></th:block>
+</body>
+</html>

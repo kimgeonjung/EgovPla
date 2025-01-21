@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>FAQ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/faqList.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+<th:block th:replace="layout/header :: headerLayout"></th:block>
+
+<div class="ft main-sub-manu">
+  <div class="faq-container col-md-12 row">
+    <div class="col-md-9">
+      <div class="main-tihome">
+        <div class="main-title">
+          <h1 class="faq-title">FAQ</h1>
+          <div class="split--div-post"></div>
+            <a href="/faq" class="faq-link">FAQ</a>
+            <a href="/qna/inquiry" class="faq-link">Q&A</a>
+        </div>
+      </div>
+      <table class="post-table">
+        <tbody class="post-tbody-tr1">
+        <th:block  th:if="${#lists.size(faqs)} > 0" th:each="faq, stat : ${faqs}">
+          <tr class="post-tbody-tr2" th:id="${faq.id}">
+            <td class="title">
+              <a href="/faq/faqDetail?id=" th:attrappend="href=${faq.id}" th:text="'Q. &nbsp; ' +${faq.title}"></a></td>
+          </tr>
+        </th:block>
+        </tbody>
+      </table>
+      <!-- 페이징 -->
+      <div th:if="${faqs != null and !faqs.isEmpty()}">
+        <!-- 전역 변수 선언 -->
+        <nav
+                th:with="pageNumber = ${faqs.pageable.pageNumber}, pageSize = ${faqs.pageable.pageSize},totalPages = ${faqs.totalPages},startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},tempEndPage = ${startPage + pageSize - 1},endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})"
+                aria-label="Page navigation">
+          <ul class="pagination">
+            <!-- 처음으로 이동 -->
+            <li th:classappend="${pageNumber == 0} ? 'disabled'" class="page-item">
+              <a class="page-link" th:href="@{/faq(page=0)}">
+                <span>&laquo;</span>
+              </a>
+            </li>
+
+            <!-- 이전으로 이동 -->
+            <li th:classappend="${faqs.first} ? 'disabled'" class="page-item">
+              <a class="page-link" th:href="${faqs.first} ? '#' : @{/faq(page=${pageNumber - 1})}" aria-label="Previous">
+                <span aria-hidden="true">&lt;</span>
+              </a>
+            </li>
+
+            <!-- 특정 페이지로 이동 -->
+            <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+              <a th:text="${page}" class="page-link" th:href="@{/faq(page=${page - 1})}"></a>
+            </li>
+
+            <!-- 다음으로 이동 -->
+            <li th:classappend="${faqs.last} ? 'disabled'" class="page-item">
+              <a class="page-link" th:href="${faqs.last} ? '#' : @{/faq(page=${pageNumber + 1})}" aria-label="Next">
+                <span aria-hidden="true">&gt;</span>
+              </a>
+            </li>
+
+            <!-- 마지막으로 이동 -->
+            <li th:classappend=" ${pageNumber >= totalPages - 1} ? 'disabled'" class="page-item">
+              <a class="page-link" th:href="@{/faq(page=${totalPages - 1})}">
+                <span>&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div><!-- /container -->
+</div>
+<script th:src="@{/js/faq.js}"></script>
+<div class="footers"></div> <!-- 이거 지우면 안됨 -->
+<th:block th:replace="layout/footer :: footerLayout"></th:block>
+</body>
+</html>

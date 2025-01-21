@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ</title>
+  <link rel="stylesheet" href="/css/faqDetail.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/header.css">
+</head>
+<body>
+<th:block th:replace="admin/adminHeader :: headerLayout"></th:block>
+  <div class="post-detail-main ft">
+    <div class="detail-container">
+      <!-- 게시글 내용 표시 -->
+      <div class="post-detail">
+        <form id="update" method="post">
+          <input type="hidden" name="id" id="id" th:value="${faq.id}">
+        <label for="title">제목: </label><input type="text" th:value="${faq.title}" id="title" name="title" size="100px">
+        <p class="post-meta">
+          <span>관리자</span>|
+          <span th:text="${#temporals.format(now, 'yyyy-MM-dd').equals(#temporals.format(faq.createdAt, 'yyyy-MM-dd'))} ? ${#temporals.format(faq.createdAt, 'HH:mm')} : ${#temporals.format(faq.createdAt, 'yyyy-MM-dd')}">작성일</span>
+        </p>
+        <div class="message-box">
+          <label for="question">Q: </label><textarea th:text="${faq.question}" id="question" name="question"></textarea>
+        </div>
+        <div class="message-box">
+          <label for="answer">A: </label><textarea th:text="${faq.answer}" id="answer" name="answer"></textarea>
+        </div>
+      		<div class="form-actions">
+	            <button type="button" id="list">목록으로 돌아가기</button>
+	            <button type="button" id="edit">수정하기</button>
+	            <button type="button" id="delete">삭제하기</button>
+         	</div>
+        </form>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+          $(document).ready(function(){
+            $("#list").on("click", function(){
+            	location.href = "/admin/admin_faq";
+            });
+
+            $("#edit").on("click", function(){
+              var frm = $("#update")[0];
+              frm.action = "/admin/admin_faqUpdate";
+              frm.submit();
+            });
+
+            $("#delete").on("click", function(){
+              if (confirm("삭제하시겠습니까?")) {
+                var frm = $("#update")[0];
+                frm.action = "/admin/admin_faqDelete";
+                frm.submit();
+              }
+            });
+          });
+        </script>
+    </div>
+  </div>
+</div>
+<div class="footers"></div> <!-- 이거 지우면 안됨 -->
+<th:block th:replace="layout/footer :: footerLayout"></th:block>
+</body>
+</html>

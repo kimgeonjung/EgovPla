@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>du</groupId>
+   <artifactId>pla</artifactId>
+   <packaging>jar</packaging>
+   <version>1.0.0</version>
+   <name>pla</name>
+   <url>http://www.egovframe.go.kr</url>
+
+   <licenses>
+      <license>
+         <name>The Apache Software License, Version 2.0</name>
+         <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      </license>
+   </licenses>
+
+   <parent>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-parent</artifactId>
+      <version>2.7.0</version>
+   </parent>
+
+   <properties>
+      <spring.maven.artifact.version>5.3.20</spring.maven.artifact.version>
+      <org.egovframe.rte.version>4.1.0</org.egovframe.rte.version>
+   </properties>
+
+   <repositories>
+   <repository>
+        <id>central</id>
+        <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+   <repository>
+        <id>itext</id>
+        <url>https://repo.itextsupport.com/releases</url>
+    </repository>
+   <repository>
+            <id>osgeo</id>
+            <url>https://repo.osgeo.org/repository/release/</url>
+        </repository>
+        <repository>
+            <id>maven-central</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+      <repository>
+         <id>mvn2s</id>
+         <url>https://repo1.maven.org/maven2/</url>
+         <releases>
+            <enabled>true</enabled>
+         </releases>
+         <snapshots>
+            <enabled>true</enabled>
+         </snapshots>
+      </repository>
+      <repository>
+         <id>egovframe</id>
+         <url>https://maven.egovframe.go.kr/maven/</url>
+         <releases>
+            <enabled>true</enabled>
+         </releases>
+         <snapshots>
+            <enabled>false</enabled>
+         </snapshots>
+      </repository>
+   </repositories>
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version> <!-- 최신 버전 -->
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+   <dependencies>
+   <!-- Jackson for JSON processing -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.14.1</version>
+        </dependency>
+
+       <dependency>
+        <groupId>com.opencsv</groupId>
+        <artifactId>opencsv</artifactId>
+        <version>5.7.1</version>
+    </dependency>
+
+		<dependency>
+		    <groupId>com.itextpdf</groupId>
+		    <artifactId>kernel</artifactId>
+		    <version>7.2.6</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.itextpdf</groupId>
+		    <artifactId>layout</artifactId>
+		    <version>7.2.6</version>
+		</dependency>
+
+
+        <!-- GeoTools libraries -->
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-shapefile</artifactId>
+            <version>24.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-csv</artifactId>
+            <version>24.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-main</artifactId>
+            <version>24.2</version>
+        </dependency>
+
+        <!-- JTS for geometry processing -->
+        <dependency>
+            <groupId>org.locationtech.jts</groupId>
+            <artifactId>jts-core</artifactId>
+            <version>1.18.2</version>
+        </dependency>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-web</artifactId>
+         <exclusions>
+            <exclusion>
+               <groupId>org.springframework.boot</groupId>
+               <artifactId>spring-boot-starter-logging</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-data-jpa</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-thymeleaf</artifactId>
+      </dependency>
+
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-tomcat</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.tomcat.embed</groupId>
+         <artifactId>tomcat-embed-jasper</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-devtools</artifactId>
+         <optional>true</optional>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-test</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <!-- Database 관련 의존성 -->
+      <dependency>
+         <groupId>org.postgresql</groupId>
+         <artifactId>postgresql</artifactId>
+         <version>42.5.0</version>
+         <scope>runtime</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.mybatis.spring.boot</groupId>
+         <artifactId>mybatis-spring-boot-starter</artifactId>
+         <version>2.3.1</version>
+      </dependency>
+      <dependency>
+         <groupId>org.mybatis.spring.boot</groupId>
+         <artifactId>mybatis-spring-boot-starter-test</artifactId>
+         <version>2.3.1</version>
+         <scope>test</scope>
+      </dependency>
+
+      <!-- 표준프레임워크 실행환경 -->
+      <dependency>
+         <groupId>org.egovframe.rte</groupId>
+         <artifactId>org.egovframe.rte.ptl.mvc</artifactId>
+         <version>${org.egovframe.rte.version}</version>
+         <exclusions>
+            <exclusion>
+               <artifactId>commons-logging</artifactId>
+               <groupId>commons-logging</groupId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <groupId>org.egovframe.rte</groupId>
+         <artifactId>org.egovframe.rte.psl.dataaccess</artifactId>
+         <version>${org.egovframe.rte.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.egovframe.rte</groupId>
+         <artifactId>org.egovframe.rte.fdl.idgnr</artifactId>
+         <version>${org.egovframe.rte.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.egovframe.rte</groupId>
+         <artifactId>org.egovframe.rte.fdl.property</artifactId>
+         <version>${org.egovframe.rte.version}</version>
+      </dependency>
+
+      <dependency>
+         <groupId>taglibs</groupId>
+         <artifactId>standard</artifactId>
+         <version>1.1.2</version>
+      </dependency>
+      <dependency>
+         <groupId>org.antlr</groupId>
+         <artifactId>antlr</artifactId>
+         <version>3.5</version>
+      </dependency>
+      <dependency>
+         <groupId>org.hsqldb</groupId>
+         <artifactId>hsqldb</artifactId>
+         <version>2.5.2</version>
+      </dependency>
+      <dependency>
+         <groupId>org.projectlombok</groupId>
+         <artifactId>lombok</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.projectlombok</groupId>
+         <artifactId>lombok</artifactId>
+         <scope>annotationProcessor</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.security</groupId>
+         <artifactId>spring-security-crypto</artifactId>
+         <version>5.8.0</version>
+      </dependency>
+
+      <!-- JPA 및 서블릿 API 관련 의존성 -->
+      <dependency>
+         <groupId>javax.persistence</groupId>
+         <artifactId>javax.persistence-api</artifactId>
+         <version>2.2</version>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.servlet</groupId>
+         <artifactId>jakarta.servlet-api</artifactId>
+         <version>6.0.0</version>
+      </dependency>
+      <dependency>
+         <groupId>javax.annotation</groupId>
+         <artifactId>javax.annotation-api</artifactId>
+         <version>1.3.2</version>
+      </dependency>
+
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-mail</artifactId>
+      </dependency>
+
+      <dependency>
+         <groupId>org.jsoup</groupId>
+         <artifactId>jsoup</artifactId>
+         <version>1.15.4</version> <!-- 최신 버전으로 교체 가능 -->
+      </dependency>
+
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-configuration-processor</artifactId>
+         <optional>true</optional>
+      </dependency>
+   </dependencies>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+               <executable>true</executable>
+               <excludes>
+                  <exclude>
+                     <groupId>org.projectlombok</groupId>
+                     <artifactId>lombok</artifactId>
+                  </exclude>
+               </excludes>
+               <mainClass>pla.PlaApplication</mainClass>
+            </configuration>
+         </plugin>
+      </plugins>
+
+      <resources>
+         <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+               <include>**/*</include>
+            </includes>
+         </resource>
+      </resources>
+   </build>
+
+</project>

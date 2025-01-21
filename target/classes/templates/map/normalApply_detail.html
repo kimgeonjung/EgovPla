@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>게시물 상세</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> <!-- Bootstrap 스타일 -->
+  <link rel="stylesheet" href="/css/noticeDetail.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+<th:block th:replace="layout/header :: headerLayout"></th:block>
+<div class="ft">
+  <div class="main-container">
+    <div class="main-title">
+      <h1>상세 입지분석 신청결과</h1>
+        </div>
+      <form id="frm" method="post">
+        <div class="split--div-post"></div>
+        <input type="hidden" name="id" th:value="${apply.id}" />
+        <input type="hidden" name="author" th:value="${apply.author}" />
+        <input type="hidden" name="completedYn" th:value="${apply.completedYn}" />
+        <input type="hidden" name="link" th:value="${apply.link}" />
+        <input type="hidden" name="location" th:value="${apply.location}" />
+        <input type="hidden" name="type" th:value="${apply.type}" />
+      <table class="board_detail">
+        <tbody>
+        <tr>
+          <th>글 번호</th>
+          <td th:text="${apply.id }"></td>
+        </tr>
+        <tr>
+          <th>작성일</th>
+          <td th:text="${#temporals.format(now, 'yyyy-MM-dd').equals(#temporals.format(apply.createdAt, 'yyyy-MM-dd'))} ? ${#temporals.format(apply.createdAt, 'HH:mm')} : ${#temporals.format(apply.createdAt, 'yyyy-MM-dd')}"></td>
+        </tr>
+        <tr>
+          <th>제목</th>
+          <td colspan="3"><input type="text" id="title" name="title" th:value="${apply.title}"/></td>
+        </tr>
+        <tr>
+          <th>내용</th>
+          <td colspan="3"><textarea title="내용" id="content" name="content" th:text="${apply.content }"></textarea>
+          </td>
+        </tr>
+        <th:block th:if="${apply.files != null and !apply.files.isEmpty()}">
+        <tr>
+          <th>첨부 파일</th>
+          <td colspan="3">
+            <div th:each="file : ${apply.files}">
+              <div th:if="${#strings.endsWith(file.fileName, '.jpg') or
+                               #strings.endsWith(file.fileName, '.jpeg') or
+                               #strings.endsWith(file.fileName, '.png') or
+                               #strings.endsWith(file.fileName, '.gif')}">
+                <a th:href="@{/download(filename=${file.fileName})}" download>
+                  <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
+                </a>
+                <img th:src="${file.filePath}" alt="Uploaded Image" style="max-width: 300px;" />
+              </div>
+              <!--사진과 파일 코드 구분 선-->
+              <div th:if="${file.fileName != null and file.fileName != '' and !(#strings.endsWith(file.fileName, '.jpg') or
+                                                                        #strings.endsWith(file.fileName, '.jpeg') or
+                                                                        #strings.endsWith(file.fileName, '.png') or
+                                                                        #strings.endsWith(file.fileName, '.gif'))}"
+                   style="display: flex; align-items: center; gap: 10px;">
+                <a th:href="@{/download(filename=${file.fileName})}" download>
+                  <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
+                </a>
+                <p th:text="${file.fileName}" style="margin: 0;"></p>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </th:block>
+        <th:block th:if="${apply.completedYn.toString() == 'Y'}">
+           <tr>
+            <th>다운로드</th>
+            <td><a th:href="@{/download(filename=${csvPath}, dir='dir2')}">엑셀</a></td>
+            <td><a th:href="@{/download(filename=${pdfPath}, dir='dir2')}">pdf</a></td>
+            <td><a th:href="@{/download(filename=${zipPath}, dir='dir2')}">shp</a></td>
+          </tr>
+          <tr>
+            <th>결과확인</th>
+            <td colspan="3"><a href="#this" id="result">결과보기</a></td>
+          </tr>
+        </th:block>
+        </tbody>
+      </table>
+      </form>
+      <div class="button-group">
+        <a href="#this" id="list" class="mbtn" >목록으로</a>
+<!--        <a href="#this" id="edit" class="rbtn">수정하기</a>  기본입지분석은 수정 불가       -->
+        <a href="#this" id="delete" class="dbtn">삭제하기</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#list").on("click", function(){
+      location.href = "/analysis/normalList";
+    });
+
+    $("#edit").on("click", function(){
+      var frm = $("#frm")[0];
+      frm.action = "/analysis/analysisNormalUpdate";
+      frm.submit();
+    });
+
+    $("#delete").on("click", function(){
+      var frm = $("#frm")[0];
+      frm.action = "/analysis/analysisNormalDelete";
+      frm.submit();
+    });
+
+    $("#result").on("click", function (){
+      var frm = $("#frm")[0];
+      frm.action = "/analysis/analysisResult";
+      frm.submit();
+    })
+  });
+</script>
+</div>
+<div class="footers"></div> <!-- 이거 지우면 안됨 -->
+<th:block th:replace="layout/footer :: footerLayout"></th:block>
+</body>
+</html>

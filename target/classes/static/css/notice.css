@@ -1,0 +1,267 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+/* 기본 스타일 */
+html, body {
+    height: 100%; /* 문서와 뷰포트의 높이를 100%로 설정 */
+    margin: 0; /* 기본 여백 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    font-family: 'Noto Sans KR', sans-serif; /* Noto Sans KR 폰트 적용 */
+    background-color: white; /* 배경색 설정 */
+}
+
+/* 제목 스타일 */
+.list-title {
+    width: 100%; /* 제목 너비를 부모 요소에 맞춤 */
+    max-width: 1000px; /* 최대 너비 설정 */
+    margin: 0 auto 15px; /* 가운데 정렬 및 하단 여백 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+/* 구분선 스타일 */
+.split--div-post {
+    width: 100%; /* 부모 요소 너비에 맞춤 */
+    max-width: 1000px; /* 최대 너비 설정 */
+    height: 1px; /* 선 높이 설정 */
+    background-color: lightgray; /* 선 색상 설정 */
+    margin: 0 auto 5px; /* 가운데 정렬 및 하단 여백 */
+}
+
+/* 카운트 텍스트 스타일 */
+.count {
+    text-align: right; /* 텍스트 오른쪽 정렬 */
+    font-size: 15px; /* 텍스트 크기 */
+    position: relative; /* 상대 위치 설정 */
+    left: 565px; /* 왼쪽으로 이동 */
+}
+
+/* 메인 헤더 스타일 */
+.main-tihome {
+    display: flex; /* 플렉스박스 적용 */
+    align-items: center; /* 수직 가운데 정렬 */
+    justify-content: center; /* 수평 가운데 정렬 */
+    width: 100%; /* 너비를 부모 요소에 맞춤 */
+    margin: 0 auto 15px; /* 가운데 정렬 및 하단 여백 */
+}
+
+.main-title {
+    font-size: 24px; /* 타이틀 폰트 크기 */
+    font-weight: bold; /* 굵은 폰트 */
+    margin-top: 50px; /* 상단 여백 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    display: block; /* 블록 요소로 설정 */
+}
+
+/* 테이블 셀 스타일 */
+.post-table th, .post-table td {
+    border-right: 1px solid #ddd; /* 셀 오른쪽 경계선 */
+}
+
+/* 마지막 열의 경계선 제거 */
+.post-table th:last-child, .post-table td:last-child {
+    border-right: none; /* 마지막 셀의 오른쪽 경계선 제거 */
+}
+
+/* 테이블 헤더 스타일 */
+.post-table th {
+    background-color: #f7f7f7; /* 헤더 배경색 */
+    font-weight: bold; /* 헤더 텍스트 굵게 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    padding: 15px; /* 셀 내부 여백 */
+    border-bottom: 2px solid #ddd; /* 헤더 하단 경계선 */
+}
+
+/* 테이블 본문 스타일 */
+.post-table td {
+    padding: 10px; /* 셀 내부 여백 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    color: #555; /* 텍스트 색상 */
+    border-bottom: 1px solid #ddd; /* 셀 하단 경계선 */
+}
+
+/* 공지사항 테이블 스타일 */
+.post-table {
+    width: 100%; /* 테이블 너비 설정 */
+    margin: 0 auto 50px; /* 가운데 정렬 및 하단 여백 */
+    background-color: white; /* 테이블 배경색 */
+}
+
+/* 테이블 헤더 스타일 */
+.post-tbody-tr th {
+    border-top: 2px solid #333; /* 헤더 상단에 굵은 경계선 추가 */
+    padding: 8px; /* 셀 내부 여백 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+/* 테이블 셀 구분선 */
+.post-tbody-tr td, .post-tbody-tr th {
+    border-right: 1px solid #ddd; /* 셀의 오른쪽 경계선 */
+}
+
+.post-tbody-tr td:last-child, .post-tbody-tr th:last-child {
+    border-right: none; /* 마지막 셀의 오른쪽 경계선 제거 */
+}
+
+/* 테이블 열 너비 */
+.post-tbody-tr th:nth-child(1) { width: 10%; } /* 번호 */
+.post-tbody-tr th:nth-child(2) { width: 50%; } /* 제목 */
+.post-tbody-tr th:nth-child(3) { width: 20%; } /* 작성일 */
+.post-tbody-tr th:nth-child(4) { width: 10%; } /* 조회수 */
+
+/* 테이블 본문 행 스타일 */
+.post-tbody-tr td {
+    border-bottom: 1px solid #ddd; /* 셀 하단 경계선 */
+    padding: 8px; /* 셀 내부 여백 */
+    text-align: center; /* 텍스트를 가운데 정렬 */
+}
+
+thead th {
+    text-align: center; /* 텍스트 가운데 정렬 */
+    background-color: #f7f7f7; /* 헤더 배경색 */
+    font-weight: bold; /* 두꺼운 폰트 */
+    color: black; /* 텍스트 색상 */
+    border-bottom: 2px solid #ddd; /* 하단 경계선 */
+}
+
+/* 행 호버 효과 */
+tbody tr:hover {
+    background-color: #f1f1f1; /* 행 배경색 변경 */
+}
+
+td.title a {
+    color: black; /* 링크 기본 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+    font-weight: lighter; /* 얇은 글꼴 */
+}
+
+td.title a:hover {
+    background-color: lightgray; /* 호버 시 배경색 */
+    text-decoration: none; /* 호버 시 밑줄 제거 */
+}
+
+td, th {
+    text-align: center; /* 텍스트 가운데 정렬 */
+    padding: 10px; /* 셀 내부 여백 */
+    color: #555; /* 텍스트 색상 */
+}
+
+/* 작성 버튼 스타일 */
+.write-button {
+    display: inline-block; /* 인라인 블록 */
+    color: black; /* 기본 텍스트 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+    font-weight: bold; /* 글자 두껍게 */
+    font-size: 14px; /* 텍스트 크기 */
+    background-color: transparent; /* 기본 배경 투명 */
+    padding: 5px 8px; /* 내부 여백 */
+    border: none; /* 테두리 제거 */
+    border-radius: 50px; /* 둥근 테두리 */
+    position: relative; /* 상대 위치 */
+    left: 93%; /* 오른쪽 정렬 */
+}
+
+.write-button:hover {
+    background-color: #070719; /* 호버 시 배경색 변경 */
+    color: #fff; /* 호버 시 텍스트 색상 변경 */
+    width: 70px; /* 호버 시 너비 증가 */
+}
+
+/* 링크 스타일 */
+a {
+    color: black; /* 기본 링크 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+a:hover {
+    color: black; /* 호버 시에도 검정 유지 */
+    text-decoration: none; /* 밑줄 제거 유지 */
+}
+
+/* 페이징 스타일 */
+.pagination {
+    display: flex; /* 플렉스박스 유지 */
+    justify-content: center; /* 중앙 정렬 */
+    list-style-type: none; /* 리스트 스타일 제거 */
+    padding: 0; /* 내부 여백 제거 */
+}
+
+/* 페이징 링크 스타일 */
+.page-item {
+    margin: 0 5px; /* 항목 간 간격 */
+}
+
+.page-item a {
+    display: flex; /* 플렉스 박스 적용 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    width: 40px; /* 고정된 너비 */
+    height: 40px; /* 고정된 높이 */
+    background-color: white; /* 기본 배경색 */
+    color: black; /* 기본 텍스트 색상 */
+    border: none; /* 테두리 제거 */
+    border-radius: 15%; /* 둥근 모양 */
+    text-decoration: none; /* 밑줄 제거 */
+    font-size: 20px; /* 텍스트 크기 */
+    outline: none; /* 호버 시 포커스 아웃라인 제거 */
+}
+
+.page-item a:hover {
+    font-weight: 700; /* 글자 굵게 */
+    color: black; /* 텍스트 색상 */
+    background-color: lightgray; /* 호버 시 배경색 */
+    border: none; /* 호버 시 테두리 제거 */
+    outline: none; /* 호버 시 포커스 아웃라인 제거 */
+}
+
+.page-item.disabled a {
+    pointer-events: none; /* 클릭 비활성화 */
+    color: grey; /* 비활성화 텍스트 색상 */
+    background-color: white; /* 비활성화 배경색 */
+    border: none; /* 비활성화 테두리 제거 */
+}
+
+.page-item.active a {
+    font-weight: 700; /* 글자 굵게 */
+    color: black; /* 텍스트 색상 */
+    background-color: white; /* 활성화된 페이지 배경색 */
+    border: none; /* 활성화된 페이지 테두리 제거 */
+}
+
+/* 페이지 푸터 스타일 */
+.ft {
+    min-height: 100%; /* 최소 높이 설정 */
+    position: relative; /* 상대 위치 설정 */
+    padding-bottom: 60px; /* 하단 여백 */
+}
+
+/* 콘텐츠 타이틀 스타일 */
+.title {
+    color: #2c4557; /* 텍스트 색상 */
+    margin: 10px 0; /* 상하 여백 */
+    padding: 15px; /* 내부 여백 */
+    font-size: 25px; /* 글자 크기 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+
+/* 콘텐츠 중앙 정렬 */
+.list-container {
+    width: 100%; /* 전체 너비 */
+    max-width: 1200px; /* 최대 너비 */
+    margin: 0 auto; /* 가운데 정렬 */
+}
+
+.col-md-9 {
+    flex: 1; /* 플렉스 비율 */
+    display: flex; /* 플렉스박스 적용 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    flex-direction: column; /* 세로 방향 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    width: 100%; /* 전체 너비 */
+}
+
+h2 a {
+    color: black; /* 링크 기본 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+    font-weight: lighter; /* 얇은 글꼴 */
+}

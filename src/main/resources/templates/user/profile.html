@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>프로필</title>
+  <!-- 외부 CSS 파일 링크 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> <!-- Bootstrap 스타일 -->
+  <link rel="stylesheet" href="/css/profile.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+    <style>
+    /* 입력 필드 너비 조정 */
+    .input-width {
+      max-width: 400px;  /* 원하는 크기로 조정 */
+      width: 100%;
+    }
+
+    /* 라벨과 입력 필드를 한 줄로 배치 */
+    .form-label {
+      display: inline-block;
+      width: 150px;  /* 라벨 너비 조정 */
+      text-align: right;
+      margin-right: 10px;
+    }
+
+    .form-group {
+      display: flex;
+      align-items: center;
+    }
+
+    /* 버튼 오른쪽 정렬 */
+    .text-end {
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+<!-- 헤더 레이아웃을 호출하는 Thymeleaf 템플릿 -->
+<th:block th:replace="layout/header :: headerLayout"></th:block>
+<div class="ft">
+  <div class="main-container">
+    <div class="main-title">
+<h1>내 정보</h1>
+<div th:if="${message}" class="alert alert-success fade-out" role="alert">
+  <span th:text="${message}"></span>
+</div>
+
+<!-- 프로필 수정 폼 -->
+<form id="frm" method="post">
+  <div class="split--div-post"></div>
+  <input type="hidden" name="id" th:value="${my.id}" />
+  <div>
+    <table class="board_detail">
+      <tr>
+        <th>아이디</th>
+        <td>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <input type="text" th:value="${my.loginId}" id="loginId" name="loginId" required/>
+            <button type="submit" id="loginId-btn" class="button btn-sm">ID 중복 확인</button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th>비밀번호</th>
+        <td>
+          <a type="button" id="password-change-btn" class="button btn-sm" data-bs-toggle="modal" data-bs-target="#changePwModal">
+            비밀번호 변경
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <th>이메일</th>
+        <td><input type="email" th:value="${my.email}" name="email" readonly/></td>
+      </tr>
+      <tr>
+        <th>이름</th>
+        <td><input type="text" th:value="${my.name}" name="name" required oninput="validateName(this)"/></td>
+      </tr>
+      <tr>
+        <th>전화번호</th>
+        <td><input type="text" th:value="${my.tel}" name="tel" required oninput="validateTel(this)"/></td>
+      </tr>
+      <tr>
+        <th>우편번호</th>
+        <td>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <input type="text" th:value="${my.zipcode}" name="zipcode" required readonly class="input-zipcode"/>
+            <button type="button" class="button btn-sm" onclick="execPostCode();" id="zipcode-btn">
+              주소 찾기
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th>주소</th>
+        <td><input type="text" th:value="${my.address}" name="address" required readonly/></td>
+      </tr>
+      <tr>
+        <th>상세주소</th>
+        <td><input type="text" th:value="${my.detailAddress}" name="detailAddress" required /></td>
+      </tr>
+    </table>
+    <div style="display: flex; justify-content: flex-end;">
+      <a href="#this" id="edit" class="button btn-sm">변경하기</a>
+    </div>
+
+  </div>
+</form>
+
+      <div class="modal fade" id="changePwModal" tabindex="-1" aria-labelledby="changePwModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="changePwModalLabel">비밀번호 변경</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form id="ch-pw">
+                <input type="hidden" id="hidden-login-id">
+
+                <div class="form-group mb-3">
+                  <label for="oldPw" class="form-label">현재 비밀번호</label>
+                  <input class="form-control input-width" type="password" id="oldPw" name="oldPw" placeholder="현재 비밀번호를 입력하세요" required>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label for="newPw" class="form-label">새 비밀번호</label>
+                  <input class="form-control input-width" type="password" id="newPw" name="newPw" placeholder="새 비밀번호를 입력하세요" required>
+                </div>
+
+                <div class="form-group mb-3">
+                  <label for="confirmPw" class="form-label">비밀번호 확인</label>
+                  <input class="form-control input-width" type="password" id="confirmPw" name="confirmPw" placeholder="새 비밀번호를 다시 입력하세요" required>
+                </div>
+
+                <div class="text-end">
+                  <button type="submit" class="button btn-sm mt-3">비밀번호 변경</button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="/js/loginform.js"></script>
+<script th:src="@{/js/validate.js}"></script>
+<script src="/js/changePw.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#loginId-btn").on("click", function (e) {
+      e.preventDefault(); // Prevent form submission
+
+      var loginId = $("#loginId").val();
+      if (!loginId) {
+        alert("아이디를 입력해주세요.");
+        return;
+      }
+      if (loginId.length < 5) {
+        $("#loginId-btn").removeClass('btn-outline-primary')
+                .addClass('btn-outline-danger')
+                .text("ID는 최소 5자 이상")
+        $("#edit")
+                .addClass('disabled') // 비활성화 스타일 추가
+                .css('pointer-events', 'none') // 클릭 비활성화
+                .css('opacity', '0.65') // 시각적으로 비활성화 표시
+                .attr('aria-disabled', 'true'); // 접근성 속성 추가
+        return false;
+      }
+
+      $.ajax({
+        url: "/profile/checkLoginId",
+        type: "GET",
+        data: { loginId: loginId },
+        success: function(response) {
+          alert(response); // Display the response from the server
+          $("#edit")
+                  .removeClass('disabled') // 비활성화 스타일 제거
+                  .css('pointer-events', 'auto') // 클릭 활성화
+                  .css('opacity', '1') // 원래 상태로 복원
+                  .removeAttr('aria-disabled'); // 접근성 속성 제거
+        },
+        error: function() {
+          alert("아이디 중복 확인 실패");
+        }
+      });
+    });
+    $("#edit").on("click", function () {
+      var frm = $("#frm")[0];
+      frm.action = "/profile/updateProfile";
+      frm.submit();
+    });
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<div class="footers"></div> <!-- 이 부분은 지우지 말아야 합니다. -->
+<th:block th:replace="layout/footer :: footerLayout"></th:block>
+</body>
+</html>

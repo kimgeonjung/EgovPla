@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--
+    이 HTML 페이지는 지도에 특정 위치와 유형에 대한 데이터를 표시하는 페이지입니다.
+    지도는 '브이월드' API와 'Leaflet.js' 라이브러리를 사용하여 구현되었으며,
+    사용자가 설정한 위치(location)와 유형(type)에 맞는 데이터를 WMS 레이어로 추가합니다.
+    또한, JSON 형태로 제공된 데이터를 파싱하여 지도 상에 상위 5개 항목을 마커로 표시하며,
+    각 마커는 해당 항목의 순위, 위도, 경도를 포함한 팝업을 제공합니다.
+    1. 지도에 레이어 추가: WMS 레이어를 사용하여 특정 위치 및 유형의 데이터를 지도에 표시
+    2. 마커 표시: 상위 5개의 데이터를 마커로 표시하고, 각 마커에 대한 순위, 위도, 경도를 팝업으로 제공
+    3. JSON 데이터 처리: 'total_score' 기준으로 데이터를 정렬하고 상위 5개의 데이터를 사용하여 지도에 표시
+    사용하는 주요 라이브러리:
+    - 브이월드 API (vworld): 지도 배경 및 기본 레이어 제공
+    - Leaflet.js: 지도 관련 인터페이스 및 마커 기능 제공
+    -->
+    <meta charset="UTF-8">
+    <title>결과 확인</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script type="text/javascript" src="https://map.vworld.kr/js/vworldMapInit.js.do?version=2.0&apiKey=8A69FB7A-6E07-3B76-B2F2-1D1FEF0E5781"></script>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+                /* 테이블 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse; /* 테두리 겹침 제거 */
+            border: 1px solid #ddd; /* 테이블 전체 테두리 */
+            border-radius: 1px; /* 테이블 둥근 테두리 */
+            overflow: hidden; /* 테두리 넘치지 않도록 설정 */
+        }
+        /* 테이블의 셀 스타일 */
+        th, td {
+            border: 1px solid #ddd; /* 각 셀에 테두리 추가 */
+            padding: 10px; /* 셀 내부 여백 */
+            text-align: left; /* 텍스트 왼쪽 정렬 */
+            vertical-align: middle; /* 수직 중앙 정렬 */
+            background-color: #fff; /* 셀 배경색 */
+        }
+        /* 헤더 스타일 */
+        th {
+            background-color: #f7f7f7; /* 헤더 셀 배경색 */
+            font-weight: bold; /* 헤더 텍스트 굵게 */
+            text-align: center; /* 헤더 가운데 정렬 */
+        }
+    </style>
+</head>
+<body>
+
+<input type="hidden" id="json" th:value="${content}"/>
+<input type="hidden" id="apply" th:value="${apply}"/>
+<input type="hidden" id="location" th:value="${location}"/>
+<input type="hidden" id="type" th:value="${type}"/>
+<div id="map">
+</div>
+<script>
+    const apply = document.getElementById("apply").value;
+    console.log(apply);
+    const loc = document.getElementById('location').value;
+    console.log(loc);
+    const type = document.getElementById("type").value;
+    console.log(type);
+    const layers_style = [
+        { style : "ne:dot_style_amethyst_purple", shape : "dot", color : "#9b59b6" },
+        { style : "ne:dot_style_bright_yellow", shape : "dot", color : "#f1c40f" },
+        { style : "ne:dot_style_carmine_red", shape : "dot", color : "#e74c3c" },
+        { style : "ne:dot_style_carrot_orange", shape : "dot", color : "#e67e22" },
+        { style : "ne:dot_style_dark_blue_gray", shape : "dot", color : "#34495e" },
+        { style : "ne:dot_style_dodger_blue", shape : "dot", color : "#3498db" },
+        { style : "ne:dot_style_emerald_green", shape : "dot", color : "#2ecc71" },
+        { style : "ne:dot_style_golden_yellow", shape : "dot", color : "#f39c12" },
+        { style : "ne:dot_style_lime_green", shape : "dot", color : "#66b032" },
+        { style : "ne:dot_style_medium_blue", shape : "dot", color : "#1f77b4" },
+        { style : "ne:dot_style_pumpkin_orange", shape : "dot", color : "#d35400" },
+        { style : "ne:dot_style_purple", shape : "dot", color : "#9b59b6" },
+        { style : "ne:dot_style_purple_dark", shape : "dot", color : "#8e44ad" },
+        { style : "ne:dot_style_red", shape : "dot", color : "#c43c39" },
+        { style : "ne:dot_style_sky_blue", shape : "dot", color : "#4f9db8" },
+        { style : "ne:dot_style_teal", shape : "dot", color : "#16a085" },
+        { style : "ne:dot_style_tomato", shape : "dot", color : "#ff6347" },
+        { style : "ne:dot_style_turquoise", shape : "dot", color : "#1abc9c" },
+        { style : "ne:dot_style_vivid_blue", shape : "dot", color : "#2d87d3" },
+        { style : "ne:dot_style_yellow", shape : "dot", color : "#f4b400" }
+    ];
+
+    let map;  // map을 switch 밖에서 먼저 선언
+
+    // switch문에서 loc 값을 사용하여 조건에 맞는 처리 추가
+    switch (loc) {
+        case "cheonan":
+            map = L.map('map', { zoomControl: false }).setView([36.8154, 127.1523], 12); // 위도, 경도, 줌 레벨 설정
+            break;
+        case "gwangju":
+            map = L.map('map', { zoomControl: false }).setView([35.1595, 126.8526], 12); // 위도, 경도, 줌 레벨 설정
+            break;
+        default:
+            map = L.map('map', { zoomControl: false }).setView([35.1595, 126.8526], 12); // 위도, 경도, 줌 레벨 설정
+            break;
+    }
+    var vworldLayer = L.tileLayer('https://xdworld.vworld.kr/2d/Base/service/{z}/{x}/{y}.png', {
+        "minZoom": 6,
+        "maxZoom": 19,
+        "maxNativeZoom": 19,
+        "attribution": '&copy; <a href="http://www.vworld.kr/">vworld</a> contributors'
+    });
+    vworldLayer.addTo(map);
+    // 축척선 추가
+    L.control.scale({ position: 'bottomright' }).addTo(map);
+    // 줌 추가
+    L.control.zoom({position: 'bottomright'}).addTo(map);
+
+    // 레이어 생성
+    function createWmsLayer(layerId, shape) {
+        const layerOptions = {
+            layers: `ne:${layerId}`,
+            format: 'image/png',
+            transparent: true,
+            attribution: '&copy; GeoServer Contributors',
+        };
+
+        // shape가 "none"이 아닌 경우 스타일을 적용
+        if (shape !== "none") {
+            // shape에 맞는 스타일 객체들을 필터링
+            const filteredStyles = layers_style.filter(styleObj => styleObj.shape === shape);
+
+            // 필터링된 스타일들 중에서 랜덤으로 하나 선택
+            if (filteredStyles.length > 0) {
+                const randomStyle = filteredStyles[Math.floor(Math.random() * filteredStyles.length)];
+                layerOptions.styles = randomStyle.style;  // 랜덤 스타일을 적용
+            }
+        }
+
+        // WMS 레이어 생성
+        const layer = L.tileLayer.wms('http://133.186.146.80:8080/geoserver/ne/wms', layerOptions);
+        layer.options.id = `ne:${layerId}`;
+        return layer;
+    }
+
+ // loc 와 type을 받아서 레이어를 추가한다.
+    if (loc === "cheonan" && type === "kiosk") {
+        const layer = createWmsLayer('cheonan_civil_service_machines', "dot");
+        layer.addTo(map);
+    } else if (loc === "cheonan" && type === "library") {
+        const layer = createWmsLayer('cheonan_library_20240610', "dot");
+        layer.addTo(map);
+    } else if (loc === "cheonan" && type === "wifi") {
+        const layer = createWmsLayer('cheonan_pub_wifi', "dot");
+        layer.addTo(map);
+    } else if (loc === "gwangju" && type === "kiosk") {
+        const layer = createWmsLayer('gwangju_civil_service_machines', "dot");
+        layer.addTo(map);
+    } else if (loc === "gwangju" && type === "library") {
+        const layer = createWmsLayer('gwangju_library', "dot");
+        layer.addTo(map);
+    } else if (loc === "gwangju" && type === "wifi") {
+        const layer = createWmsLayer('gwangju_pub_wifi', "dot");
+        layer.addTo(map);
+    } else if (loc === "gwangju" && type === "shade") {
+        const layer = createWmsLayer('gwangju_civil_service_machines', "dot");
+        layer.addTo(map);
+    } else {
+        console.log("문제가 발생?????")
+    }
+
+    // 주소를 가져오는 함수
+    function getAddressFromCoordinates(lat, lon) {
+        return fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&addressdetails=1`)
+            .then(response => response.json())
+            .then(data => {
+                const addressDetails = data.address;
+                // 필요한 정보만 추출하여 주소를 정리
+                let formattedAddress = '';
+                if (addressDetails.city) {
+                    formattedAddress += addressDetails.city;  // 도시
+                }
+                if (addressDetails.suburb) {
+                    formattedAddress += ' ' + addressDetails.suburb;  // 구
+                }
+                if (addressDetails.road) {
+                    formattedAddress += ' ' + addressDetails.road;  // 도로명
+                }
+                if (addressDetails.house_number) {
+                    formattedAddress += ' ' + addressDetails.house_number;  // 번지
+                }
+                return formattedAddress.trim();  // 불필요한 공백 제거
+            })
+            .catch(error => {
+                console.log("주소를 찾는 중 오류가 발생했습니다:", error);
+                return "";  // 오류 발생 시 빈 문자열 반환
+            });
+    }
+    
+    // JSON 데이터 파싱
+    const data = JSON.parse(document.getElementById("json").value)
+        .sort((a, b) => b.total_score - a.total_score)  // total_score 기준 내림차순 정렬
+        .slice(0, 5);  // 상위 5개 항목만 선택
+
+    // 상위 5개의 데이터를 지도에 마커로 추가
+     data.forEach((kiosk, index) => {
+        const lat = kiosk.lat;  // 위도
+        const lng = kiosk.lon;  // 경도
+        const rank = index + 1; // 순위
+        // 주소를 비동기적으로 가져오기
+        getAddressFromCoordinates(lat, lng).then(address => {
+            const popupContent = `
+                <table>
+                    <tr><th>순위</th><td>${rank}</td></tr>
+                    <tr><th>위도</th><td>${lat}</td></tr>
+                    <tr><th>경도</th><td>${lng}</td></tr>
+                    <tr><th>주소</th><td>${address}</td></tr>
+                </table>`;
+            // 마커 추가
+            L.marker([lat, lng])
+                .addTo(map)
+                .bindPopup(popupContent);  // 팝업 내용 추가
+        });
+    });
+</script>
+</body>
+</html>

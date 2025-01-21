@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>FAQ 작성</title>
+  <link rel="stylesheet" href="/css/inquiryInsertForm.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+<th:block th:replace="admin/adminHeader :: headerLayout"></th:block>
+<div class="insert-form ft">
+  <div class="main-container">
+    <div class="main-title">
+      <h1>FAQ 작성</h1>
+      <div class="split--div-post"></div>
+    </div>
+    <div>
+      <form th:action="@{/admin/createFAQ}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="title">제목:</label>
+          <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+          <label for="question">Q:</label>
+          <textarea id="question" name="question" required></textarea><br><br>
+        </div>
+        <div class="form-group">
+          <label for="answer">A:</label>
+          <textarea id="answer" name="answer" required></textarea><br><br>
+        </div>
+        <div class="form-actions">
+          <button type="submit">작성완료</button>
+          <button type="button" onclick="window.location.href='/admin/admin_faq';">취소</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="footers"></div> <!-- 이거 지우면 안됨 -->
+<th:block th:replace="layout/footer :: footerLayout"></th:block>
+</body>
+</html>

@@ -1,0 +1,168 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+/* 기본 스타일 */
+html, body {
+    height: 100%; /* 문서와 뷰포트의 높이를 100%로 설정 */
+    margin: 0; /* 기본 여백 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    font-family: 'Noto Sans KR', sans-serif; /* Noto Sans KR 폰트 적용 */
+    background-color: white; /* 배경색 설정 */
+}
+
+/* 구분선 */
+.split--div-post {
+    height: 2px;
+    background-color: gray;
+    margin-top: 20px;
+}
+
+.main-title {
+    width: 100%;
+    margin: 20px auto;
+}
+
+/* 메인 컨테이너 */
+.main-container {
+    max-width: 1000px; /* 폼의 최대 넓이 */
+    width: 100%; /* 너비는 컨테이너에 맞게 */
+    margin: 50px auto; /* 화면 중앙 정렬 */
+    padding: 20px;
+    background-color: #fff; /* 배경색 설정 */
+    border-collapse: collapse;
+    border-radius: 1px;
+}
+
+/* 테이블 스타일 */
+.board_detail {
+    width: 100%;
+    border-collapse: collapse; /* 테두리 겹침 제거 */
+    border: 1px solid #ddd; /* 테이블 전체 테두리 */
+    border-radius: 1px; /* 테이블 둥근 테두리 */
+    overflow: hidden; /* 테두리 넘치지 않도록 설정 */
+}
+
+/* 테이블의 셀 스타일 */
+.board_detail th, .board_detail td {
+    border: 1px solid #ddd; /* 각 셀에 테두리 추가 */
+    padding: 10px; /* 셀 내부 여백 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+    vertical-align: middle; /* 수직 중앙 정렬 */
+    background-color: #fff; /* 셀 배경색 */
+}
+
+/* 헤더 스타일 */
+.board_detail th {
+    background-color: #f7f7f7; /* 헤더 셀 배경색 */
+    font-weight: bold; /* 헤더 텍스트 굵게 */
+    text-align: center; /* 헤더 가운데 정렬 */
+}
+
+/* 입력 필드 스타일 */
+.board_detail input[type="text"],
+.board_detail input[type="email"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+/* 포커스 상태 시 입력 필드 */
+.board_detail input[type="text"]:focus,
+.board_detail input[type="email"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* 입력 필드와 버튼을 감싸는 컨테이너 */
+td > div {
+    display: flex; /* 플렉스 레이아웃으로 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    gap: 10px; /* 필드와 버튼 간 간격 */
+}
+
+/* 기본 버튼 스타일 */
+button, a.button {
+    display: inline-block; /* 인라인 블록 */
+    width: 120px; /* 버튼 너비 */
+    height: 40px; /* 버튼 높이 */
+    font-size: 15px; /* 텍스트 크기 */
+    padding: 5px 10px; /* 내부 여백 */
+    border-radius: 5px; /* 둥근 모서리 */
+    text-align: center; /* 텍스트 중앙 정렬 */
+    line-height: 27px;
+    color: darkgray; /* 기본 텍스트 색상 */
+    background-color: white; /* 기본 배경색 */
+    border: 1.5px solid darkgray; /* 기본 테두리 */
+    transition: background-color 0.3s ease, color 0.3s ease; /* 부드러운 전환 효과 */
+    cursor: pointer; /* 마우스 포인터 변경 */
+    text-decoration: none; /* 링크 버튼일 경우 밑줄 제거 */
+}
+
+/* 버튼 Hover 효과 */
+button:hover, a.button:hover {
+    background-color: darkgray; /* hover 시 더 짙은 파란색 */
+    color: white; /* hover 시 텍스트 색상 유지 */
+    border-color: darkgray; /* hover 시 테두리 변경 */
+}
+
+/* 버튼 Focus 효과 */
+button:focus, a.button:focus {
+    outline: none; /* 기본 포커스 제거 */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 포커스 시 외곽선 효과 */
+}
+
+/*!* 버튼 비활성화 상태 *!*/
+/*button:disabled, a.button.disabled {*/
+/*    background-color: #ccc; !* 비활성화 시 배경색 *!*/
+/*    color: #666; !* 비활성화 시 텍스트 색상 *!*/
+/*    border-color: #ccc; !* 비활성화 시 테두리 *!*/
+/*    cursor: not-allowed; !* 비활성화 시 커서 변경 *!*/
+/*}*/
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    font-size: 16px;
+}
+
+th {
+    background-color: #f0f0f0;
+    color: #555;
+    font-weight: 600;
+}
+
+td {
+    color: #777;
+}
+
+/* 주소 및 상세 주소 구분 스타일 */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1; /* 완전히 보임 */
+        height: auto; /* 높이 유지 */
+    }
+    100% {
+        opacity: 0; /* 완전히 사라짐 */
+        height: 0; /* 높이 축소 */
+        padding: 0; /* 내부 여백 제거 */
+        margin: 0; /* 외부 여백 제거 */
+        overflow: hidden; /* 내용 숨기기 */
+    }
+}
+
+/* 애니메이션 적용 */
+.fade-out {
+    animation: fadeOut 0.5s ease-out 4s; /* 4초 대기 후 0.5초 동안 사라짐 */
+    animation-fill-mode: forwards; /* 애니메이션 종료 후 상태 유지 */
+}

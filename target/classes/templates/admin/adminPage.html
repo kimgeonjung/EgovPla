@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/notice.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <title>관리자 페이지</title>
+  <link rel="stylesheet" href="/css/header.css">
+</head>
+<body>
+<th:block th:replace="admin/adminHeader :: headerLayout"></th:block>
+<div class="ft">
+  <div style="display: flex; overflow-x: auto; gap: 20px; justify-content: center; margin-top: 50px; align-items: stretch;">
+    <!-- 첫 번째 테이블 블록 -->
+    <div style="max-height: 600px; overflow-y: auto; width: 45%; border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #f9f9f9;">
+     <h2 style="text-align: center; margin-bottom: 10px;"><a href="/admin/admin_apply">신청현황</a></h2>
+      <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
+        <h5>답변대기중:&nbsp;</h5>
+        <h5 th:text="${#lists.size(applyLists) == null ? 0 : #lists.size(applyLists)}"></h5>
+      </div>
+      <table class="post-table qna-table" style="margin-bottom: 0">
+        <thead>
+        <tr class="post-tbody-tr">
+          <th>번호</th>
+          <th>제목</th>
+          <th>작성일</th>
+          <th>작성자</th>
+        </tr>
+        </thead>
+        <tbody>
+                <th:block th:each="list, stat : ${applyLists}">
+                  <tr th:class="apply-tr-click" th:id="${list.id}">
+                    <td th:text="${#lists.size(applyLists) - stat.index}"></td>
+                    <td th:text="${list.title}"></td>
+                    <td th:text="${#temporals.format(now, 'yyyy-MM-dd').equals(#temporals.format(list.createdAt, 'yyyy-MM-dd'))} ? ${#temporals.format(list.createdAt, 'HH:mm')} : ${#temporals.format(list.createdAt, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${list.author}"></td>
+                  </tr>
+                </th:block>
+        </tbody>
+      </table>
+    </div>
+    <!-- 두 번째 테이블 블록 -->
+    <div style="max-height: 600px; overflow-y: auto; width: 45%; border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #f9f9f9;">
+      <h2 style="text-align: center; margin-bottom: 10px;"><a href="/admin/admin_qna">Q&A</a></h2>
+      <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
+        <h5>답변대기중:&nbsp;</h5>
+        <h5 th:text="${#lists.size(qnALists) == null ? 0 : #lists.size(qnALists)}"></h5>
+      </div>
+      <table class="post-table qna-table" style="margin-bottom: 0">
+        <thead>
+        <tr class="post-tbody-tr">
+          <th>번호</th>
+          <th>제목</th>
+          <th>작성일</th>
+          <th>작성자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="list, stat : ${qnALists}">
+          <tr th:class="qna-tr-click" th:id="${list.id}">
+            <td th:text="${#lists.size(qnALists) - stat.index}"></td>
+            <td th:text="${list.title}"></td>
+            <td th:text="${#temporals.format(now, 'yyyy-MM-dd').equals(#temporals.format(list.created_at, 'yyyy-MM-dd'))} ? ${#temporals.format(list.created_at, 'HH:mm')} : ${#temporals.format(list.created_at, 'yyyy-MM-dd')}"></td>
+            <th:block th:each="member : ${member}">
+              <th:block th:if="${list.uid.equals(member.id)}">
+                <td th:text="${member.name}"></td>
+              </th:block>
+            </th:block>
+          </tr>
+        </th:block>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+<script>
+  document.querySelectorAll('.apply-tr-click').forEach(function(tr){
+    tr.addEventListener('click', function () {
+      let index = tr.id.trim();
+      window.location.href = '/admin/admin_apply/detail?id=' + index;
+    })
+  })
+  document.querySelectorAll('.qna-tr-click').forEach(function(tr){
+    tr.addEventListener('click', function () {
+      let index = tr.id.trim();
+      window.location.href = '/admin/admin_qnaDetail?id=' + index;
+    })
+  })
+</script>
+</body>
+<div class="footers"></div> <!-- 이거 지우면 안됨 -->
+<th:block th:replace="layout/footer :: footerLayout"></th:block>
+</html>

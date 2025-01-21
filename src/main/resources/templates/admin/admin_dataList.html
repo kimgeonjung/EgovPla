@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>데이터 목록</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> <!-- Bootstrap 스타일 -->
+  <link rel="stylesheet" href="/css/adminnotice.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/footer.css">
+</head>
+<body>
+<!-- 공통 헤더 포함 -->
+<th:block th:replace="admin/adminHeader :: headerLayout"></th:block>
+
+<!-- 페이지 메인 콘텐츠 -->
+<div class="ft">
+  <div class="list-container">
+    <!-- 페이지 제목과 네비게이션 -->
+    <div class="main-tihome">
+      <div class="main-title">
+        <h1 class="list-title">데이터 목록</h1>
+        <div class="split--div-post"></div>
+      </div>
+    </div>
+
+    <h1 class="count" th:text="'총 '+${totalDataList}+'건'"></h1>
+
+    <table class="post-table">
+      <thead>
+      <tr class="post-tbody-tr">
+        <!-- 테이블 헤더: 번호, 제목, 작성일, 조회수 -->
+        <th>번호</th>
+        <th>제목</th>
+        <th>등록일</th>
+        <th>조회수</th>
+      </tr>
+      </thead>
+      <tbody class="post-tbody-tr1">
+      <!-- 데이터 목록을 반복문으로 출력 -->
+      <th:block th:each="data, stat : ${dataList.content}">
+        <tr class="tr-click" th:id="${data.id}">
+          <!-- 데이터 번호 출력 -->
+          <td th:text="${totalDataList - (dataList.pageable.pageNumber * 10) - stat.index}"></td>
+          <td>
+            <a th:href="@{/admin/admin_dataListDetail(id=${data.id})} "th:text="${data.title}"></a>
+          </td>
+          <!-- 데이터 작성일을 당일 작성이면 HH:mm을 아니면 yyyy-MM-dd 형식으로 출력 -->
+          <td th:text="${#temporals.format(now, 'yyyy-MM-dd').equals(#temporals.format(data.createdAt, 'yyyy-MM-dd'))} ? ${#temporals.format(data.createdAt, 'HH:mm')} : ${#temporals.format(data.createdAt, 'yyyy-MM-dd')}"></td>
+          <!-- 조회수 출력 -->
+          <td th:text="${data.hits}"></td>
+        </tr>
+      </th:block>
+      </tbody>
+    </table>
+    <a th:href="@{/admin/admin_dataListWrite}" class="write-button">추가</a>
+    </div>
+    <!-- 페이징 -->
+    <div th:if="${!dataList.isEmpty()}" class="text-center">
+      <!-- 전역 변수 선언 -->
+      <nav th:with="pageNumber = ${dataList.pageable.pageNumber}, pageSize = ${dataList.pageable.pageSize}, totalPages = ${dataList.totalPages}, startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1}, tempEndPage = ${startPage + pageSize - 1}, endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})"
+           aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+
+          <!-- 처음으로 이동 버튼 -->
+          <li th:classappend="${pageNumber == 0} ? 'disabled'" class="page-item">
+            <a class="page-link" th:href="@{/dataList(page=0)}">
+              <span>&laquo;</span>
+            </a>
+          </li>
+
+          <!-- 이전 페이지로 이동 버튼 -->
+          <li th:classappend="${dataList.first} ? 'disabled'" class="page-item">
+            <a class="page-link" th:href="${dataList.first} ? '#' : @{/dataList(page=${pageNumber - 1})}" aria-label="Previous">
+              <span aria-hidden="true">&lt;</span>
+            </a>
+          </li>
+
+
+          <!-- 페이지 번호 표시 및 클릭 시 해당 페이지로 이동 -->
+          <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
+            <a th:text="${page}" class="page-link" th:href="@{/dataList(page=${page - 1})}"></a>
+          </li>
+
+
+          <!-- 다음 페이지로 이동 버튼 -->
+          <li th:classappend="${dataList.last} ? 'disabled'" class="page-item">
+            <a class="page-link" th:href="${dataList.last} ? '#' : @{/dataList(page=${pageNumber + 1})}" aria-label="Next">
+              <span aria-hidden="true">&gt;</span>
+            </a>
+          </li>
+
+
+          <!-- 마지막 페이지로 이동 버튼 -->
+          <li th:classappend="${pageNumber >= totalPages - 1} ? 'disabled'" class="page-item">
+            <a class="page-link" th:href="@{/dataList(page=${totalPages - 1})}">
+              <span>&raquo;</span>
+            </a>
+
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+<!-- /container -->
+<script>
+  document.querySelectorAll('.tr-click').forEach(function(tr){
+  tr.addEventListener('click', function () {
+    let index = tr.id.trim();
+    window.location.href = '/admin/admin_dataListDetail?id=' + index;
+  })
+})
+</script>
+<div class="footers"></div> <!-- 이거 지우면 안됨 -->
+<th:block th:replace="layout/footer :: footerLayout"></th:block>
+</body>
+</html>
