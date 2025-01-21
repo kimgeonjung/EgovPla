@@ -1,0 +1,127 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+/* -------------------------------------------
+   기본 스타일
+------------------------------------------- */
+html, body {
+    height: 100%; /* 문서와 뷰포트의 높이를 100%로 설정 */
+    margin: 0; /* 기본 여백 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    font-family: 'Noto Sans KR', sans-serif; /* Noto Sans KR 폰트 적용 */
+    background-color: white; /* 배경색 설정 */
+}
+
+/* -------------------------------------------
+   메인 컨테이너 스타일
+------------------------------------------- */
+.qna-main-container {
+    max-width: 700px; /* 폼의 최대 넓이 */
+    margin: 50px auto; /* 화면 중앙 정렬 */
+    padding: 20px;
+    background-color: #fff; /* 배경색 설정 */
+    border-radius: 8px; /* 둥근 모서리 */
+    border: 1px solid #ddd; /* 연한 회색 테두리 */
+}
+
+/* -------------------------------------------
+   제목 스타일
+------------------------------------------- */
+.qna--main-title h1 {
+    text-align: left;
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* -------------------------------------------
+   구분선 스타일
+------------------------------------------- */
+.qna-split--div-post {
+    height: 2px;
+    background-color: gray;
+    margin: 20px 0;
+}
+
+/* -------------------------------------------
+   입력 필드 스타일
+------------------------------------------- */
+.form-group {
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+textarea {
+    resize: vertical; /* 수직 방향 크기 조정 가능 */
+    height: 250px; /* 기본 높이를 늘림 */
+}
+
+/* 크기 조정 표시 숨기기 */
+textarea::-webkit-resizer {
+    display: none; /* 크기 조정 표시 숨기기 */
+}
+
+/* -------------------------------------------
+   버튼 스타일 (기본 설정)
+------------------------------------------- */
+/* 작성 완료 버튼 */
+.qna--submit-button {
+    height: 40px;
+    box-sizing: border-box;
+    line-height: 30px;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 4px 12px;
+    border-radius: 15px;
+    border: 1px solid black;
+    background-color: white;
+    color: black;
+}
+
+.qna--submit-button:hover {
+    background-color: black;
+    color: white;
+}
+
+/* 취소 버튼 */
+.qna--cancel-button {
+    height: 40px;
+    box-sizing: border-box;
+    line-height: 30px;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 4px 12px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    background-color: white;
+    color: black;
+}
+
+.qna--cancel-button:hover {
+    background-color: #999;
+    color: white;
+}
+
+/* 버튼 그룹 */
+.qna--form-actions {
+    text-align: right;
+}
+
+/* -------------------------------------------
+   푸터 및 페이징 고정
+------------------------------------------- */
+.ft {
+    min-height: 100%;
+    position: relative;
+    padding-bottom: 60px;
+    margin-bottom: 100px; /* 페이징과 푸터 간의 간격 */
+}

@@ -56,6 +56,7 @@ public class DataBoard {
     private String a18; //비용부과유무
     private String a19; //비용부과기준 및 단위
     private String a20; //이용허락범위
+    private String a21; //URL
 
 
     @ElementCollection

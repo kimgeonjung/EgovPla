@@ -1,9 +1,14 @@
 package pla.utils;
 
+import static pla.converter.FileZipper.compressFilesToZip;
+import static pla.converter.FileZipper.deleteFilesAfterCompression;
+import static pla.converter.JsonToPdfConverter.convertJsonToPdf;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
@@ -17,10 +22,6 @@ import pla.converter.JsonToCsvConverter;
 import pla.dto.AuthInfo;
 import pla.service.ApplyService;
 import pla.service.UserFileLinkService;
-
-import static pla.converter.JsonToPdfConverter.convertJsonToPdf;
-import static pla.converter.FileZipper.compressFilesToZip;
-import static pla.converter.FileZipper.deleteFilesAfterCompression;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -45,15 +46,15 @@ public class PythonExecutor {
         if (!modelName.matches("[a-zA-Z0-9_]+")) {
         	log.info("입력 오류");
             throw new IllegalArgumentException("잘못된 입력입니다.");
-        } else if (!modelName.equals("kiosk") && !modelName.equals("library") && !modelName.equals("public_wifi")) {
-        	log.info("여기는 모델 이름 잘못된걸로 들어가면 남");
+        } else if (!modelName.equals("kiosk") && !modelName.equals("library") && !modelName.equals("public_wifi") && !modelName.equals("shade")) {
+        	log.info("잘못된 모델 이름이 들어갔습니다");
             throw new IllegalArgumentException("잘못된 모델 이름이 들어갔습니다.");
         }
 
         // 매개변수를 포함한 명령어 작성
         String paramStr = String.join(" ", parameters); // 빈 배열이면 paramStr은 빈 문자열
-        LocalTime now = LocalTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmss");
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYMMddHHmmss");
         String timeString = now.format(formatter);
         String fileName = location + "_" + modelName + "_" + timeString + "_" + authInfo.getLoginId();
         String excModel = "";
@@ -63,6 +64,7 @@ public class PythonExecutor {
         }else {
         	excModel = modelName + "1.sh ";
         }
+                
         // 명령어 작성
         String[] commands = {
         		"bash", "-c",
@@ -132,6 +134,9 @@ public class PythonExecutor {
                     // 1. JSON → CSV 변환
                     String jsonInputPath = applyService.getApplyLink(applyId);
                     String csvOutputPath = downloadPath + ".csv";
+                    
+                    log.info(jsonInputPath);
+                    log.info(csvOutputPath);
 
                     JsonToCsvConverter jsonToCsvConverter = new JsonToCsvConverter();
                     System.out.println("JSON을 CSV로 변환 중...");

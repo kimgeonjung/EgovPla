@@ -1865,12 +1865,12 @@
       <!-- 표출할 상위 개수 -->
       <div style="margin-bottom: 10px;">
         <label for="repeat-num" style="font-weight: bold;">반복수:</label>
-        <input type="number" placeholder="기본값 10000" id="repeat-num" min="1" />
+        <input type="number" placeholder="기본값 10000" id="repeat-num" min="1" max="30000" />
       </div>
       <!-- 표출할 상위 개수 -->
       <div style="margin-bottom: 10px;">
         <label for="new-wifi" style="font-weight: bold;">새로 만들 와이파이 개수:</label>
-        <input type="number" placeholder="기본값 5" id="new-wifi" min="1" />
+        <input type="number" placeholder="기본값 5" id="new-wifi" min="1" max="1000"/>
       </div>
       <!-- 도움말 -->
       <div class="help-icon">
@@ -1888,7 +1888,7 @@
 	    <!-- 새로 만들 도서관 개수 -->
 	      <div style="margin-bottom: 10px;">
 	        <label for="new-libraries" style="font-weight: bold;">새로 만들 도서관 개수:</label>
-	        <input type="number" placeholder="기본값 1" id="new-libraries" min="1" />
+	        <input type="number" placeholder="기본값 1" id="new-libraries" min="1" max="100" />
 	      </div>
 	<!-- 도서관 / 버스 정류장 가중치 -->
       <div style="margin-bottom: 10px;">
@@ -1914,7 +1914,7 @@
 	     <!-- 표출할 상위 개수 -->
       <div style="margin-bottom: 10px;">
         <label for="top-n-libraries" style="font-weight: bold;">표출할 상위 개수:</label>
-        <input type="number" data-name="--top_n" placeholder="기본값 5" id="top-n-libraries" min="1" />
+        <input type="number" data-name="--top_n" placeholder="기본값 5" id="top-n-libraries" min="1" max="1000" />
       </div>
       <!-- 도움말 -->
       <div class="help-icon">
@@ -1943,7 +1943,7 @@
         </select>
       </div>
        
-<!-- 접근성 / 예측 수요량 가중치 -->
+	<!-- 접근성 / 예측 수요량 가중치 -->
       <div style="margin-bottom: 10px;">
         <label for="input-tab4-2" style="font-weight: bold;">예측 수요량 / 접근성 (가중치):</label>
         <div style="display: flex; align-items: center;">
@@ -1967,7 +1967,7 @@
     	 <!-- 표출할 상위 개수 -->
       <div style="margin-bottom: 10px;">
         <label for="input-tab4-3" style="font-weight: bold;">표출할 상위 개수:</label>
-        <input type="number" data-name="--top_n" placeholder="기본값 5" id="input-tab4-3" min="1" />
+        <input type="number" data-name="--top_n" placeholder="기본값 5" id="input-tab4-3" min="1" max="1000" />
       </div>
       <!-- 도움말 -->
       <div class="help-icon">
@@ -2037,7 +2037,7 @@ $(document).ready(function () {
 	console.log('applier-login-id: ', applierLoginId);
 	
     let activeTab = {
-        name: null,    // 탭 이름
+        name: "public_wifi",    // 탭 이름
         params: []     // 파라미터의 이름-값 쌍 배열
     };
     
@@ -2065,12 +2065,23 @@ $(document).ready(function () {
         const sliderValue = $(this).val();
         $("#alpha-slider-value").text(sliderValue); // 슬라이더 값 표시
     });
+ 	
+ 	// 입력값 유효성 검사
+    $('input[type="number"]').on('input', function() {
+        let min = parseInt($(this).attr('min'));
+        let max = parseInt($(this).attr('max'));
+        let value = parseInt($(this).val());
+
+        if (value < min || value > max) {
+          alert(`입력값이 올바르지 않습니다! ${min} ~ ${max} 사이의 값을 입력하세요.`);
+          $(this).val('');  // 잘못된 입력일 경우 값 초기화
+        }
+      });
 
     // 탭 버튼 클릭 이벤트
     $(".tab-button").click(function () {
         const targetTab = $(this).data("tab"); // data-tab 값 가져오기
         activeTab.name = targetTab.replace("-tab", ""); // '-tab' 제거하여 이름 저장
-        if (!targetTab.name) targetTab.name = "public_wifi";  // 기본값
         activeTab.params = []; // 기존 파라미터 초기화
 
         console.log("활성화된 탭 이름:", activeTab.name);
@@ -2084,87 +2095,126 @@ $(document).ready(function () {
         $(`#${targetTab}`).show();
     });
 
-    // 제출 버튼 클릭 이벤트
+ // 제출 버튼 클릭 이벤트
     $("#submit-button").click(function (e) {
-    	e.preventDefault();
-    	
+        e.preventDefault();
+        
         // 버튼 비활성화
         const $button = $(this);
         $button.prop("disabled", true);
-    	
+        
         activeTab.params = []; // 기존 파라미터 초기화
-                
+
+        let isValid = true;  // 유효성 검사 플래그
+
         // 값 처리 (library)
         if (activeTab.name === "library") {
             const libraryWeight = parseFloat($("#library-slider").val());
             const busWeight = (1.0 - libraryWeight).toFixed(1);
-            let numNewLibraries = $("#new-libraries").val().trim(); // 새로 지을 도서관 개수
-            let topN = $("#top-n-libraries").val().trim(); // 상위 N개
-         	// 값이 비어 있으면 기본값 설정
-            if (!numNewLibraries) {
-                numNewLibraries = 1; // 기본값
+            let numNewLibraries = $("#new-libraries").val().trim() || 1; // 기본값 1
+            let topN = $("#top-n-libraries").val().trim() || 5; // 기본값 5
+
+            // 클라이언트 측 유효성 검사
+            if (isNaN(numNewLibraries) || numNewLibraries < 1 || numNewLibraries > 100) {
+                alert("새로 만들 도서관 개수는 1~100 사이의 값을 입력해야 합니다.");
+                isValid = false;
             }
-            if (!topN) {
-                topN = 5; // 기본값
+            if (isNaN(topN) || topN < 1 || topN > 1000) {
+                alert("표출할 상위 개수는 1~1000 사이의 값을 입력해야 합니다.");
+                isValid = false;
             }
+
             activeTab.params.push({ name: "--num_new_libraries", value: numNewLibraries });
             activeTab.params.push({ name: "--bus_weight", value: busWeight });
             activeTab.params.push({ name: "--library_weight", value: libraryWeight });
             activeTab.params.push({ name: "--top_n", value: topN });
-            
+
         } else if (activeTab.name === "kiosk") {
-            // 일반 입력 필드 값 처리 (kiosk)
             const inputs = $(`#${activeTab.name}-tab`).find("input, select");
             inputs.each(function () {
-                const name = $(this).data("name"); // data-name 속성을 이름으로 사용
-                const value = $(this).val().trim(); // 입력 필드의 값 가져오기
-                if (name && value) { // 이름과 값이 모두 있는 경우만 추가
+                const name = $(this).data("name");
+                let value = $(this).val().trim() || (name === "--top_n" ? 5 : "parallel");
+
+                if (name && value) {
+                    if (name === "--top_n" && (value < 1 || value > 1000)) {
+                        alert("무인발급기의 표출할 상위 개수는 1~1000 사이의 값을 입력해야 합니다.");
+                        isValid = false;
+                    }
+                    if (name === "--alpha" && (value < 0 || value > 1)) {
+                        alert("알파 값은 0~1 사이의 값을 입력해야 합니다.");
+                        isValid = false;
+                    }
                     activeTab.params.push({ name, value });
                 }
             });
-            
-        } else if(activeTab.name === "public_wifi"){
-        	// 일반 입력 필드 값 처리 (public_wifi)
-            let alpha = $("#wifi--alpha").val().trim();
-            let newWifi = $("#new-wifi").val().trim();
-            let repeatNum = $("#repeat-num").val().trim();
 
-            // 기본값 설정
-            if (!alpha) alpha = 0.5;  // 기본값
-            if (!newWifi) newWifi = 5;  // 기본값
-            if (!repeatNum) repeatNum = 10000; // 기본값
+        } else if (activeTab.name === "public_wifi") {
+            let alpha = $("#wifi--alpha").val().trim() || 0.5;  // 기본값 0.5
+            let newWifi = $("#new-wifi").val().trim() || 5;  // 기본값 5
+            let repeatNum = $("#repeat-num").val().trim() || 10000;  // 기본값 10000
+
+            // 클라이언트 측 유효성 검사
+            if (isNaN(alpha) || alpha < 0 || alpha > 1) {
+                alert("알파 값은 0~1 사이의 값을 입력해야 합니다.");
+                isValid = false;
+            }
+            if (isNaN(newWifi) || newWifi < 1 || newWifi > 1000) {
+                alert("새로 만들 와이파이 개수는 1~1000 사이의 값을 입력해야 합니다.");
+                isValid = false;
+            }
+            if (isNaN(repeatNum) || repeatNum < 1 || repeatNum > 30000) {
+                alert("반복수는 1~30000 사이의 값을 입력해야 합니다.");
+                isValid = false;
+            }
 
             activeTab.params.push({ name: "--alpha", value: alpha });
             activeTab.params.push({ name: "--newap", value: newWifi });
             activeTab.params.push({ name: "--ngen", value: repeatNum });
         }
 
-        console.log("지역 (location): ", location);
-        console.log("사용자: ", applierLoginId);
-        console.log("모델 이름: ", activeTab.name);
-        console.log("파라미터: ", activeTab.params);
+        // 클라이언트 유효성 검사 실패 시 종료
+        if (!isValid) {
+            $button.prop("disabled", false);
+            return;
+        }
 
-        // 파라미터를 명령어 형식으로 변환
-        const commandParams = activeTab.params
-            .map(param => `${param.name} ${param.value}`) // 이름과 값을 공백으로 연결
-            .join(" "); // 파라미터 간 공백 추가
+        // 서버 측 유효성 검사 요청
+        const commandParams = activeTab.params.map(param => `${param.name} ${param.value}`).join(" ");
 
-        console.log("명령어 파라미터:", commandParams);
-
-        // AJAX 요청
         $.ajax({
-            url: `/api/ai/run/${activeTab.name}`,
+            url: `/api/validation`,
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({ params: commandParams, location: location}),
-            success: function (response) {
-                alert("분석 작업이 시작되었습니다: " + response);
+            data: JSON.stringify({ params: commandParams }),
+            success: function (validationResponse) {
+                if (validationResponse.valid) {
+                    // 서버 측 검증 통과 후 분석 요청
+                    $.ajax({
+                        url: `/api/ai/run/${activeTab.name}`,
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ params: commandParams, location: location }),
+                        success: function (response) {
+                            alert("분석 작업이 시작되었습니다: " + response);
+                            $button.prop("disabled", false);
+                        },
+                        error: function (jqXHR) {
+                            alert("분석 작업 요청 실패: " + jqXHR.responseText);
+                            $button.prop("disabled", false);
+                        }
+                    });
+                } else {
+                    alert("입력값 검증 실패: " + validationResponse.message);
+                    $button.prop("disabled", false);
+                }
             },
             error: function (jqXHR) {
-                alert("분석 작업 요청 실패: " + jqXHR.responseText);
+                alert("서버 검증 요청 실패: " + jqXHR.responseText);
+                $button.prop("disabled", false);
             }
         });
     });
+
 });
 
 </script> 

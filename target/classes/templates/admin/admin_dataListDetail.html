@@ -23,7 +23,10 @@
         <tbody>
         <tr>
           <th>제목</th>
-          <td colspan="3"><input type="text" id="title" name="title" th:value="${dataList.title }" /></td>
+          <td colspan="2"><input type="text" id="title" name="title" th:value="${dataList.title }" /></td>
+          <th:block th:if="${not #strings.isEmpty(dataList.a21)}">
+            <td><a th:href="${dataList.a21}" target="_blank">바로가기</a></td>
+          </th:block>
         </tr>
         <tr>
           <th>내용</th>
@@ -56,13 +59,7 @@
           </td>
         </tr>
         </tbody>
-      </table>
-      <div class="main-title">
-        <h3>미리보기</h3>
-        <div style="max-height: 150px; max-width: 100%; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background-color: #fff; white-space: normal; font-size: 14px; line-height: 1.6;">
-          <p th:utext="${dataList.preview}" style="margin: 0;"></p>
-        </div>
-      </div>
+      </table>      
       <div class="main-title">
         <h1>파일데이터 정보</h1>
       </div>
@@ -157,6 +154,12 @@
           </td>
         </tr>
         <tr>
+          <th>URL</th>
+          <td colspan="3">
+            <input type="text" id="a21" name="a21" th:value="${dataList.a21}"  />
+          </td>
+        </tr>
+        <tr>
           <th>설명</th>
           <td colspan="3">
             <input type="text" id="a16" name="a16" th:value="${dataList.a16}"  />
@@ -186,7 +189,13 @@
         </tr>
         </tbody>
       </table>
-
+      
+	  <div class="main-title" id="preview">
+        <h3>미리보기</h3>
+        <div style="max-height: 150px; max-width: 100%; overflow-y: auto; border: 1px solid #ddd; padding: 10px; background-color: #fff; white-space: normal; font-size: 14px; line-height: 1.6;">
+          <p th:utext="${dataList.preview}" style="margin: 0;"></p>
+        </div>
+      </div>
     </form>
     <div class="button-group">
       <a href="#this" id="list" class="mbtn" >목록으로</a>

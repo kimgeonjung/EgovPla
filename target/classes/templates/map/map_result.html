@@ -151,7 +151,7 @@
     } else if (loc === "cheonan" && type === "library") {
         const layer = createWmsLayer('cheonan_library_20240610', "dot");
         layer.addTo(map);
-    } else if (loc === "cheonan" && type === "wifi") {
+    } else if (loc === "cheonan" && type === "public_wifi") {
         const layer = createWmsLayer('cheonan_pub_wifi', "dot");
         layer.addTo(map);
     } else if (loc === "gwangju" && type === "kiosk") {
@@ -160,7 +160,7 @@
     } else if (loc === "gwangju" && type === "library") {
         const layer = createWmsLayer('gwangju_library', "dot");
         layer.addTo(map);
-    } else if (loc === "gwangju" && type === "wifi") {
+    } else if (loc === "gwangju" && type === "public_wifi") {
         const layer = createWmsLayer('gwangju_pub_wifi', "dot");
         layer.addTo(map);
     } else if (loc === "gwangju" && type === "shade") {

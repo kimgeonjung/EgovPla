@@ -28,6 +28,7 @@ public class DataBoardDto {
     private String a18;
     private String a19;
     private String a20;
+    private String a21;
     private MultipartFile[] files;
 
 }

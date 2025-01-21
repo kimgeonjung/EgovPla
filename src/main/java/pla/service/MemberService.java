@@ -79,6 +79,10 @@ public class MemberService {
 //      비어있으면 true, 아니면 false
     }
 
+    public boolean checkEmail(String email) {
+        return memberRepository.findByEmail(email).isPresent();
+    }
+    
     public String registerMember(MemberRequest request) {
         Member member = new Member();
         member.setLoginId(request.getLoginId());

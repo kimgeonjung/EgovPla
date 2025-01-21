@@ -7,6 +7,7 @@ C:\_egov\workspace\public_location_analysis\src\main\java\pla\entity\Faq.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\mail\Mail.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\entity\QnaList.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\mail\MailService.java
+C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\validation\KioskValidationDto.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\converter\JsonToPdfConverter.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\DataBoardDto.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\mail\VerificationCode.java
@@ -26,11 +27,11 @@ C:\_egov\workspace\public_location_analysis\src\main\java\pla\mail\MailConfig.ja
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\exception\BadCredentialsException.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\repository\DataBoardRepository.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\controller\FaqController.java
+C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\validation\LibraryValitationDto.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\repository\FaqRepository.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\repository\QnaListRepository.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\service\ApplyService.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\service\ProfileService.java
-C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\KioskRequest.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\controller\GuideController.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\controller\NoticeController.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\entity\Notice.java
@@ -38,6 +39,7 @@ C:\_egov\workspace\public_location_analysis\src\main\java\pla\entity\UserFileLin
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\repository\MemberRepository.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\repository\UserFileLinkRepository.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\entity\Apply.java
+C:\_egov\workspace\public_location_analysis\src\main\java\pla\controller\ValidationController.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\ChangePwRequest.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\FindPwRequest.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\config\AppConfig.java
@@ -48,6 +50,7 @@ C:\_egov\workspace\public_location_analysis\src\main\java\pla\repository\NoticeR
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\controller\AdminController.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\converter\CsvToShpConverter.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\utils\PythonExecutor.java
+C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\validation\PublicWifiValidationDto.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\mail\MailRestController.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\entity\Qna.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\AuthInfo.java

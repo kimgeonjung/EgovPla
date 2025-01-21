@@ -1,0 +1,137 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+/* 기본 스타일 */
+html, body {
+    height: 100%; /* 문서와 뷰포트의 높이를 100%로 설정 */
+    margin: 0; /* 기본 여백 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    font-family: 'Noto Sans KR', sans-serif; /* Noto Sans KR 폰트 적용 */
+    background-color: white; /* 배경색 설정 */
+}
+
+/* 제목 스타일 */
+h1 {
+    text-align: left;
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 구분선 */
+.split--div-post {
+    height: 2px;
+    background-color: gray;
+    /*margin: 10px 0;*/
+}
+
+.main-title {
+    width: 100%;
+    margin: 20px auto;
+}
+
+/* 메인 컨테이너 */
+.main-container {
+    max-width: 1000px; /* 폼의 최대 넓이 */
+    margin: 50px auto; /* 화면 중앙 정렬 */
+    padding: 20px;
+    background-color: #fff; /* 배경색 설정 */
+}
+
+/* 테이블 스타일 */
+.board_detail {
+    width: 100%;
+    border-collapse: collapse; /* 테두리 겹침 제거 */
+    border: 1px solid #ddd; /* 테이블 전체 테두리 */
+    border-radius: 1px; /* 테이블 둥근 테두리 */
+    overflow: hidden; /* 테두리 넘치지 않도록 설정 */
+}
+
+/* 테이블의 셀 스타일 */
+.board_detail th, .board_detail td {
+    border: 1px solid #ddd; /* 각 셀에 테두리 추가 */
+    padding: 10px; /* 셀 내부 여백 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+    vertical-align: middle; /* 수직 중앙 정렬 */
+    background-color: #fff; /* 셀 배경색 */
+}
+
+
+/* 헤더 스타일 */
+.board_detail th {
+    background-color: #f7f7f7; /* 헤더 셀 배경색 */
+    font-weight: bold; /* 헤더 텍스트 굵게 */
+    text-align: center; /* 헤더 가운데 정렬 */
+}
+
+/* 입력 필드 스타일 */
+.board_detail input[type="text"],
+.board_detail textarea {
+    width: 100%;
+    padding: 12px;
+    border: none; /* 테두리 제거 */
+    font-size: 16px;
+}
+
+/* 포커스 상태 시 입력 필드 */
+.board_detail input[type="text"]:focus,
+.board_detail textarea:focus {
+    border: none; /* 테두리 제거 */
+    outline: none;
+}
+
+/* 텍스트 영역 스타일 */
+.board_detail textarea {
+    resize: none; /* 크기 조정 드래그 표시 제거 */
+}
+
+/* 버튼 그룹 스타일 */
+.button-group {
+    display: flex;           /* Flexbox로 가로 정렬 */
+    justify-content: flex-end; /* 버튼을 오른쪽 정렬 */
+    align-items: center;     /* 버튼들을 세로로 중앙 정렬 */
+    gap: 10px;               /* 버튼 간의 간격 설정 */
+    margin-top: 20px;        /* 버튼들의 상단 여백 */
+}
+
+/* 버튼 스타일 */
+a.mbtn, a.rbtn, a.dbtn {
+    text-decoration: none;  /* 기본 밑줄 제거 */
+    font-size: 16px;  /* 폰트 크기 */
+    font-weight: 600;  /* 폰트 두께 */
+    padding: 5px 15px;  /* 버튼 크기 조정 */
+    border-radius: 30px;  /* 둥근 모서리 */
+    display: inline-block;  /* 한 줄로 나열되게 설정 */
+    text-align: center;  /* 텍스트 가운데 정렬 */
+    transition: background-color 0.3s ease, color 0.3s ease;  /* 색상 변화에 부드러운 전환 효과 추가 */
+}
+
+/* 목록으로 버튼 색상 */
+a.mbtn {
+    background-color: #4CAF50;  /* 초록색 배경 */
+    color: white;  /* 글자 색은 하얀색 */
+}
+
+a.mbtn:hover {
+    background-color: #45a049;  /* 마우스를 올렸을 때 색상 변환 */
+}
+
+/* 수정하기 버튼 색상 */
+a.rbtn {
+    background-color: #007bff;  /* 파란색 배경 */
+    color: white;  /* 글자 색은 하얀색 */
+}
+
+a.rbtn:hover {
+    background-color: #0056b3;  /* 마우스를 올렸을 때 색상 변환 */
+}
+
+/* 삭제하기 버튼 색상 */
+a.dbtn {
+    background-color: #f44336;  /* 빨간색 배경 */
+    color: white;  /* 글자 색은 하얀색 */
+}
+
+a.dbtn:hover {
+    background-color: #d32f2f;  /* 마우스를 올렸을 때 색상 변환 */
+}

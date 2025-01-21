@@ -4,8 +4,38 @@ $(document).ready(function (){
     const hiddenEmailField = $('#hiddenEmail');
     const emailBtn = $('#email-btn');
     const codeBtn = $('#code-btn');
+    const uniqueBtn = $('#unique_btn');
 
     const registerDataForm = $('#register-data-form');
+
+    uniqueBtn.on('click', function (event) {
+        event.preventDefault();
+        uniqueBtn.prop("disabled", true)
+            .text("중복 확인 중...");
+
+        $.ajax({
+            url: '/api/mail/uniqueCheck',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ email: emailInput.val() }),
+            success: function (response) {
+                if (response) {
+                    alert('이미 존재하는 이메일입니다. 다시 시도해주세요.');
+                } else {
+                    alert('이메일 사용가능');
+                    uniqueBtn.css('display', 'none'); // uniqueBtn 숨기기
+                    emailBtn.css('display', 'inline-block'); // emailBtn 표시하기
+                }
+                uniqueBtn.prop("disabled", false).text("이메일 중복 확인");
+            },
+            error: function (xhr) {
+                alert('오류가 발생했습니다. 다시 시도해 주세요.');
+                console.error(xhr.responseText);
+                uniqueBtn.prop("disabled", false).text("이메일 중복 확인");
+            }
+        });
+    });
+
 
     // 이메일 인증번호 발송
     $('#checkEmail').on('submit', function (event) {

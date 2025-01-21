@@ -1,6 +1,9 @@
 package pla.mail;
 
-import lombok.RequiredArgsConstructor;
+import java.util.Map;
+
+import javax.mail.MessagingException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.mail.MessagingException;
+import lombok.RequiredArgsConstructor;
+import pla.service.MemberService;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,6 +20,16 @@ import javax.mail.MessagingException;
 public class MailRestController {
 
     private final MailService mailService;
+    private final MemberService memberService;
+    
+    @PostMapping("/uniqueCheck")
+    public ResponseEntity<Boolean> uniqueCheck(@RequestBody Map<String, String> requestData) {
+        String email = requestData.get("email");
+        System.out.println(email);
+        boolean result = memberService.checkEmail(email);
+        System.out.println(result);
+        return ResponseEntity.ok(result);
+    }
 
     // 인증번호를 담은 메일을 보냄
     @PostMapping("/emailCheck")

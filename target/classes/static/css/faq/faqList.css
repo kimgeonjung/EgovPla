@@ -1,0 +1,231 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+/* 기본 스타일 */
+html, body {
+    height: 100%; /* 문서와 뷰포트의 높이를 100%로 설정 */
+    margin: 0; /* 기본 여백 제거 */
+    padding: 0; /* 기본 패딩 제거 */
+    font-family: 'Noto Sans KR', sans-serif; /* Noto Sans KR 폰트 적용 */
+    background-color: white; /* 배경색 설정 */
+}
+
+/* 제목 스타일 */
+.faq-title {
+    width: 100%; /* 부모 요소 너비에 맞춤 */
+    max-width: 1000px; /* 최대 너비 설정 */
+    margin: 0 auto 15px; /* 중앙 정렬 및 하단 여백 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+/* 메인 헤더 스타일 */
+.main-tihome {
+    display: flex; /* Flexbox 사용 */
+    align-items: center; /* 수직 가운데 정렬 */
+    justify-content: center; /* 좌우로 중앙 정렬 */
+    width: 100%; /* 전체 너비 설정 */
+    margin: 0 auto 15px; /* 위쪽 여백 5%, 아래쪽 여백 10px */
+}
+
+/* 구분선 스타일 */
+.split--div-post {
+    width: 100%; /* 부모 요소 너비에 맞춤 */
+    max-width: 1000px; /* 최대 너비 설정 */
+    height: 1px; /* 선의 높이 */
+    background-color: lightgray; /* 선의 색상 */
+    margin: 0 auto 5px; /* 가운데 정렬 및 하단 여백 */
+}
+
+/* FAQ 링크 스타일 */
+.faq-link {
+    color: gray; /* 링크 기본 색상 */
+    font-size: 16px; /* 텍스트 크기 */
+    font-weight: lighter; /* 가벼운 폰트 두께 */
+    text-decoration: none; /* 밑줄 제거 */
+    margin: 0 10px 30px; /* 좌우 여백 10px, 하단 여백 15px */
+}
+
+.faq-link:hover {
+    text-decoration: none; /* 호버 시 밑줄 추가 */
+    color: black; /* 호버 시 색상 */
+}
+
+.faq-link.active {
+    color: black; /* 활성화된 링크의 색상 */
+    font-weight: bold; /* 활성화된 링크 강조 */
+}
+
+/* 메인 타이틀 스타일 */
+.main-title {
+    font-size: 24px; /* 타이틀 폰트 크기 */
+    font-weight: bold; /* 굵은 폰트 */
+    margin-top: 50px;
+    text-align: center; /* 텍스트 가운데 정렬 */
+    display: block; /* 블록 요소로 설정 */
+}
+
+/* 공지사항 테이블 스타일 */
+.post-table {
+    width: 100%; /* 테이블 너비 설정 */
+    margin: 0 auto 50px; /* 하단 여백 50px */
+    background-color: white; /* 테이블 배경색 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 테이블 헤더 스타일 */
+thead th {
+    text-align: center; /* 텍스트 가운데 정렬 */
+    background-color: white; /* 헤더 배경색 */
+    font-weight: lighter; /* 가벼운 폰트 두께 */
+    color: black; /* 텍스트 색상 */
+    border-bottom: 1px solid lightgrey; /* 하단 경계선 */
+}
+
+/* 테이블 본문 스타일 */
+.post-tbody-tr2 {
+    border-bottom: 1px solid lightgrey; /* 하단 경계선 */
+}
+tbody tr:hover {
+    background-color: white; /* 행에 마우스를 올렸을 때 배경색 변경 */
+}
+
+td, th {
+    text-align: center; /* 텍스트 가운데 정렬 */
+    padding: 10px; /* 내부 여백 */
+    color: #555; /* 텍스트 색상 */
+}
+
+td.title {
+    text-align: left; /* 제목 셀은 왼쪽 정렬 */
+    background-color: white;
+
+}
+
+td.title:hover {
+    background-color: lightgray;
+}
+
+td.title a {
+    color: black; /* 링크 기본 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+    font-weight: lighter; /* 얇은 폰트 */
+}
+
+
+/* 작성 버튼 스타일 */
+.write-button {
+    display: inline-block; /* 인라인 블록 */
+    color: black; /* 텍스트 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+    font-weight: bold; /* 굵은 폰트 */
+    font-size: 14px; /* 글자 크기 */
+    background-color: transparent; /* 배경 투명 */
+    padding: 5px 10px; /* 내부 여백 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 테두리 둥글게 */
+    position: static; /* 상대 위치 제거 */
+    margin: 0 auto; /* 중앙 정렬 */
+    display: block; /* 블록 요소로 변경 */
+}
+.write-button:hover {
+    background-color: #007bff; /* 호버 시 배경색 */
+    color: #fff; /* 텍스트 색상 변경 */
+    border: 1px solid #007bff; /* 테두리 추가 */
+}
+
+/* -------------------------------------------
+   페이징 스타일
+------------------------------------------- */
+.pagination {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 30px 0;
+}
+
+.page-item {
+    margin: 0 5px;
+}
+
+.page-item a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    color: black;
+    border: none;
+    border-radius: 0;
+    text-decoration: none;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+}
+
+.page-item a:hover {
+    font-weight: bold;
+    color: black;
+    background-color: transparent;
+    text-decoration: underline;
+    border: none;
+}
+
+.page-item.disabled a {
+    pointer-events: none;
+    color: grey;
+    background-color: transparent;
+    border: none;
+}
+
+.page-item.active a {
+    font-weight: bold;
+    color: black;
+    background-color: transparent;
+    text-decoration: underline;
+    border: none;
+}
+
+
+/* -------------------------------------------
+   푸터 및 페이징 고정
+------------------------------------------- */
+.ft {
+    min-height: 100%;
+    position: relative;
+    padding-bottom: 60px;
+    margin-bottom: 100px; /* 페이징과 푸터 간의 간격 */
+}
+
+/* 콘텐츠 타이틀 스타일 */
+.title {
+    color: #2c4557; /* 텍스트 색상 */
+    margin: 10px 0; /* 상하 여백 */
+    padding: 15px; /* 내부 여백 */
+    font-size: 25px; /* 글자 크기 */
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+/* 삭제된 행 스타일 */
+.post-tbody-tr2.completed {
+    opacity: 0.5; /* 불투명 처리 */
+    text-decoration: line-through; /* 취소선 추가 */
+}
+
+/* 콘텐츠 중앙 정렬 */
+.faq-container {
+    width: 100%; /* 전체 너비 */
+    max-width: 1000px; /* 최대 너비 */
+    margin: 0 auto; /* 중앙 정렬 */
+}
+
+/* 서브 콘텐츠 정렬 */
+.col-md-9 {
+    flex: 1; /* Flexbox 비율 */
+    display: flex; /* Flexbox 사용 */
+    justify-content: center; /* 가로 중앙 정렬 */
+    flex-direction: column; /* 세로 방향 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    width: 100%; /* 전체 너비 */
+}

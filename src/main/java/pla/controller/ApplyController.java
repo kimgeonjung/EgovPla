@@ -131,7 +131,7 @@ public class ApplyController {
         } else {
             applyService.createBoard(author, title, content, files, authInfo);
         }
-        return "redirect:/analysis/normalList";
+        return "redirect:/analysis/detailList";
     }
     
     // 신청서를 수정

@@ -63,14 +63,14 @@
 
           <!-- 처음으로 이동 버튼 -->
           <li th:classappend="${pageNumber == 0} ? 'disabled'" class="page-item">
-            <a class="page-link" th:href="@{/dataList(page=0)}">
+            <a class="page-link" th:href="@{/admin/admin_dataList(page=0)}">
               <span>&laquo;</span>
             </a>
           </li>
 
           <!-- 이전 페이지로 이동 버튼 -->
           <li th:classappend="${dataList.first} ? 'disabled'" class="page-item">
-            <a class="page-link" th:href="${dataList.first} ? '#' : @{/dataList(page=${pageNumber - 1})}" aria-label="Previous">
+            <a class="page-link" th:href="${dataList.first} ? '#' : @{/admin/admin_dataList(page=${pageNumber - 1})}" aria-label="Previous">
               <span aria-hidden="true">&lt;</span>
             </a>
           </li>
@@ -78,13 +78,13 @@
 
           <!-- 페이지 번호 표시 및 클릭 시 해당 페이지로 이동 -->
           <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
-            <a th:text="${page}" class="page-link" th:href="@{/dataList(page=${page - 1})}"></a>
+            <a th:text="${page}" class="page-link" th:href="@{/admin/admin_dataList(page=${page - 1})}"></a>
           </li>
 
 
           <!-- 다음 페이지로 이동 버튼 -->
           <li th:classappend="${dataList.last} ? 'disabled'" class="page-item">
-            <a class="page-link" th:href="${dataList.last} ? '#' : @{/dataList(page=${pageNumber + 1})}" aria-label="Next">
+            <a class="page-link" th:href="${dataList.last} ? '#' : @{/admin/admin_dataList(page=${pageNumber + 1})}" aria-label="Next">
               <span aria-hidden="true">&gt;</span>
             </a>
           </li>
@@ -92,7 +92,7 @@
 
           <!-- 마지막 페이지로 이동 버튼 -->
           <li th:classappend="${pageNumber >= totalPages - 1} ? 'disabled'" class="page-item">
-            <a class="page-link" th:href="@{/dataList(page=${totalPages - 1})}">
+            <a class="page-link" th:href="@{/admin/admin_dataList(page=${totalPages - 1})}">
               <span>&raquo;</span>
             </a>
 

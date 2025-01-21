@@ -2304,8 +2304,9 @@
                                         console.log("도서관");
                                     } else if (table_type === "무인 발급기") {
                                         const properties = result.data.features[0].properties;
-                                        layerDataHtml += `<table><tr><th>연간 이용량</th><td>${properties.use}</td></tr></table>`
-                                        console.log(properties)
+                                        let useValue = (properties.use === null || properties.use === undefined || properties.use === 0) ? "알 수 없음" : properties.use;
+                                        layerDataHtml += `<table><tr><th>연간 이용량</th><td>${useValue}</td></tr></table>`;
+                                        console.log(properties);
                                         console.log("무인 발급기");
                                     } else if (table_type === "와이파이") {
                                         const properties = result.data.features[0].properties;
@@ -2385,7 +2386,7 @@
                                     } else if (table_type === "토지 특성 공간") {
                                         const properties = result.data.features[0].properties;
                                         layerDataHtml += `<table>
-                                            <tr><th>주소</th><td>${properties.a3} ${properties.a6}</td></tr>
+                                        	<tr><th>주소</th><td colspan="3">${properties.a3} ${properties.a6}</td></tr>
                                             <tr><th>지목명</th><td>${properties.a11}</td><th>토지 면적</th><td>${properties.a12}m²</td></tr>
                                             <tr><th>용도</th><td>${properties.a16}</td><th>토지이용상황</th><td>${properties.a18}</td></tr>
                                             <tr></tr>

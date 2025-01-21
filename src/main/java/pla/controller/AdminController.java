@@ -280,8 +280,6 @@ public class AdminController {
                                     @RequestParam(defaultValue = "0") int offset,Model model) throws Exception {
 
         DataBoard dataBoard = dataBoardService.getDataListDetail(id, true, limit, offset);
-        model.addAttribute("offset", offset);
-        model.addAttribute("limit", limit);
         model.addAttribute("dataList", dataBoard);
         model.addAttribute("now", getCurrentTime()); // 현재 시간
         return "admin/admin_dataListDetail";

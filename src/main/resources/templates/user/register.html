@@ -26,7 +26,8 @@
                    placeholder="이메일을 입력하세요"
                    required
             >
-            <button type="submit" id="email-btn" class="btn btn-outline-primary btn-sm">이메일 인증</button>
+                        <button id="unique_btn" class="btn btn-outline-primary btn-sm">이메일 중복 확인</button>
+            <button type="submit" id="email-btn" class="btn btn-outline-primary btn-sm" style="display: none">이메일 인증</button>
         </div>
     </form>
     <!--  인증번호 입력 폼  -->
@@ -51,6 +52,7 @@
              id="loginId"
              name="loginId"
              placeholder="ID를 입력하세요"
+             oninput="validateId(this)"
       >
       <button type="submit" id="loginId-btn" class="btn btn-outline-primary btn-sm">ID 중복 확인</button>
     </div>
@@ -85,13 +87,13 @@
 
     <!-- 주소 입력 필드 -->
     <div class="mt-3 d-flex align-items-center">
-      <input type="text" id="zipcode" name="zipcode" class="form-input me-2" placeholder="우편번호" required>
+      <input type="text" id="zipcode" name="zipcode" class="form-input me-2" placeholder="우편번호" required readonly>
       <button type="button" class="btn btn-outline-primary btn-sm" onclick="execPostCode();">주소 찾기</button>
     </div>
 
     <!-- 주소 및 상세주소 입력 필드 -->
     <div class="mb-3 mt-3">
-      <input type="text" id="address" name="address" class="form-input mb-3" placeholder="주소" required>
+      <input type="text" id="address" name="address" class="form-input mb-3" placeholder="주소" required readonly>
       <input type="text" id="detailAddress" name="detailAddress" class="form-input" placeholder="상세주소" required>
     </div>
 

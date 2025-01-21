@@ -32,7 +32,9 @@ public class FileDownloadController {
 
     @GetMapping("/download")
     public ResponseEntity<Resource> downloadFile(@RequestParam("filename") String filename, 
-    		@RequestParam(value = "dir", defaultValue = "dir1") String dir) throws IOException {
+    		@RequestParam(value = "dir", defaultValue = "dir1") String dir,
+    		@RequestParam(value = "saveAs", required = false) String saveAs) throws IOException {
+    	log.info(saveAs);
         try {
         	// 한글 파일명 디코딩 (필요 시 적용)
 //            String decodedFilename = URLDecoder.decode(filename, StandardCharsets.UTF_8.toString());
@@ -72,16 +74,14 @@ public class FileDownloadController {
 
             
             // 파일명 인코딩 (브라우저 호환성 유지)
-            String encodedFilename = URLEncoder.encode(decodedFilename, StandardCharsets.UTF_8.toString()).replace("+", "%20");
-        
-            log.info("Original filename: {}", filename);
-            log.info("Decoded filename: {}", decodedFilename);
-            log.info("Final file path: {}", filePath.toString());
-            log.info("Encoded filename: {}", encodedFilename);
+//            String encodedFilename = URLEncoder.encode(decodedFilename, StandardCharsets.UTF_8.toString()).replace("+", "%20");
+         // 파일명 설정 (saveAs 값이 없으면 원래 파일명 사용)
+            String downloadFilename = (saveAs != null && !saveAs.isEmpty()) ? saveAs : decodedFilename;
+            String encodedDownloadFilename = URLEncoder.encode(downloadFilename, StandardCharsets.UTF_8.toString()).replace("+", "%20");          
             
             return ResponseEntity.ok()
             		.contentType(MediaType.parseMediaType(contentType))
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + encodedFilename)
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename*=UTF-8''" + encodedDownloadFilename)
                     .body(resource);
         } catch (MalformedURLException e) {
             e.printStackTrace();
