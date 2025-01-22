@@ -42,8 +42,8 @@
                                  #strings.endsWith(file.fileName, '.jpeg') or
                                  #strings.endsWith(file.fileName, '.png') or
                                  #strings.endsWith(file.fileName, '.gif')}">
-                  <a th:href="${file.filePath}" download style="margin-right: 30px;">
-                    <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;"/>
+                  <a th:href="@{/download(filename=${file.fileName})}" download>
+                    <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
                   </a>
                   <img th:src="${file.filePath}" alt="Uploaded Image" style="max-width: 300px;" />
                 </div>
@@ -53,7 +53,9 @@
                                                                         #strings.endsWith(file.fileName, '.png') or
                                                                         #strings.endsWith(file.fileName, '.gif'))}"
                      style="display: flex; align-items: center; gap: 10px;">
-                  <a th:href="${file.filePath}" download><img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" /></a>
+                  <a th:href="@{/download(filename=${file.fileName})}" download>
+                    <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
+                  </a>
                   <p th:text="${file.fileName}" style="margin: 0;"></p>
                 </div>
               </div>
