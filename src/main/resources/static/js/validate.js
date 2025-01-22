@@ -27,6 +27,21 @@ function validatePassword(input) {
         input.setCustomValidity('');  // 모든 조건을 만족하면 오류 메시지 초기화
     }
 }
+function validateNewPassword(input) {
+    // 비밀번호가 6자리 이상이고, 특수문자를 포함하는지 확인
+    const regex = /[!@#$%^&*(),.?":{}|<>_\-+=]/;  // 특수문자 정규식
+    // 현재 비밀번호 가져오기
+    const oldPw = document.getElementById('oldPw').value;
+    if (input.value.length < 6) {
+        input.setCustomValidity('비밀번호는 6자리 이상이어야 합니다.');
+    } else if (!regex.test(input.value)) {
+        input.setCustomValidity('비밀번호는 특수 문자를 포함해야 합니다. 예: !, @, #, $, %, ^, &, *');
+    } else if (input.value === oldPw) {
+        input.setCustomValidity('새 비밀번호는 현재 비밀번호와 다르게 설정해야 합니다.');
+    } else {
+        input.setCustomValidity('');  // 모든 조건을 만족하면 오류 메시지 초기화
+    }
+}
 
 // 이름 검증 함수
 function validateName(input) {
@@ -40,7 +55,6 @@ function validateName(input) {
         input.setCustomValidity('');
     }
 
-    input.reportValidity(); // 유효성 검사 메시지 표시
 }
 
 
@@ -71,6 +85,7 @@ function validateTel(input) {
     } else {
         input.setCustomValidity('');
     }
+
 }
 
 
@@ -131,22 +146,33 @@ function validateDate(input) {
         input.setCustomValidity('');
     }
 }
+function validateNewPasswordCheck(input) {
+    const newPw = document.getElementById('newPw').value;  // 새 비밀번호 입력값 가져오기
+    const confirmPw = input.value;  // 비밀번호 확인 입력값 가져오기
+
+    if (confirmPw === '') {
+        input.setCustomValidity('비밀번호를 입력해주세요.');
+    } else if (newPw !== confirmPw) {
+        input.setCustomValidity('비밀번호가 일치하지 않습니다.');
+    } else {
+        input.setCustomValidity('');
+    }
+}
 
 function validatePasswordCheck(input) {
     const password = document.getElementById('password').value; // 비밀번호 필드 값
-    const errorDiv = document.getElementById('passwordError'); // 에러 메시지 표시 영역
 
     if (input.value === '') {
         // 입력 필드가 비어 있으면 에러 메시지 제거
         input.setCustomValidity('');
-        errorDiv.textContent = '';
+
     } else if (input.value !== password) {
         // 비밀번호가 일치하지 않으면 에러 메시지 표시
         input.setCustomValidity('비밀번호가 일치하지 않습니다.');
-        errorDiv.textContent = '비밀번호가 일치하지 않습니다.';
+
     } else {
         // 비밀번호가 일치하면 에러 메시지 제거
         input.setCustomValidity('');
-        errorDiv.textContent = '';
+
     }
 }

@@ -105,10 +105,18 @@
             map = L.map('map', { zoomControl: false }).setView([35.1595, 126.8526], 12); // 위도, 경도, 줌 레벨 설정
             break;
     }
+    
+    var bounds = L.latLngBounds(
+            L.latLng(30.8, 115), // 남서쪽 좌표
+            L.latLng(46.5, 142)  // 북동쪽 좌표
+        );
+
+        // 지도 이동 범위 제한
+        map.setMaxBounds(bounds);
+
     var vworldLayer = L.tileLayer('https://xdworld.vworld.kr/2d/Base/service/{z}/{x}/{y}.png', {
-        "minZoom": 6,
-        "maxZoom": 19,
-        "maxNativeZoom": 19,
+    	"minZoom": 7,
+        "maxZoom": 18,
         "attribution": '&copy; <a href="http://www.vworld.kr/">vworld</a> contributors'
     });
     vworldLayer.addTo(map);
@@ -124,6 +132,8 @@
             format: 'image/png',
             transparent: true,
             attribution: '&copy; GeoServer Contributors',
+            minZoom: 7,  // 최소 줌 레벨 설정
+            maxZoom: 18  // 최대 줌 레벨 설정
         };
 
         // shape가 "none"이 아닌 경우 스타일을 적용
@@ -163,7 +173,7 @@
     } else if (loc === "gwangju" && type === "public_wifi") {
         const layer = createWmsLayer('gwangju_pub_wifi', "dot");
         layer.addTo(map);
-    } else if (loc === "gwangju" && type === "shade") {
+    } else if (loc === "gwangju" && type === "canopy") {
         const layer = createWmsLayer('gwangju_civil_service_machines', "dot");
         layer.addTo(map);
     } else {

@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>관리자 페이지</title>
-  <link rel="stylesheet" href="/css/admin/admin-apply.css">
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/admin/admin-apply.css">
 </head>
 <body>
 <th:block th:replace="admin/adminHeader :: headerLayout"></th:block>
@@ -20,110 +20,184 @@
       </div>
     </div>
 
-<!--    <h1 class="admin3-count" id="count"> 총 0건</h1>-->
-
     <div id="applyForm">
       <label for="select_answer">답변 상태 : </label>
-      <select id="select_answer" >
+      <select id="select_answer">
         <option value="0">전부</option>
         <option value="1">분석 신청</option>
         <option value="2">분석 종료</option>
       </select>
+      <div class="answer-status-container">
+        <h1 class="admin5-count" id="count">총 0건</h1>
+      </div>
     </div>
-
-      <!-- 공지사항 목록을 표시하는 테이블 -->
-      <table class="admin3-post-table" style="margin-top: 20px;">
-        <thead>
-        <tr class="admin3-post-tbody-tr">
-          <th>번호</th>
-          <th>제목</th>
-          <th>작성일</th>
-          <th>작성자</th>
-          <th>상태</th>
-        </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="list, stat : ${applies}">
-          <tr th:class="tr-click" th:id="${list.id}">
-            <td th:text="${count - (applies.pageable.pageNumber * 10) - stat.index}"></td>
-            <td th:text="${list.title}"></td>
-            <td th:text="${#temporals.format(now, 'yyyy-MM-dd').equals(#temporals.format(list.createdAt, 'yyyy-MM-dd'))} ? ${#temporals.format(list.createdAt, 'HH:mm')} : ${#temporals.format(list.createdAt, 'yyyy-MM-dd')}"></td>
-            <td th:text="${list.author}"></td>
-            <td th:text="${#strings.equals(list.completedYn, 'Y') ? '분석 종료' : '분석 신청'}"></td>
-          </tr>
-        </th:block>
-        </tbody>
-      </table>
+    <!-- 공지사항 목록을 표시하는 테이블 -->
+    <table class="admin3-post-table" style="margin-top: 20px;">
+      <thead>
+      <tr class="admin3-post-tbody-tr">
+        <th>번호</th>
+        <th>제목</th>
+        <th>작성일</th>
+        <th>작성자</th>
+        <th>상태</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- 데이터는 JavaScript로 처리됩니다 -->
+      </tbody>
+    </table>
   </div>
-  <div th:if="${applies != null and !applies.isEmpty()}">
-    <!-- 전역 변수 선언 -->
-    <nav
-            th:with="pageNumber = ${applies.pageable.pageNumber}, pageSize = ${applies.pageable.pageSize},totalPages = ${applies.totalPages},startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},tempEndPage = ${startPage + pageSize - 1},endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})"
-            aria-label="Page navigation"
-    >
+
+  <!-- 페이지 네비게이션 -->
+  <div>
+    <nav aria-label="Page navigation">
       <ul class="pagination">
-        <!-- 처음으로 이동 -->
-        <li th:classappend="${pageNumber == 0} ? 'disabled'" class="page-item">
-          <a class="page-link" th:href="@{/admin/admin_apply(page=0)}">
-            <span>&laquo;</span>
-          </a>
-        </li>
-
-        <!-- 이전으로 이동 -->
-        <li th:classappend="${applies.first} ? 'disabled'" class="page-item">
-          <a class="page-link" th:href="${applies.first} ? '#' : @{/admin/admin_apply(page=${pageNumber - 1})}" aria-label="Previous">
-            <span aria-hidden="true">&lt;</span>
-          </a>
-        </li>
-
-        <!-- 특정 페이지로 이동 -->
-        <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
-          <a th:text="${page}" class="page-link" th:href="@{/admin/admin_apply(page=${page - 1})}"></a>
-        </li>
-
-        <!-- 다음으로 이동 -->
-        <li th:classappend="${applies.last} ? 'disabled'" class="page-item">
-          <a class="page-link" th:href="${applies.last} ? '#' : @{/admin/admin_apply(page=${pageNumber + 1})}" aria-label="Next">
-            <span aria-hidden="true">&gt;</span>
-          </a>
-        </li>
-
-        <!-- 마지막으로 이동 -->
-        <li th:classappend=" ${pageNumber >= totalPages - 1} ? 'disabled'" class="page-item">
-          <a class="page-link" th:href="@{/admin/admin_apply(page=${totalPages - 1})}">
-            <span>&raquo;</span>
-          </a>
-        </li>
+        <!-- 페이지 네비게이션은 JavaScript에서 업데이트됩니다 -->
       </ul>
     </nav>
   </div>
 </div>
 
-<!-- 분석 신청 리스트를 JSON 형태로 변환하여 JavaScript에서 사용할 수 있도록 하기 -->
 <script th:inline="javascript">
   /*<![CDATA[*/
-  var applyList = /*[[${applies}]]*/ [];
+  var applyList = /*[[${applies}]]*/ []; // 서버에서 받아온 데이터를 여기서 처리
   console.log(applyList);  // 콘솔에서 applyList 확인
+  var originalList = [...applyList]; // 필터링 전 전체 데이터를 저장
   /*]]>*/
 </script>
 
 <script>
-  // 선택된 답변 상태에 따라 목록을 필터링
-  document.getElementById('select_answer').addEventListener('change', function() {
-    var selectedValue = this.value;  // 선택된 답변 상태 값
-    var rows = document.querySelectorAll('.tr-click');  // 모든 tr 요소 선택
+  // 페이지 당 항목 수
+  const itemsPerPage = 10;
+  let currentPage = 0; // 현재 페이지
 
-    rows.forEach(function(row) {
-      var statusCell = row.cells[4];  // '답변' 열이 5번째 (index 4)
-      var statusText = statusCell.textContent || statusCell.innerText;  // 상태 텍스트 추출
+  // 페이지 수 계산
+  function getTotalPages() {
+    return Math.ceil(applyList.length / itemsPerPage);
+  }
 
-      // 선택된 값에 맞는 행만 표시하고 나머지는 숨김
-      if (selectedValue === "0" || statusText === getStatusText(selectedValue)) {
-        row.style.display = "";  // 행 보이기
-      } else {
-        row.style.display = "none";  // 행 숨기기
-      }
+  // 데이터 표시 함수
+  function displayData() {
+    applyList.sort(function(a, b) {
+      return b.id - a.id;  // id가 큰 값이 먼저 오도록 정렬
     });
+    const tbody = document.querySelector('.admin3-post-table tbody');
+    tbody.innerHTML = ''; // 기존 내용 비우기
+
+    // 시작 인덱스와 끝 인덱스 계산
+    const startIndex = currentPage * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, applyList.length);
+
+    // 해당 페이지의 데이터만 필터링
+    const pageData = applyList.slice(startIndex, endIndex);
+
+    pageData.forEach(function(item, index) {
+      const row = document.createElement('tr');
+      row.classList.add('tr-click');
+      row.setAttribute('id', item.id);
+
+      row.innerHTML = `
+        <td>${item.id}</td>
+        <td>${item.title}</td>
+        <td>${formatDate(item.createdAt)}</td>
+        <td>${item.author}</td>
+        <td>${item.completedYn === 'Y' ? '분석 종료' : '분석 신청'}</td>
+      `;
+
+      // 테이블에 행 추가
+      tbody.appendChild(row);
+    });
+
+    // 페이지 네비게이션 업데이트
+    if (applyList && applyList.length > 0){
+      updatePagination();
+    }
+
+    // 행 클릭 이벤트 추가
+    addClickEvent(); // 행이 추가된 후 클릭 이벤트를 추가
+  }
+
+  // 날짜 포맷팅 함수 (예: '2025-01-22')
+  function formatDate(dateString) {
+    const date = new Date(dateString);  // item.createdAt을 Date 객체로 변환
+    const today = new Date();  // 오늘 날짜를 가져옴
+
+    // 오늘 날짜와 비교
+    const isToday = date.toLocaleDateString('ko-KR') === today.toLocaleDateString('ko-KR');
+
+    // 오늘 날짜와 같으면 'HH:mm' 포맷, 다르면 'yyyy-MM-dd' 포맷
+    if (isToday) {
+      // 'HH:mm' 형식으로 시간만 표시 (오전/오후 없음)
+      return date.toLocaleTimeString('ko-KR', { hour12: false, hour: '2-digit', minute: '2-digit' });
+    } else {
+      // 'yyyy-MM-dd' 형식으로 날짜만 표시
+      return date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    }
+  }
+
+  // 페이지 네비게이션 업데이트 함수
+  function updatePagination() {
+    const totalPages = getTotalPages(); // 전체 페이지 수를 계산
+    const pagination = document.querySelector('.pagination');
+    pagination.innerHTML = ''; // 기존 페이지 번호 제거
+
+    // 처음으로 버튼
+    const firstButton = document.createElement('li');
+    firstButton.classList.add('page-item');
+    firstButton.classList.toggle('disabled', currentPage === 0); // 첫 페이지에서는 비활성화
+    firstButton.innerHTML = `<a class="page-link" href="#" onclick="changePage(0)">&laquo;</a>`;
+    pagination.appendChild(firstButton);
+
+    // 이전 버튼
+    const prevButton = document.createElement('li');
+    prevButton.classList.add('page-item');
+    prevButton.classList.toggle('disabled', currentPage === 0); // 첫 페이지에서는 비활성화
+    prevButton.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage - 1})">&lt;</a>`;
+    pagination.appendChild(prevButton);
+
+    // 페이지 번호들
+    for (let i = 0; i < totalPages; i++) {
+      const pageButton = document.createElement('li');
+      pageButton.classList.add('page-item');
+      pageButton.classList.toggle('active', i === currentPage); // 현재 페이지는 활성화 상태
+      pageButton.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i + 1}</a>`;
+      pagination.appendChild(pageButton);
+    }
+
+    // 다음 버튼
+    const nextButton = document.createElement('li');
+    nextButton.classList.add('page-item');
+    nextButton.classList.toggle('disabled', currentPage === totalPages - 1); // 마지막 페이지에서는 비활성화
+    nextButton.innerHTML = `<a class="page-link" href="#" onclick="changePage(${currentPage + 1})">&gt;</a>`;
+    pagination.appendChild(nextButton);
+
+    // 마지막으로 버튼
+    const lastButton = document.createElement('li');
+    lastButton.classList.add('page-item');
+    lastButton.classList.toggle('disabled', currentPage === totalPages - 1); // 마지막 페이지에서는 비활성화
+    lastButton.innerHTML = `<a class="page-link" href="#" onclick="changePage(${totalPages - 1})">&raquo;</a>`;
+    pagination.appendChild(lastButton);
+  }
+
+  // 페이지 변경 함수
+  function changePage(page) {
+    currentPage = page;
+    displayData();
+  }
+
+  // 필터링 기능 (답변 상태별)
+  document.getElementById('select_answer').addEventListener('change', function() {
+    var selectedValue = this.value;
+    // 필터링 전 전체 데이터를 이용하여 상태에 맞는 데이터만 필터링
+    if (selectedValue === "0") {
+      applyList = [...originalList]; // 전부를 다시 표시
+    } else {
+      applyList = originalList.filter(function(item) {
+        return getStatusText(selectedValue) === (item.completedYn === 'Y' ? '분석 종료' : '분석 신청');
+      });
+    }
+    currentPage = 0;  // 필터링 후 첫 페이지로 이동
+    displayData();
   });
 
   // 선택된 답변 상태에 해당하는 텍스트 반환
@@ -135,40 +209,53 @@
     }
   }
 
-  // 클릭 시 상세 페이지로 이동
-  document.querySelectorAll('.tr-click').forEach(function(tr){
-    tr.addEventListener('click', function () {
-      let index = tr.id.trim();
-      window.location.href = '/admin/admin_apply/detail?id=' + index;
-    });
-  });
+  // 초기 데이터 표시
+  displayData();
 
-  // 카운트 업데이트
+  // 카운트 업데이트 함수
   function updateCounts() {
     // applyList가 빈 배열이 아니라면 카운트 업데이트
     if (applyList.length === 0) {
       document.getElementById('count').textContent = "총 0건";
     } else {
-   		let completed = 0;
-    	let applied = 0;
+      let completed = 0;
+      let pending = 0;
 
-        applyList.forEach(function(item) {
-            if (item.completedYn === 'Y') {
-              completed++;
-            }
-            if (item.completedYn === 'N') {
-              applied++;
-            }
-          });
-          applied = applied - completed;
-          document.getElementById('count').textContent = `총 ${applyList.length}건 (분석 종료: ${completed} / 분석 신청: ${applied})`;
+      // applyList 배열을 순회하면서 각 상태에 맞는 카운트 증가
+      applyList.forEach(function(item) {
+        if (item.completedYn === 'Y') {
+          completed++;  // 분석 종료
         }
-      }
+        if (item.completedYn === 'N') {
+          pending++;  // 분석 신청
+        }
+      });
 
-      // 페이지 로드 시 카운트 업데이트
-      updateCounts();
+      // 총 카운트를 업데이트
+      document.getElementById('count').textContent = `총 ${applyList.length}건 (분석 종료: ${completed} / 분석 신청: ${pending})`;
+    }
+  }
+
+  // 페이지 로드 시 카운트 업데이트
+  window.onload = function() {
+    console.log('Apply List:', applyList); // applyList 확인
+    updateCounts();  // 카운트 업데이트 함수 호출
+    displayData();   // 초기 데이터 표시
+  };
+
+  // 클릭 시 상세 페이지로 이동
+  function addClickEvent() {
+    document.querySelectorAll('.tr-click').forEach(function(tr) {
+      tr.addEventListener('click', function () {
+        let index = tr.id.trim();  // 각 항목의 id 값 가져오기
+        window.location.href = '/admin/admin_apply/detail?id=' + index;  // 상세 페이지로 이동
+      });
+    });
+  }
 </script>
+
 <div class="footers"></div> <!-- 이거 지우면 안됨 -->
 <th:block th:replace="layout/footer :: footerLayout"></th:block>
+
 </body>
 </html>

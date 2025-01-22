@@ -103,17 +103,6 @@ html, body {
     background-color: #f1f1f1;
 }
 
-/* 첫 번째 열과 마지막 열의 테두리 제거 */
-.data-post-table td:first-child,
-.data-post-table th:first-child {
-    border-left: none;
-}
-
-.data-post-table td:last-child,
-.data-post-table th:last-child {
-    border-right: none;
-}
-
 /* 테이블 열 너비 */
 .data-post-table th:nth-child(1),
 .data-post-table td:nth-child(1) {

@@ -11,6 +11,7 @@ C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\validation\Kio
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\converter\JsonToPdfConverter.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\DataBoardDto.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\mail\VerificationCode.java
+C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\validation\CanopyValidationDto.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\repository\ApplyRepository.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\LoginDto.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\MessageDto.java
@@ -27,7 +28,6 @@ C:\_egov\workspace\public_location_analysis\src\main\java\pla\mail\MailConfig.ja
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\exception\BadCredentialsException.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\repository\DataBoardRepository.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\controller\FaqController.java
-C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\validation\LibraryValitationDto.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\repository\FaqRepository.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\repository\QnaListRepository.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\service\ApplyService.java
@@ -64,6 +64,7 @@ C:\_egov\workspace\public_location_analysis\src\main\java\pla\controller\QnaCont
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\service\NoticeService.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\interceptor\UserInterceptor.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\service\FaqService.java
+C:\_egov\workspace\public_location_analysis\src\main\java\pla\dto\validation\LibraryValidationDto.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\entity\Member.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\service\TaskService.java
 C:\_egov\workspace\public_location_analysis\src\main\java\pla\config\WebConfig.java

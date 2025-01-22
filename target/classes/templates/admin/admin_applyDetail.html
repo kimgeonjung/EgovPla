@@ -61,11 +61,12 @@
                   <div th:if="${file.fileName != null and file.fileName != '' and !(#strings.endsWith(file.fileName, '.jpg') or
                                                                   #strings.endsWith(file.fileName, '.jpeg') or
                                                                   #strings.endsWith(file.fileName, '.png') or
-                                                                  #strings.endsWith(file.fileName, '.gif'))}">
-                    <p th:text="${file.fileName}"></p>
+                                                                  #strings.endsWith(file.fileName, '.gif'))}"
+                       style="display: flex; align-items: center; gap: 5px;">
                     <a th:href="@{/download(filename=${file.fileName})}" download>
                       <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
                     </a>
+                    <p th:text="${file.fileName}" style="margin: 0; font-size: 20px;"></p>
                   </div>
                 </div>
               </td>
@@ -146,7 +147,7 @@
 	        { value: 'library', text: '도서관' },
 	        { value: 'kiosk', text: '무인발급기' },
 	        { value: 'public_wifi', text: '와이파이' },
-	        { value: 'shade', text: '그늘막' }
+	        { value: 'canopy', text: '그늘막' }
 	      ];
 	      gwangjuOptions.forEach(function(option) {
 	        const opt = document.createElement('option');

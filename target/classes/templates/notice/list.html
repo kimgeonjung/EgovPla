@@ -37,7 +37,7 @@
                 <th:block th:each="notice, stat : ${notices.content}">
                     <tr class="tr-click" th:id="${notice.id}">
                         <!-- 공지사항 번호 출력 -->
-                        <td th:text="${totalNotices - (notices.pageable.pageNumber * 10) - stat.index}"></td>
+                        <td th:text="${notice.id}"></td>
                         <td>
                             <a th:href="@{/noticeDetail(id=${notice.id})}" th:text="${notice.title}"></a>
                         </td>

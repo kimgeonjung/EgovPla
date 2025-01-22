@@ -29,6 +29,9 @@ import pla.service.UserFileLinkService;
 public class PythonExecutor {
 	@Value("${file.download.dir}")
 	private String downloadDir;
+    @Value("${server.home.dir}")
+    private String homeDir;
+
 
 	private final ApplyService applyService;
 	private final AutoAddLinkToApply linkToApply;
@@ -46,7 +49,7 @@ public class PythonExecutor {
         if (!modelName.matches("[a-zA-Z0-9_]+")) {
         	log.info("입력 오류");
             throw new IllegalArgumentException("잘못된 입력입니다.");
-        } else if (!modelName.equals("kiosk") && !modelName.equals("library") && !modelName.equals("public_wifi") && !modelName.equals("shade")) {
+        } else if (!modelName.equals("kiosk") && !modelName.equals("library") && !modelName.equals("public_wifi") && !modelName.equals("canopy")) {
         	log.info("잘못된 모델 이름이 들어갔습니다");
             throw new IllegalArgumentException("잘못된 모델 이름이 들어갔습니다.");
         }
@@ -54,7 +57,7 @@ public class PythonExecutor {
         // 매개변수를 포함한 명령어 작성
         String paramStr = String.join(" ", parameters); // 빈 배열이면 paramStr은 빈 문자열
         ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Asia/Seoul"));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYMMddHHmmss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMddHHmmss");
         String timeString = now.format(formatter);
         String fileName = location + "_" + modelName + "_" + timeString + "_" + authInfo.getLoginId();
         String excModel = "";
@@ -68,7 +71,7 @@ public class PythonExecutor {
         // 명령어 작성
         String[] commands = {
         		"bash", "-c",
-        		"cd /home/ubuntu/" + modelName + " && source ./venv/bin/activate && ./" + excModel + paramStr
+        		"cd " + homeDir + modelName + " && source ./venv/bin/activate && ./" + excModel + paramStr
         		+ " --map_filename " + fileName
         };
         try {
@@ -78,8 +81,8 @@ public class PythonExecutor {
             ProcessBuilder processBuilder = new ProcessBuilder(commands);
 
             // 환경 변수 설정
-            processBuilder.environment().put("PATH", System.getenv("PATH") + ":/home/ubuntu/" + modelName + "/venv/bin");
-            processBuilder.environment().put("VIRTUAL_ENV", "/home/ubuntu/" + modelName + "/venv");
+            processBuilder.environment().put("PATH", System.getenv("PATH") + ":" + homeDir + modelName + "/venv/bin");
+            processBuilder.environment().put("VIRTUAL_ENV", homeDir + modelName + "/venv");
 
             // 프로세스 실행
             Process process = processBuilder.start();

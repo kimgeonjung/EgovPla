@@ -12,6 +12,8 @@ html, body {
 
 /* 제목 스타일 */
 .platform-title {
+    font-size: 50px; /* 제목 폰트 크기 */
+    font-weight: bold; /* 가벼운 폰트 두께 */
     width: 100%; /* 부모 요소 너비에 맞춤 */
     max-width: 1000px; /* 최대 너비 설정 */
     margin: 0 auto 15px; /* 중앙 정렬 및 하단 여백 */
@@ -77,6 +79,7 @@ html, body {
 }
 .hero-section h1 {
     font-size: 2.5rem;
+    font-weight: bold;
     color: black;
     margin-bottom: 20px;
 }
@@ -134,4 +137,27 @@ html, body {
     color: #4d4d4d; /* 본문 색상 */
     font-size: 1rem; /* 본문 크기 */
     line-height: 1.5; /* 줄 간격 */
+}
+
+
+                          /* 박스들을 가로로 최대 3개씩 나열 */
+.row {
+    display: flex; /* Flexbox 사용 */
+    flex-wrap: wrap; /* 화면 크기에 따라 자동 줄바꿈 */
+    justify-content: center; /* 중앙 정렬 */
+    gap: 20px; /* 박스 간 간격 */
+}
+
+/* 개별 박스 스타일 */
+.row .col-md-4 {
+    flex: 1 1 calc(33.333% - 20px); /* 최대 3개씩 나열 (20px은 간격 보정) */
+    max-width: calc(33.333% - 20px); /* 개별 박스의 최대 너비 */
+    box-sizing: border-box; /* 박스 크기 포함 */
+}
+
+/* 단일 박스가 있을 경우 중앙 정렬 */
+.row .col-md-4:nth-child(1):nth-last-child(1) {
+    flex: 1 1 100%;
+    max-width: 380px; /* 단일 박스 너비 조정 */
+    margin: 0 auto; /* 중앙 정렬 */
 }

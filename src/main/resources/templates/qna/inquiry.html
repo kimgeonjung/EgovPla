@@ -22,7 +22,7 @@
       </div>
     </div>
       <!-- 총 문의 건수 -->
-    <h1 class="qna-count" th:text="'총 ' + ${inquiries.content.size()} + '건'"></h1>
+    <h1 class="qna-count" th:text="'총 ' + ${#lists.size(posts)} + '건'"></h1>
 
       <!-- 문의 목록 테이블 -->
       <table class="qna-post-table">

@@ -90,7 +90,6 @@
 
     </div>
   </div>
-</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
@@ -113,14 +112,13 @@
     $("#result").on("click", function () {
       var frm = $("#frm")[0];
       frm.action = "/analysis/analysisResult";
-   	// 새 창으로 열기 (width, height, 위치 등을 설정 가능)
-      window.open('', 'mapResultWindow', 'width=800,height=600').document.write('<html><body>Loading...</body></html>'); // 새 창을 띄움
+   	  // 새 창으로 열기 (width, height, 위치 등을 설정 가능)
+      window.open('', 'mapResultWindow', 'width=1200,height=900').document.write('<html><body>Loading...</body></html>'); // 새 창을 띄움
       frm.target = 'mapResultWindow';  // 새 창에서 결과를 표시하도록 설정
       frm.submit();  // 폼 제출
     });
   });
 </script>
-</div>
 <div class="footers"></div> <!-- 이거 지우면 안됨 -->
 <th:block th:replace="layout/footer :: footerLayout"></th:block>
 </body>

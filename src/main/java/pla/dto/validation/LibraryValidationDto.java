@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LibraryValitationDto {
+public class LibraryValidationDto {
 	
 	@NotNull(message = "새로 만들 도서관 개수는 필수입니다.")
     @Min(value = 1, message = "도서관 개수는 최소 1 이상이어야 합니다.")

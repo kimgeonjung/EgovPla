@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import pla.dto.AuthInfo;
 import pla.dto.MessageDto;
 import pla.entity.Apply;
+import pla.repository.ApplyRepository;
 import pla.service.ApplyService;
 import pla.service.UserFileLinkService;
 
@@ -35,6 +37,7 @@ import pla.service.UserFileLinkService;
 @RequiredArgsConstructor
 @RequestMapping("/analysis")
 public class ApplyController {
+    private final ApplyRepository applyRepository;
     private final ApplyService applyService;
     private final UserFileLinkService fileLinkService;
 
@@ -45,23 +48,23 @@ public class ApplyController {
 
     // 기본 신청서 목록 페이지를 반환
     @GetMapping("/normalList")
-    public String normalList(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable, HttpSession session) {
+    public String normalList(Model model, HttpSession session) {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         // 로그인한 사용자에 따른 신청서 목록 가져오기
-        Page<Apply> applies = applyService.getApplies(authInfo, pageable, "normal");
-        model.addAttribute("count", applies.stream().count());
+        List<Apply> applies = applyRepository.findAllByUidAndRequest(authInfo.getId(),"normal");
         model.addAttribute("now", LocalDateTime.now());
         model.addAttribute("applies", applies);
         return "map/normalApply_list";
     }
-    
+
     // 상세 신청서 목록 페이지를 반환
     @GetMapping("/detailList")
-    public String detailList(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable, HttpSession session) {
+    public String detailList(Model model, HttpSession session) {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         // 로그인한 사용자에 따른 신청서 목록 가져오기
-        Page<Apply> applies = applyService.getApplies(authInfo, pageable, "detail");
-        model.addAttribute("count", applies.stream().count());
+        List<Apply> applies = applyRepository.findAllByUidAndRequest(authInfo.getId(),"detail");
+        System.out.println(applies);
+        model.addAttribute("total", applyService.totalApplies(authInfo, "detail"));
         model.addAttribute("now", LocalDateTime.now());
         model.addAttribute("applies", applies);
         return "map/detailApply_list";

@@ -83,10 +83,8 @@ h1 {
 
 /* 텍스트 영역 스타일 */
 .board_detail textarea {
-    max-height: 600px; /* 최대 높이 설정 */
-    min-height: 400px; /* 최소 높이 설정 */
     resize: none; /* 크기 조정 드래그 표시 제거 */
-    overflow-y: scroll; /* 항상 스크롤바 표시 */
+    overflow-y: auto; /* 스크롤바 표시 */
 }
 
 /* -------------------------------------------
@@ -165,4 +163,21 @@ a.dbtn:hover {
     position: relative;
     padding-bottom: 60px;
     margin-bottom: 100px; /* 페이징과 푸터 간의 간격 */
+}
+
+.custom-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #007bff; /* 버튼 배경색 (파란색) */
+    color: #fff; /* 텍스트 색상 (흰색) */
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.custom-btn:hover {
+    background-color: #0056b3; /* 마우스 오버 시 색상 변경 */
 }

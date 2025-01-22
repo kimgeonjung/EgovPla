@@ -76,28 +76,31 @@
     </div>
   </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script type="text/javascript">
-          $(document).ready(function(){
-            $("#list").on("click", function(){
-              location.href = "/admin/admin_faq";
-            });
+<script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function(){
+    document.getElementById("list").addEventListener("click", function(){
+      window.location.href = "/admin/admin_notice";
+    });
 
-            $("#edit").on("click", function(){
-              var frm = $("#update")[0];
-              frm.action = "/admin/admin_faqUpdate";
-              frm.submit();
-            });
+    var editButton = document.getElementById("edit");
+    if (editButton) {
+      editButton.addEventListener("click", function(){
+        var frm = document.getElementById("frm");
+        frm.action = "/admin/updateNotice";
+        frm.submit();
+      });
+    }
 
-            $("#delete").on("click", function(){
-              if (confirm("삭제하시겠습니까?")) {
-                var frm = $("#update")[0];
-                frm.action = "/admin/admin_faqDelete";
-                frm.submit();
-              }
-            });
-          });
-        </script>
+    var deleteButton = document.getElementById("delete");
+    if (deleteButton) {
+      deleteButton.addEventListener("click", function(){
+        var frm = document.getElementById("frm");
+        frm.action = "/admin/deleteNotice";
+        frm.submit();
+      });
+    }
+  });
+</script>
 <div class="footers"></div> <!-- 이거 지우면 안됨 -->
 <th:block th:replace="layout/footer :: footerLayout"></th:block>
 </body>

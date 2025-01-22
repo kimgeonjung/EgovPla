@@ -81,9 +81,8 @@ h1 {
 
 /* 텍스트 영역 스타일 */
 .board_detail textarea {
-    min-height: 400px;
     resize: none; /* 크기 조정 드래그 표시 제거 */
-    overflow-y: auto; /* 항상 스크롤바 표시 */
+    overflow-y: auto; /* 스크롤바 표시 */
 }
 
 /* -------------------------------------------

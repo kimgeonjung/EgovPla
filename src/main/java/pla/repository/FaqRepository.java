@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import pla.entity.Faq;
 
+import java.util.List;
+
 @Repository
 public interface FaqRepository extends JpaRepository<Faq, Long> {
-//    List<Faq> findAllByDeletedYn(char deleted);
+    List<Faq> findAllByOrderByIdDesc();
 }

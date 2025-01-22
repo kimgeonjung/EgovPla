@@ -22,13 +22,13 @@ public class FaqService {
 
     // 모든 FAQ를 페이징 처리하여 반환합니다.
     public Page<Faq> getAllFAQs(Pageable pageable) {
-        List<Faq> list = faqRepository.findAll();
+        List<Faq> list = faqRepository.findAllByOrderByIdDesc();
         return PagingUtils.createPage(list, pageable);
     }
 
     // 삭제되지 않은 FAQ를 페이징 처리하여 반환합니다.
     public Page<Faq> getActiveFAQs(Pageable pageable) {
-        List<Faq> list = faqRepository.findAll();
+        List<Faq> list = faqRepository.findAllByOrderByIdDesc();
         return PagingUtils.createPage(list, pageable);
     }
 

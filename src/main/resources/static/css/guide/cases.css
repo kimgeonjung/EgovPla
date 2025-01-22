@@ -63,3 +63,80 @@ html, body {
     font-weight: bold; /* 강조된 폰트 */
     text-decoration: none; /* 밑줄 제거 */
 }
+
+.section h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+.hero-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+/* Hero Section */
+.hero-section {
+    background: #f7f9fc;
+    padding: 40px 20px;
+    margin-top: 40px;
+    text-align: center;
+}
+.hero-section p {
+    font-size: 1.2rem;
+    color: #34495e;
+}
+
+/* Section 스타일 */
+.section {
+    padding: 50px 20px;
+    text-align: center;
+}
+.section p {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    color: #555;
+}
+
+/* 카드 스타일 (서비스 및 리소스) */
+.services, .resources {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* 부모 컨테이너 크기 조정 */
+.service-item, .resource-item {
+    text-align: center; /* 텍스트 중앙 정렬 유지 */
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center;
+    justify-content: center;
+    width: 100%; /* 부모 컨테이너 너비 확장 */
+    max-width: 1200px; /* 최대 너비 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+}
+
+/* 이미지 크기 조정 */
+.service-item img, .resource-item img {
+    width: 100%; /* 부모 컨테이너에 맞춤 */
+    max-width: 1000px; /* 최대 너비 조정 */
+    height: auto; /* 비율 유지 */
+    display: block;
+    margin: 0 auto; /* 중앙 정렬 */
+}
+
+.service-item h3, .resource-item h3 {
+    font-size: 1.5rem; /* 제목 크기 */
+    margin-top: 20px; /* 이미지와 제목 사이 간격 */
+    margin-bottom: 10px; /* 제목과 본문 사이 간격 */
+    color: #333;
+}
+.service-item p, .resource-item p {
+    font-size: 1.1rem; /* 본문 텍스트 크기 */
+    color: #555;
+}
+
+/* 호버 효과 제거 */
+.service-item:hover, .resource-item:hover {
+    transform: none; /* 이동 효과 제거 */
+}

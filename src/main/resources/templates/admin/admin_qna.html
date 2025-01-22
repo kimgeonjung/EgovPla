@@ -19,7 +19,6 @@
         <div class="admin5-split-div-post"></div>
       </div>
     </div>
-    <h1 class="admin5-count" id="count"> 총 0건</h1>
 
     <div id="qnaForm">
       <label for="select_answer" class="mb-3">답변 상태 : </label>
@@ -29,116 +28,179 @@
         <option value="2">답변 완료</option>
         <option value="3">문의 종료</option>
       </select>
+      <div class="answer-status-container">
+        <h1 class="admin5-count" id="count">총 0건</h1>
+      </div>
 	</div>
-      <!-- 공지사항 목록을 표시하는 테이블 -->
-      <table class="admin5-post-table" style="margin-top: 20px;">
-        <thead>
-        <tr class="admin5-post-tbody-tr">
-          <!-- 테이블 헤더: 번호, 제목, 작성일, 조회수 -->
-          <th>번호</th>
-          <th>제목</th>
-          <th>작성일</th>
-          <th>작성자</th>
-          <th>상태</th>
-        </tr>
-        </thead>
-        <tbody>
-        <th:block th:each="list, stat : ${qnaList}">
-          <tr th:class="tr-click" th:id="${list.id}">
-            <td th:text="${#lists.size(qna) - (qnaList.pageable.pageNumber * 10) - stat.index}"></td>
-            <td th:text="${list.title}"></td>
-            <td th:text="${#temporals.format(now, 'yyyy-MM-dd').equals(#temporals.format(list.created_at, 'yyyy-MM-dd'))} ? ${#temporals.format(list.created_at, 'HH:mm')} : ${#temporals.format(list.created_at, 'yyyy-MM-dd')}"></td>
-            <th:block th:each="member : ${member}">
-              <th:block th:if="${list.uid.equals(member.id)}">
-                <td th:text="${member.name}"></td>
-              </th:block>
-            </th:block>
-            <td th:text="${#strings.equals(list.endYn, 'Y') ? '문의 종료' : (#strings.equals(list.state, 'Q') ? '대기중' : '답변 완료')}"></td>
-            <td th:each="qna : ${qna}" style="display: none">
-              <div style="display: none">
-                <span th:text="${qna.id}"></span>
-                <span th:text="${qna.content}"></span>
-                <span th:text="${qna.state}"></span>
-              </div>
-            </td>
-          </tr>
-        </th:block>
-        </tbody>
-      </table>
-  </div>
-  <div th:if="${qnaList != null and !qnaList.isEmpty()}">
-    <!-- 전역 변수 선언 -->
-    <nav
-            th:with="pageNumber = ${qnaList.pageable.pageNumber}, pageSize = ${qnaList.pageable.pageSize},totalPages = ${qnaList.totalPages},startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},tempEndPage = ${startPage + pageSize - 1},endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})"
-            aria-label="Page navigation"
-    >
-      <ul class="pagination">
-        <!-- 처음으로 이동 -->
-        <li th:classappend="${pageNumber == 0} ? 'disabled'" class="page-item">
-          <a class="page-link" th:href="@{/admin/admin_qna(page=0)}">
-            <span>&laquo;</span>
-          </a>
-        </li>
+    <!-- Q&A 목록 테이블 -->
+    <table class="admin5-post-table" style="margin-top: 20px;">
+      <thead>
+      <tr class="admin5-post-tbody-tr">
+        <th>번호</th>
+        <th>제목</th>
+        <th>작성일</th>
+        <th>작성자</th>
+        <th>상태</th>
+      </tr>
+      </thead>
+      <tbody id="qnaTableBody">
+      <!-- JavaScript에서 동적으로 추가됨 -->
+      </tbody>
+    </table>
 
-        <!-- 이전으로 이동 -->
-        <li th:classappend="${qnaList.first} ? 'disabled'" class="page-item">
-          <a class="page-link" th:href="${qnaList.first} ? '#' : @{/admin/admin_qna(page=${pageNumber - 1})}" aria-label="Previous">
-            <span aria-hidden="true">&lt;</span>
-          </a>
-        </li>
-
-        <!-- 특정 페이지로 이동 -->
-        <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
-          <a th:text="${page}" class="page-link" th:href="@{/admin/admin_qna(page=${page - 1})}"></a>
-        </li>
-
-        <!-- 다음으로 이동 -->
-        <li th:classappend="${qnaList.last} ? 'disabled'" class="page-item">
-          <a class="page-link" th:href="${qnaList.last} ? '#' : @{/admin/admin_qna(page=${pageNumber + 1})}" aria-label="Next">
-            <span aria-hidden="true">&gt;</span>
-          </a>
-        </li>
-
-        <!-- 마지막으로 이동 -->
-        <li th:classappend=" ${pageNumber >= totalPages - 1} ? 'disabled'" class="page-item">
-          <a class="page-link" th:href="@{/admin/admin_qna(page=${totalPages - 1})}">
-            <span>&raquo;</span>
-          </a>
-        </li>
+    <!-- 페이지 네비게이션 -->
+    <nav>
+      <ul class="pagination" id="pagination">
+        <!-- JavaScript에서 동적으로 추가됨 -->
       </ul>
     </nav>
+
   </div>
 </div>
 
-<!-- QnA 리스트를 JSON 형태로 변환하여 JavaScript에서 사용할 수 있도록 하기 -->
 <script th:inline="javascript">
   /*<![CDATA[*/
-  var qnaList = /*[[${qnaList}]]*/ [];
-  console.log(qnaList);  // 콘솔에서 qnaList 확인
+  var now = new Date(/*[[${now}]]*/);
+  var qnaList = /*[[${qna}]]*/ [];
+  var members = /*[[${member}]]*/ [];
+  console.log("Current Time:", now);
+  console.log("QNA List:", qnaList);
+  console.log("Members List:", members);
   /*]]>*/
 </script>
 
 <script>
-  // 선택된 답변 상태에 따라 목록을 필터링
-  document.getElementById('select_answer').addEventListener('change', function() {
-    var selectedValue = this.value;  // 선택된 답변 상태 값
-    var rows = document.querySelectorAll('.tr-click');  // 모든 tr 요소 선택
+  var rowsPerPage = 10;
+  var currentPage = 1;
+  var filteredQnaList = [...qnaList];  // 초기 로드시 전체 데이터를 복사
 
-    rows.forEach(function(row) {
-      var statusCell = row.cells[4];  // '답변' 열이 5번째 (index 4)
-      var statusText = statusCell.textContent || statusCell.innerText;  // 상태 텍스트 추출
+  function getMemberName(uid) {
+    let member = members.find(m => m.id === uid);
+    return member ? member.name : "알 수 없음";
+  }
 
-      // 선택된 값에 맞는 행만 표시하고 나머지는 숨김
-      if (selectedValue === "0" || statusText === getStatusText(selectedValue)) {
-        row.style.display = "";  // 행 보이기
-      } else {
-        row.style.display = "none";  // 행 숨기기
-      }
+  function formatDate(dateString) {
+    if (!dateString) return "";
+
+    let date = new Date(dateString.replace(" ", "T"));
+    let nowDate = new Date(now);
+
+    let todayStr = nowDate.getFullYear() + '-' +
+            String(nowDate.getMonth() + 1).padStart(2, '0') + '-' +
+            String(nowDate.getDate()).padStart(2, '0');
+
+    let dateStr = date.getFullYear() + '-' +
+            String(date.getMonth() + 1).padStart(2, '0') + '-' +
+            String(date.getDate()).padStart(2, '0');
+
+    if (todayStr === dateStr) {
+      return date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false });
+    } else {
+      return dateStr;
+    }
+  }
+
+  function renderTable(page) {
+    const tableBody = document.getElementById('qnaTableBody');
+    tableBody.innerHTML = '';
+
+    let startIndex = (page - 1) * rowsPerPage;
+    let endIndex = startIndex + rowsPerPage;
+    let pageData = filteredQnaList.slice(startIndex, endIndex);
+
+    if (pageData.length === 0 && page > 1) {
+      currentPage -= 1;
+      renderTable(currentPage);
+      return;
+    }
+
+    pageData.forEach((item, index) => {
+      let row = document.createElement('tr');
+      row.classList.add('tr-click');
+      row.id = item.id;
+      row.innerHTML = `
+        <td>${filteredQnaList.length - startIndex - index}</td>
+        <td>${item.title}</td>
+        <td>${formatDate(item.created_at)}</td>
+        <td>${getMemberName(item.uid)}</td>
+        <td>${getStatusText(item)}</td>
+      `;
+
+      row.addEventListener('click', function () {
+        window.location.href = '/admin/admin_qnaDetail?id=' + item.id;
+      });
+
+      tableBody.appendChild(row);
     });
+
+    renderPagination();
+  }
+
+  function renderPagination() {
+    const paginationContainer = document.getElementById('pagination');
+    paginationContainer.innerHTML = '';
+
+    let totalPages = Math.ceil(filteredQnaList.length / rowsPerPage);
+
+    // 게시글이 없는 경우 페이징 숨기기
+    if (filteredQnaList.length === 0) {
+      paginationContainer.style.display = 'none';
+      return;
+    } else {
+      paginationContainer.style.display = 'flex';
+    }
+
+    if (totalPages === 0) totalPages = 1;
+
+    paginationContainer.innerHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+      <a class="page-link" href="#" onclick="changePage(1)">&laquo;</a></li>`;
+
+    paginationContainer.innerHTML += `<li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+      <a class="page-link" href="#" onclick="changePage(${currentPage - 1})">&lt;</a></li>`;
+
+    for (let i = 1; i <= totalPages; i++) {
+      paginationContainer.innerHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}">
+        <a class="page-link" href="#" onclick="changePage(${i})">${i}</a></li>`;
+    }
+
+    paginationContainer.innerHTML += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+      <a class="page-link" href="#" onclick="changePage(${currentPage + 1})">&gt;</a></li>`;
+
+    paginationContainer.innerHTML += `<li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+      <a class="page-link" href="#" onclick="changePage(${totalPages})">&raquo;</a></li>`;
+  }
+
+  function changePage(page) {
+    if (page < 1 || page > Math.ceil(filteredQnaList.length / rowsPerPage)) return;
+    currentPage = page;
+    renderTable(page);
+  }
+
+  function updateCount() {
+    let completed = qnaList.filter(item => item.endYn === 'Y').length;
+    let pending = qnaList.filter(item => item.state === 'Q').length;
+    let answered = qnaList.filter(item => item.state === 'A').length;
+
+    document.getElementById('count').textContent =
+            `총 ${qnaList.length}건 (문의 종료: ${completed} / 대기중: ${pending} / 답변 완료: ${answered - completed})`;
+  }
+
+  function getStatusText(item) {
+    return item.endYn === 'Y' ? '문의 종료' : (item.state === 'Q' ? '대기중' : '답변 완료');
+  }
+
+  document.getElementById('select_answer').addEventListener('change', function() {
+    let selectedValue = this.value;
+
+    filteredQnaList = qnaList.filter(item => {
+      return selectedValue === "0" || getStatusText(item) === getStatusTextValue(selectedValue);
+    });
+
+    currentPage = 1;
+    renderTable(currentPage);
   });
 
-  // 선택된 답변 상태에 해당하는 텍스트 반환
-  function getStatusText(value) {
+  function getStatusTextValue(value) {
     switch(value) {
       case "1": return "대기중";
       case "2": return "답변 완료";
@@ -147,52 +209,14 @@
     }
   }
 
-  // 클릭 시 상세 페이지로 이동
-  document.querySelectorAll('.tr-click').forEach(function(tr){
-    tr.addEventListener('click', function () {
-      let index = tr.id.trim();
-      window.location.href = '/admin/admin_qnaDetail?id=' + index;
-    });
-  });
-
-  // QnA 카운트 업데이트
-  function updateCounts() {
-	    // qnaList.content가 빈 배열이 아니라면 카운트 업데이트
-	    if (qnaList.content.length === 0) {
-      document.getElementById('count').textContent = "총 0건";
-    } else {
-      let completed = 0;
-      let pending = 0;
-      let answered = 0;
-
-      // qnaList.content 배열을 순회하면서 각 상태에 맞는 카운트 증가
-      qnaList.content.forEach(function(item) {
-        if (item.endYn === 'Y') {
-          completed++;
-        }
-        if (item.state === 'Q') {
-          pending++;
-        }
-        if (item.state === 'A') {
-          answered++;
-        }
-      });
-      
-      // 문의 종료는 완료된 답변을 제외한 '답변 완료' 상태로 처리
-      answered = answered - completed;
-	   // 총 카운트를 업데이트
-      document.getElementById('count').textContent = `총 ${qnaList.content.length}건 (문의 종료: ${completed} / 대기중: ${pending} / 답변 완료: ${answered})`;
-      }
-  }
-
-  // 페이지 로드 시 카운트 업데이트
   window.onload = function() {
-    console.log('QNA List:', qnaList); // qnaList 확인
-    updateCounts();  // 카운트 업데이트 함수 호출
+    updateCount();  // 전체 데이터 기준으로 count 업데이트
+    renderTable(currentPage);
   };
 </script>
 
-<div class="footers"></div> <!-- 이거 지우면 안됨 -->
+
+<div class="footers"></div>
 <th:block th:replace="layout/footer :: footerLayout"></th:block>
 </body>
 </html>

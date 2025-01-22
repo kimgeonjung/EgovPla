@@ -29,9 +29,9 @@ public class AutoAddLinkToApply {
 		} else if(modelName.equals("public_wifi")) {
 			String wifiFilePath = homeDir + modelName + "/" + fileName + ".json";
 			apply.setLink(wifiFilePath);
-		} else if(modelName.equals("shade")) {
-			String shadeFilePath = homeDir + modelName + "/" + fileName;
-			apply.setLink(shadeFilePath);
+		} else if(modelName.equals("canopy")) {
+			String canopyFilePath = homeDir + modelName + "/" + fileName + "_canopy_results.json";
+			apply.setLink(canopyFilePath);
 		} else {
 			System.out.println("모델 이름이 다릅니다.");
 		}

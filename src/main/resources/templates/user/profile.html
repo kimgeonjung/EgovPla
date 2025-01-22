@@ -55,8 +55,7 @@
         <th>아이디</th>
         <td>
           <div style="display: flex; align-items: center; gap: 10px;">
-            <input type="text" th:value="${my.loginId}" id="loginId" name="loginId" required/>
-            <button type="submit" id="loginId-btn" class="button btn-sm">ID 중복 확인</button>
+			<input type="text" th:value="${my.loginId}" id="loginId" name="loginId" readonly/>
           </div>
         </td>
       </tr>
@@ -125,12 +124,11 @@
 
                 <div class="form-group mb-3">
                   <label for="newPw" class="form-label">새 비밀번호</label>
-                  <input class="form-control input-width" type="password" id="newPw" name="newPw" placeholder="새 비밀번호를 입력하세요" required>
-                </div>
+				  <input class="form-control input-width" type="password" id="newPw" name="newPw" placeholder="새 비밀번호를 입력하세요" required oninput="validatePassword(this)">                </div>
 
                 <div class="form-group mb-3">
                   <label for="confirmPw" class="form-label">비밀번호 확인</label>
-                  <input class="form-control input-width" type="password" id="confirmPw" name="confirmPw" placeholder="새 비밀번호를 다시 입력하세요" required>
+                  <input class="form-control input-width" type="password" id="confirmPw" name="confirmPw" placeholder="새 비밀번호를 다시 입력하세요" required oninput="validateNewPasswordCheck(this)">
                 </div>
 
                 <div class="text-end">
@@ -151,50 +149,61 @@
 <script src="/js/changePw.js"></script>
 <script type="text/javascript">
   $(document).ready(function() {
-    $("#loginId-btn").on("click", function (e) {
-      e.preventDefault(); // Prevent form submission
+    $("#edit").on("click", function (event) {
+      event.preventDefault(); // 폼 제출 방지
 
-      var loginId = $("#loginId").val();
-      if (!loginId) {
-        alert("아이디를 입력해주세요.");
-        return;
+      var telInput = document.querySelector("input[name='tel']");
+      var nameInput = document.querySelector("input[name='name']");
+
+      // 유효성 검증 함수 실행
+      validateTel(telInput);
+      validateName(nameInput);
+
+      // 유효성 확인 후 처리
+      if (!telInput.checkValidity()) {
+        telInput.reportValidity();
+        return false;
       }
-      if (loginId.length < 5) {
-        $("#loginId-btn").removeClass('btn-outline-primary')
-                .addClass('btn-outline-danger')
-                .text("ID는 최소 5자 이상")
-        $("#edit")
-                .addClass('disabled') // 비활성화 스타일 추가
-                .css('pointer-events', 'none') // 클릭 비활성화
-                .css('opacity', '0.65') // 시각적으로 비활성화 표시
-                .attr('aria-disabled', 'true'); // 접근성 속성 추가
+      if (!nameInput.checkValidity()) {
+        nameInput.reportValidity();
         return false;
       }
 
-      $.ajax({
-        url: "/profile/checkLoginId",
-        type: "GET",
-        data: { loginId: loginId },
-        success: function(response) {
-          alert(response); // Display the response from the server
-          $("#edit")
-                  .removeClass('disabled') // 비활성화 스타일 제거
-                  .css('pointer-events', 'auto') // 클릭 활성화
-                  .css('opacity', '1') // 원래 상태로 복원
-                  .removeAttr('aria-disabled'); // 접근성 속성 제거
-        },
-        error: function() {
-          alert("아이디 중복 확인 실패");
-        }
-      });
-    });
-    $("#edit").on("click", function () {
+
+      // 폼 제출 처리
       var frm = $("#frm")[0];
       frm.action = "/profile/updateProfile";
       frm.submit();
     });
-  });
+  })
+    $(document).ready(function () {
+      $("#changePwBtn").on("click", function (event) {
+        event.preventDefault(); // 폼 제출 방지
+
+        var newPwInput = document.querySelector("#newPw");
+        var confirmPwInput = document.querySelector("#confirmPw");
+
+        // 비밀번호 및 비밀번호 확인 유효성 검사
+        validateNewPassword(newPwInput);
+        validateNewPasswordCheck(confirmPwInput);
+
+        // 유효성 확인 후 제출 방지
+        if (!newPwInput.checkValidity()) {
+          newPwInput.reportValidity();
+          return false;  // 새 비밀번호가 유효하지 않으면 제출 차단
+        }
+
+        if (!confirmPwInput.checkValidity()) {
+          confirmPwInput.reportValidity();
+          return false;  // 비밀번호 확인이 유효하지 않으면 제출 차단
+        }
+
+        // 모든 검증을 통과하면 폼 제출
+        $("#ch-pw").submit();
+      });
+    });
 </script>
+
 </div>
 <div class="footers"></div> <!-- 이 부분은 지우지 말아야 합니다. -->
 <th:block th:replace="layout/footer :: footerLayout"></th:block>

@@ -60,11 +60,11 @@
                                                                         #strings.endsWith(file.fileName, '.jpeg') or
                                                                         #strings.endsWith(file.fileName, '.png') or
                                                                         #strings.endsWith(file.fileName, '.gif'))}"
-                       style="display: flex; align-items: center; gap: 10px;">
+                       style="display: flex; align-items: center; gap: 5px;">
 				   <a th:href="@{/download(filename=${file.fileName})}" download>
                        <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
                    </a>                    
-                   <p th:text="${file.fileName}" style="margin: 0;"></p>
+                   <p th:text="${file.fileName}" style="margin: 0; font-size: 20px;"></p>
                   </div>
                 </div>
               </td>

@@ -36,6 +36,10 @@ public class ApplyService {
         return createPage(list, pageable);
     }
     
+    public List<Apply> totalApplies(AuthInfo authInfo, String request) {
+        return applyRepository.findAllByUidAndRequestOrderByCreatedAtDesc(authInfo.getId(), request);
+    }
+    
     public List<Apply> needAnswer() {
         return applyRepository.findAllByCompletedYnOrderByIdAsc('N');
     }

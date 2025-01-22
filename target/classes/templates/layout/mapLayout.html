@@ -41,8 +41,8 @@
         <button onclick="toggleMenu()" data-tooltip="메뉴 닫기"><img src="/images/left.svg" style="width: 20px; height: 20px"></button> <!-- 닫기 버튼 -->
       </div>
       <div class="swap-button">
-        <button id="btn-gwangju">광주</button>
-        <button id="btn-cheonan">천안</button>
+        <button id="btn-gwangju" value="gwangju">광주</button>
+        <button id="btn-cheonan" value="cheonan">천안</button>
       </div>
       <div class="menu-search">
         <input class="layer-search" id="layer-search" type="text" placeholder="레이어 검색..."> <!-- 검색창 -->
@@ -1833,7 +1833,7 @@
     <div class="tabs" id="gwangju_tab">
       <button class="tab-button active" data-tab="public_wifi-tab">공공 와이파이</button>
       <button class="tab-button" data-tab="library-tab">도서관</button>
-      <button class="tab-button" data-tab="shade-tab">무더위 그늘막</button>
+      <button class="tab-button" data-tab="canopy-tab">무더위 그늘막</button>
       <button class="tab-button" data-tab="kiosk-tab">무인 발급기</button>
     </div>
     
@@ -1895,7 +1895,7 @@
 	      </div>
 	<!-- 도서관 / 버스 정류장 가중치 -->
       <div style="margin-bottom: 10px;">
-        <label for="" style="font-weight: bold;">도서관 / 버스 정류장 (가중치):</label>
+        <label for="library-slider" style="font-weight: bold;">도서관 / 버스 정류장 (가중치):</label>
         <div style="display: flex; align-items: center; justify-content: center;">
           <span style="margin-right: 10px;">도서관</span>
           <span id="library-weight-display">0.7</span>
@@ -1930,16 +1930,51 @@
       </div>
 	</div>
 	
-    <div class="tab-content" id="shade-tab" style="display: none;">
-    	<input type="text" placeholder="--" id="input-tab3-1" />
-      <input type="text" placeholder="--" id="input-tab3-2" />
-      <input type="text" placeholder="--" id="input-tab3-3" />
+    <div class="tab-content" id="canopy-tab" style="display: none;">
+      <!-- 새로 만들 그늘막 개수 -->
+      <div style="margin-bottom: 10px;">
+        <label for="--num_new_canopies" style="font-weight: bold;">새로 만들 그늘막 개수:</label>
+        <input type="number" placeholder="기본값 1" id="--num_new_canopies" min="1" />
+      </div>
+      <!-- 표출할 상위 개수 -->
+      <div style="margin-bottom: 10px;">
+        <label for="--coverage_radius" style="font-weight: bold;">커버 가능한 크기:</label>
+        <input type="number" placeholder="기본값 1.0km" id="--coverage_radius" min="1" />
+      </div>
+      <!-- 도서관 / 버스 정류장 가중치 -->
+      <div style="margin-bottom: 10px;">
+        <label style="font-weight: bold;">온도 / 접근성 (가중치):</label>
+        <div style="display: flex; align-items: center; justify-content: center;">
+          <span style="margin-right: 10px;">온도</span>
+          <span id="temperature-weight">0.5</span>
+          <input
+                  type="range"
+                  id="canopy--alpha"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value="0.5"
+                  style="flex: 1; margin: 10px; padding: 0"
+                  oninput="updateTab2Weights()"
+          />
+          <span style="margin-right: 10px;">접근성</span>
+          <span id="canopy-accessibility-weight">0.5</span>
+        </div>
+      </div>
+      <!-- 도움말 -->
+      <div class="help-icon">
+        <img src="/images/help-mark.svg" style="width: 15px;" height="15px;"><span>도움말</span>
+        <div class="tooltip-left">
+          - 새로 만들 그늘막 개수 &lt;&lt; 새로 만들 그늘막 개수를 입력합니다.(기본값 1)<br />
+          - 커버 가능한 크기 &lt;&lt; 그늘막이 시원함을 제공하는 거리를 의미합니다. 값을 키우면 넓은 지역을 커버하지만, 효과가 약해질 수 있습니다. 값을 줄이면 좁은 지역에 집중해서 설치가능합니다. (기본값 1.0km)<br />
+          - 온도 / 접근성 &lt;&lt; 더 중요시하는 쪽으로 옮겨 주세요 결과에 반영됩니다. 온도가 높을수록 더운곳에 집중하고 접근성이 높을수록 사람들의 쉽게 올 수 있는 곳을 중요시합니다.(기본값 0.5 : 0.5)
+        </div>
+      </div>
     </div>
-    
     <div class="tab-content" id="kiosk-tab" style="display: none;">
     <!-- 처리방식 -->
       <div style="margin-bottom: 10px;">
-        <label for="input-tab4-1" style="font-weight: bold;">처리방식:</label>
+        <label for="select-tab4-1" style="font-weight: bold;">처리방식:</label>
         <select data-name="--mode" id="select-tab4-1">
           <option value="parallel">병렬처리</option> <!-- 기본값 -->
           <option value="sequential">순차처리</option>
@@ -2098,7 +2133,7 @@ $(document).ready(function () {
         $(`#${targetTab}`).show();
     });
 
- // 제출 버튼 클릭 이벤트
+ 	// 제출 버튼 클릭 이벤트
     $("#submit-button").click(function (e) {
         e.preventDefault();
         
@@ -2114,8 +2149,8 @@ $(document).ready(function () {
         if (activeTab.name === "library") {
             const libraryWeight = parseFloat($("#library-slider").val());
             const busWeight = (1.0 - libraryWeight).toFixed(1);
-            let numNewLibraries = $("#new-libraries").val().trim() || 1; // 기본값 1
-            let topN = $("#top-n-libraries").val().trim() || 5; // 기본값 5
+            let numNewLibraries = ($("#new-libraries").val() || "").trim() || 1;  // 기본값 1
+            let topN = ($("#top-n-libraries").val() || "").trim() || 5;  // 기본값 5
 
             // 클라이언트 측 유효성 검사
             if (isNaN(numNewLibraries) || numNewLibraries < 1 || numNewLibraries > 100) {
@@ -2152,9 +2187,9 @@ $(document).ready(function () {
             });
 
         } else if (activeTab.name === "public_wifi") {
-            let alpha = $("#wifi--alpha").val().trim() || 0.5;  // 기본값 0.5
-            let newWifi = $("#new-wifi").val().trim() || 5;  // 기본값 5
-            let repeatNum = $("#repeat-num").val().trim() || 10000;  // 기본값 10000
+        	let alpha = ($("#wifi--alpha").val() || "").trim() || 0.5;  // 기본값 0.5
+        	let newWifi = ($("#new-wifi").val() || "").trim() || 5;  // 기본값 5
+        	let repeatNum = ($("#repeat-num").val() || "").trim() || 10000;  // 기본값 10000
 
             // 클라이언트 측 유효성 검사
             if (isNaN(alpha) || alpha < 0 || alpha > 1) {
@@ -2173,6 +2208,33 @@ $(document).ready(function () {
             activeTab.params.push({ name: "--alpha", value: alpha });
             activeTab.params.push({ name: "--newap", value: newWifi });
             activeTab.params.push({ name: "--ngen", value: repeatNum });
+
+        } else if (activeTab.name === "canopy") {
+          let numNewCanopies = ($("#--num_new_canopies").val() || "").trim() || 1;  // 기본값 1
+          let coverageRadius = ($("#--coverage_radius").val() || "").trim() || 1.0;  // 기본값 1.0
+          let alpha = ($("#shade--alpha").val() || "").trim() || 0.5;  // 기본값 0.5
+
+          // 클라이언트 측 유효성 검사
+          let isValid = true;
+
+          if (isNaN(numNewCanopies) || numNewCanopies < 1 || numNewCanopies > 100) {
+            alert("새로 만들 그늘막 개수는 1~100 사이의 값을 입력해야 합니다.");
+            isValid = false;
+          }
+          if (isNaN(coverageRadius) || coverageRadius <= 0 || coverageRadius > 10) {
+            alert("커버 가능한 크기는 0~10 사이의 값을 입력해야 합니다.");
+            isValid = false;
+          }
+          if (isNaN(alpha) || alpha < 0 || alpha > 1) {
+            alert("알파 값은 0~1 사이의 값을 입력해야 합니다.");
+            isValid = false;
+          }
+
+          if (isValid) {
+            activeTab.params.push({ name: "--num_new_canopies", value: numNewCanopies });
+            activeTab.params.push({ name: "--coverage_radius", value: coverageRadius });
+            activeTab.params.push({ name: "--alpha", value: alpha });
+          }
         }
 
         // 클라이언트 유효성 검사 실패 시 종료
@@ -2183,13 +2245,15 @@ $(document).ready(function () {
 
         // 서버 측 유효성 검사 요청
         const commandParams = activeTab.params.map(param => `${param.name} ${param.value}`).join(" ");
-
+        console.log("명령어 파라미터:", commandParams);
+        
         $.ajax({
-            url: `/api/validation`,
+            url: `/api/validation/${activeTab.name}`,
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify({ params: commandParams }),
             success: function (validationResponse) {
+            	console.log("서버 응답: ", validationResponse);
                 if (validationResponse.valid) {
                     // 서버 측 검증 통과 후 분석 요청
                     $.ajax({

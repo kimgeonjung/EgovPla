@@ -2,6 +2,7 @@ package pla.controller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -137,9 +138,11 @@ public class AdminController {
 
     @GetMapping("/admin/admin_qna")
     public String qnaList(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable, HttpSession session) {
-    	AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-    	model.addAttribute("now", getCurrentTime());
-        model.addAttribute("qna", qnARepository.findAll());
+        AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;  // ISO 8601 표준 포맷 적용
+        model.addAttribute("now", now.format(formatter));
+        model.addAttribute("qna", qnAListRepository.findAll());
         model.addAttribute("qnaList", qnaService.getInquiries(authInfo, pageable));
         model.addAttribute("member", memberRepository.findAll());
         return "admin/admin_qna";
@@ -232,10 +235,10 @@ public class AdminController {
     // -------------------------------------------
 
     @GetMapping("/admin/admin_apply")
-    public String apply(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable,HttpSession session) {
-        AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-        Page<Apply> applies = applyService.getApplies(authInfo, pageable, "none"); // 관리자는 request 상관없음
-        model.addAttribute("count", applies.stream().count());
+    public String apply(Model model,HttpSession session) {
+    	AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
+        List<Apply> applies = applyRepository.findAll();
+        model.addAttribute("count", applies.size());
         model.addAttribute("applies", applies);
         model.addAttribute("now", getCurrentTime());
         return "admin/admin_apply";

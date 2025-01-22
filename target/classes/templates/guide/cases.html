@@ -19,10 +19,59 @@
       <a href="/cases" class="cases-link">분석 사례</a> <!-- QNA 페이지로 이동 -->
     </div>
   </div>
-</div>
-<div class="footers"></div> <!-- 이 부분은 지우지 말아야 합니다. -->
-<th:block th:replace="layout/footer :: footerLayout"></th:block>
 
+
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <h1>공공복합시설 입지분석 분석 사례</h1>
+    <p>공공복합시설의 입지 선정 과정에서 실제 데이터를 활용한 다양한 분석 사례를 제공합니다.<br>
+      이 사례들은 데이터 기반의 의사결정 과정을 명확하게 보여주고 최적의 입지 선정 방안을 도출하는 데 기여합니다.<br>
+      이를 통해 공공 서비스의 접근성을 향상시키고 운영 효율성을 극대화하고 지역 특성에 맞춘 맞춤형 전략을 수립할 수 있습니다.</p>
+  </div>
+
+  <!-- 다양한 정보 활용 섹션 -->
+  <div class="section">
+    <div class="resources">
+      <div class="resource-item">
+        <p>분석을 신청하고 싶은 지역과 데이터를 설정하고 새로만들 갯수를 설정하고 분석버튼을 누르면 됩니다.</p>
+        <img src="/images/분석신청.png" alt="데이터 기반 분석" style="width: 100%;  margin-bottom: 15px;">
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 다양한 정보 활용 섹션 -->
+  <div class="section">
+    <div class="resources">
+      <div class="resource-item">
+        <p>분석을 신청한 후 시간이 지나면 기본입지분석 페이지에 결과가 나타납니다.</p>
+        <img src="/images/기본입지분석.png" alt="데이터 기반 분석" style="width: 100%;  margin-bottom: 15px;">
+      </div>
+    </div>
+  </div>
+
+  <!-- 다양한 정보 활용 섹션 -->
+  <div class="section">
+    <div class="resources">
+      <div class="resource-item">
+        <p>분석이 완료 되면 총 3가지파일로 저장이 되고 결과화면까지 볼 수 있습니다.</p>
+        <img src="/images/분석결과페이지.png" alt="데이터 기반 분석" style="width: 100%; margin-bottom: 15px;">
+      </div>
+    </div>
+  </div>
+
+  <!-- 다양한 정보 활용 섹션 -->
+  <div class="section">
+    <div class="resources">
+      <div class="resource-item">
+        <p>분석 결과 페이지 - 분석할때 지정한 새로만들어야하는 갯수 만큼 우선 순우 핀이 뜹니다. </p>
+        <img src="/images/분석사례결과.png" alt="데이터 기반 분석" style="width: 100%;  margin-bottom: 15px;">
+      </div>
+    </div>
+  </div>
+
+
+</div>
 <script>
   // 현재 URL 경로 가져오기
   const currentPath = window.location.pathname;
@@ -37,5 +86,7 @@
     }
   });
 </script>
+<div class="footers"></div> <!-- 이 부분은 지우지 말아야 합니다. -->
+<th:block th:replace="layout/footer :: footerLayout"></th:block>
 </body>
 </html>

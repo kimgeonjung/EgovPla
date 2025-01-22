@@ -90,17 +90,6 @@ html, body {
     background-color: #f1f1f1;
 }
 
-/* 첫 번째 열과 마지막 열의 테두리 제거 */
-.admin5-post-table td:first-child,
-.admin5-post-table th:first-child {
-    border-left: none;
-}
-
-.admin5-post-table td:last-child,
-.admin5-post-table th:last-child {
-    border-right: none;
-}
-
 /* 테이블 열 너비 */
 .admin5-post-table th:nth-child(1),
 .admin5-post-table td:nth-child(1) {
@@ -240,5 +229,25 @@ a:hover {
     min-height: 100%;
     position: relative;
     padding-bottom: 60px;
-    margin-bottom: 100px; /* 페이징과 푸터 간의 간격 */
+    margin-bottom: 100px;
+}
+
+/* -------------------------------------------
+   답변 선택, 카운트
+------------------------------------------- */
+/* 답변 상태와 총 0건을 같은 라인에 배치 */
+#qnaForm {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 항목 간 간격 설정 */
+}
+
+/* '총 0건'을 오른쪽으로 정렬하고 폰트 크기 16px로 설정 */
+.answer-status-container {
+    margin-left: auto; /* 오른쪽 정렬 */
+}
+
+.admin5-count {
+    font-size: 16px; /* 폰트 크기 16px */
+    margin: 0; /* 기본 여백 제거 */
 }
