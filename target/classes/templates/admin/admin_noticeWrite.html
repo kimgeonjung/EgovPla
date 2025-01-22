@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>공지사항 작성</title>
-  <link rel="stylesheet" href="/css/inquiryInsertForm.css">
+  <link rel="stylesheet" href="/css/admin/admin-notice-write.css">
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 <th:block th:replace="admin/adminHeader :: headerLayout"></th:block>
-<div class="insert-form ft">
-  <div class="main-container">
-    <div class="main-title">
+<div class="ft">
+  <div class="admin1-main-container">
+    <div class="admin1-main-title">
       <h1>공지사항 작성</h1>
-      <div class="split--div-post"></div>
+      <div class="admin1-split-div-post"></div>
     </div>
     <div>
       <form th:action="@{/admin/createNotice}" method="post" enctype="multipart/form-data">
@@ -29,10 +29,9 @@
           <label for="file">파일 업로드:</label>
           <input type="file" id="file" name="files" multiple><br><br>
         </div>
-        <div class="form-actions">
-          <button type="submit">작성완료</button>
-          <button type="button" onclick="window.location.href='/admin/admin_notice';">취소</button>
-        </div>
+        <div class="admin-form-actions">
+          <button type="submit"  class="admin-submit-button" >작성완료</button>
+          <button type="button"  class="admin-cancel-button"  onclick="window.location.href='/admin/admin_notice';">취소</button>        </div>
       </form>
     </div>
   </div>

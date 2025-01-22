@@ -177,10 +177,26 @@ html, body {
 }
 
 .menu-search input {
-    width: calc(100% - 20px);
+    width: calc(80% - 20px);
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 3px;
+}
+
+/* 초기화버튼 */
+.reset-button {
+    padding: 5px 15px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #f44336; /* 빨간색 배경 */
+    color: white; /* 흰색 글씨 */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.reset-button:hover {
+    background-color: #d32f2f; /* 마우스 오버 시 더 어두운 빨간색 */
 }
 
 /* 메뉴 리스트 스타일 */
@@ -424,7 +440,7 @@ html, body {
     border-top-left-radius: 10px; /* 왼쪽 상단 모서리 둥글게 */
     border-top-right-radius: 10px; /* 오른쪽 상단 모서리 둥글게 */
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     padding: 10px;
     background-color: #f0f0f0;
@@ -432,15 +448,16 @@ html, body {
 }
 
 .cancel-image {
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%); /* 자신의 크기만큼 이동 */
+    position: relative;
+    margin-left: auto;
     width: 20px;
     height: 20px;
+    cursor: pointer;
 }
 
 .layer-header span {
-    margin-right: 15px;
+    margin-left: 10px; /* 왼쪽 여백 추가 */
+    margin-right: auto; /* 자동 마진을 통해 왼쪽 정렬 */
 }
 
 /* 카테고리 전체 스타일 */
@@ -448,7 +465,6 @@ html, body {
     padding: 5px;
     background-color: #f8f9fa; /* 배경색 */
     border-radius: 8px; /* 모서리 둥글게 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 약간의 그림자 */
 }
 
 .menu-category h1 {
@@ -569,9 +585,12 @@ button[data-tooltip2]::after {
     padding: 20px;
     font-family: Arial, sans-serif;
     font-size: 14px;
-    z-index: 1000;
+    z-index: 2000;
     border-radius: 10px; /* 모서리 둥글게 */
     min-height: 120px; /* 최소 높이 2배 증가 */
+    max-height: 400px; /* 모달 최대 높이 설정 */
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 생성 */
+
 }
 
 .modal .modal-close {
@@ -805,4 +824,11 @@ button[data-tooltip2]::after {
 /* 도움말 텍스트에 마우스를 올릴 때 설명 표시 */
 .help-icon:hover .tooltip-left {
     display: block;
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1010;
 }

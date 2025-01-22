@@ -3,37 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <title>FAQ</title>
-  <link rel="stylesheet" href="/css/notice.css">
-<!--  <link rel="stylesheet" href="/css/faqList.css">-->
+  <link rel="stylesheet" href="/css/admin/admin-faq.css">
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 <th:block th:replace="admin/adminHeader :: headerLayout"></th:block>
 <div class="ft">
-  <div class="container">
-    <div class="main-title">
-      <h1>FAQ 목록</h1>
+  <div class="admin7-list-container">
+    <div class="admin7-main-tihome">
+      <div class="admin7-main-title">
+        <h1 class="admin7-list-title">FAQ 목록</h1>
+        <div class="admin7-split-div-post"></div>
+      </div>
     </div>
     <div class="split--div-post"></div>
-    <table class="post-table">
+    <table class="admin7-post-table">
       <thead>
-      <tr class="post-tbody-tr">
-        <th class="title">제목</th>
+      <tr class="admin7-post-tbody-tr">
+        <th>제목</th>
       </tr>
       </thead>
-      <tbody class="post-tbody-tr1">
-        <th:block  th:if="${#lists.size(faqs)} > 0" th:each="faq, stat : ${faqs}">
-          <tr class="post-tbody-tr2" th:id="${faq.id}">
-            <td class="title"><a href="/admin/admin_faqDetail?id=" th:attrappend="href=${faq.id}" th:text="${faq.title}"></a></td>
-          </tr>
-        </th:block>
+      <tbody>
+      <th:block  th:if="${#lists.size(faqs)} > 0" th:each="faq, stat : ${faqs}">
+        <tr class="post-tbody-tr2" th:id="${faq.id}">
+          <td class="title"><a href="/admin/admin_faqDetail?id=" th:attrappend="href=${faq.id}" th:text="${faq.title}"></a></td>
+        </tr>
+      </th:block>
       </tbody>
     </table>
-    <a th:href="@{/admin/admin_faqWrite}" class="write-button">글쓰기</a>
+    <a th:href="@{/admin/admin_faqWrite}" class="admin7-write-button">글쓰기</a>
   </div>
   <!-- 페이징 -->
-  <div th:if="${faqs != null and !faqs.isEmpty()}">
+  <div th:if="${faqs != null and !faqs.isEmpty()}" class="text-center">
     <!-- 전역 변수 선언 -->
     <nav
             th:with="pageNumber = ${faqs.pageable.pageNumber}, pageSize = ${faqs.pageable.pageSize},totalPages = ${faqs.totalPages},startPage = ${T(java.lang.Math).floor(pageNumber / pageSize) * pageSize + 1},tempEndPage = ${startPage + pageSize - 1},endPage = (${tempEndPage < totalPages ? tempEndPage : totalPages})"
@@ -74,7 +76,7 @@
         </li>
       </ul>
     </nav>
-  </div> <!-- /container -->
+  </div>
 </div>
 <div class="footers"></div> <!-- 이거 지우면 안됨 -->
 <th:block th:replace="layout/footer :: footerLayout"></th:block>
@@ -86,5 +88,7 @@
     })
   })
 </script>
+<div class="footers"></div> <!-- 이거 지우면 안됨 -->
+<th:block th:replace="layout/footer :: footerLayout"></th:block>
 </body>
 </html>

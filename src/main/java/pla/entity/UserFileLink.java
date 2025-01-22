@@ -21,9 +21,9 @@ public class UserFileLink {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // 고유 식별자
 
-    private String fileLink;
+    private String fileLink; // 파일 링크
 
-    private Long uid;
+    private Long uid; // 사용자 아이디
 
-    private Long applyId;
+    private Long applyId; // apply 고유 식별자
 }

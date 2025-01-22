@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>기본 지도</title>
     <!-- Leaflet CSS 파일 포함 -->
-    <link rel="stylesheet" href="/css/mapOptionLayer.css">
+    <link rel="stylesheet" href="/css/map/mapOptionLayer.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script type="text/javascript"
             src="https://map.vworld.kr/js/vworldMapInit.js.do?version=2.0&apiKey=8A69FB7A-6E07-3B76-B2F2-1D1FEF0E5781"></script>
@@ -71,17 +71,35 @@
             const submenu = menuItem.nextElementSibling;
 
             if (submenu && submenu.tagName === "UL") {
-                // 하위 메뉴의 <li> 개수 카운트
-                const itemCount = submenu.querySelectorAll("li").length;
+                // 하위 메뉴의 체크박스 개수 카운트
+                const checkboxCount = submenu.querySelectorAll("input[type='checkbox']").length;
 
                 // 카운트 뱃지 생성
                 const badge = document.createElement("span");
                 badge.className = "menu-badge";
-                badge.textContent = itemCount;
+                badge.textContent = checkboxCount;
 
                 // 메뉴 항목에 뱃지를 추가
                 menuItem.appendChild(badge);
             }
+        });
+        const listItems = document.querySelectorAll("li");
+        listItems.forEach((li) => {
+            // 클릭 이벤트 추가
+            li.addEventListener("click", function (event) {
+                // li의 바로 하위에 있는 체크박스를 찾음
+                const checkbox = li.querySelector(":scope > input[type='checkbox']");
+                // 체크박스가 존재하고, 클릭한 요소가 체크박스가 아닐 경우에만 실행
+                if (checkbox && event.target !== checkbox) {
+                    // 체크박스 상태 토글
+                    checkbox.checked = !checkbox.checked;
+                    // 체크박스 클릭 이벤트 강제 실행 (기존 이벤트 호출)
+                    const changeEvent = new Event("change", { bubbles: true });
+                    checkbox.dispatchEvent(changeEvent);
+                }
+                // 이벤트 버블링 방지 (하위 <li> 클릭 시 상위 <li> 영향을 방지)
+                event.stopPropagation();
+            });
         });
     });
 
@@ -381,7 +399,7 @@
         { id: 'gwangju_population_70y_2024_10', name: '70대' },
         { id: 'gwangju_population_80y_2024_10', name: '80대' },
         { id: 'gwangju_population_90y_2024_10', name: '90대' },
-        { id: 'gwangju_population_all_2024_10', name: '모든연령대' },
+        { id: 'gwangju_population_all_2024_10', name: '전체연령대' },
         { id: 'gwangju_dong', name: '동계' },
         { id: 'gwangju_gu', name: '구계' },
         { id: 'gwangju_library', name: '도서관' },
@@ -448,7 +466,7 @@
         { id: 'cheonan_population_60y_2024_10', name: '60대' },
         { id: 'cheonan_population_70y_2024_10', name: '70대' },
         { id: 'cheonan_population_80y_2024_10', name: '80대' },
-        { id: 'cheonan_population_all', name: '모든연령대' },
+        { id: 'cheonan_population_all', name: '전체연령대' },
         { id: 'cheonan_si', name: '전체' },
         { id: 'cheonan_toji_character_live', name: '거주' },
         { id: 'cheonan_toji_character_industry', name: '공업' },
@@ -1114,6 +1132,12 @@
         category = 'all';
         submenuList2.forEach((li) => li.classList.remove('hidden'));
     }); 
+    // 레이어 초기화버튼 클릭시
+    document.getElementById('btn-reset').addEventListener('click', function(){
+        document.getElementById('layer-search').value = ''; // 검색창 초기화
+        resetToInitialState();
+        filterList(); // 검색 결과 갱신
+    });
     // 지도 생성
     var map = L.map('map',{zoomControl: false}).setView([35.1595, 126.8526], 13); // 위도, 경도, 줌 레벨 설정
 
@@ -1245,7 +1269,7 @@
                     // 데이터를 처리할 컨테이너
                     const modal = document.getElementById('modal');
                     const modalContent = document.getElementById('modal-content');
-                    let contentHtml = '';
+                    let contentHtml = '<table>';
                     let modal_names = [];
                     const ucb_data = {
                             "1110": "물을 이용하여 벼를 재배하기 위한 토지로 수로가 용수를 공급하는 경지 정리",
@@ -1348,9 +1372,9 @@
                                 additionalInfo = `${result.data.features[0].properties.name}`;
                             } else if (displayName === "열지도") {
                                 additionalInfo = `${result.data.features[0].properties.dd}`;
-                            } else if (displayName === "교통현황" && result.data.features[0].properties.dd) {
+                            } else if (displayName === "교통현황" && result.data.features[0].properties.c1) {
                                 let c1 = result.data.features[0].properties.c1;
-                                c1 = c1.replace("광주광역시", "").trim();  // "광주광역시" 제거하고 앞뒤 공백 제거
+                                c1 = c1.replace("광주광역시", "").trim();
                                 additionalInfo = `${c1}`;
                             } else if (displayName === "건물 현황" && result.data.features[0].properties.a29) {
                                 let a27 = result.data.features[0].properties.a27;
@@ -1362,7 +1386,7 @@
                                 layerName = layerName.replace("ne:gwangju_population_", "").trim();
                                 layerName = layerName.replace("_2024_10", "").trim();
                                 if(layerName ==="all"){
-                                    layerName = "모든 연령대";
+                                    layerName = "전체 연령대";
                                 } else if(layerName ==="10c"){
                                     layerName = "초등학생";
                                 } else if ( layerName ==="10j"){
@@ -1392,7 +1416,7 @@
                                 layerName = layerName.replace("ne:cheonan_population_", "").trim();
                                 layerName = layerName.replace("_2024_10", "").trim();
                                 if(layerName ==="all"){
-                                    layerName = "모든 연령대";
+                                    layerName = "전체 연령대";
                                 } else if(layerName ==="10c"){
                                     layerName = "초등학생";
                                 } else if ( layerName ==="10j"){
@@ -1463,8 +1487,9 @@
                                 };
                                 let ucbName = ucbNames[ucb] || "알 수 없음";  // 해당 코드가 없으면 "알 수 없음" 표시
                                 additionalInfo = `${ucbName}`;
-                            } else if (displayName === "토지 소유 정보" && result.data.features[0].properties.a8) {
-                                additionalInfo = `${result.data.features[0].properties.a8}`;
+                            } else if (displayName === "토지 소유 정보") {
+                                const a8Value = result.data.features[0].properties.a8;
+                                additionalInfo = a8Value ? `${a8Value}` : "기타";
                             } else if (displayName === "토지 특성 공간" && result.data.features[0].properties.a13) {
                                 let landUse = result.data.features[0].properties.a13;
                                 const landUseType = {
@@ -2233,9 +2258,18 @@
                                     displayName: displayName
                                 });
                             }
-                            contentHtml += `<h3 id="${result.layerName}">${displayName} : ${additionalInfo} </h3>`;
+                            contentHtml += `<tr id="${result.layerName}">
+                                <th>${displayName}</th>
+                                <td>${additionalInfo}</td>
+                             </tr>`
                         }
                     });
+                    contentHtml += `</table>`;
+                    
+                    console.log(contentHtml)
+                    if(contentHtml === '<table></table>'){
+                        contentHtml = null;
+                    }
 
                     var data_list = [];
                     for (let i = 0; i < results.length; i++) {  // let을 사용하여 i를 정의
@@ -2343,9 +2377,10 @@
                                         console.log("건물 현황");
                                     } else if (table_type === "인구") {
                                         const properties = result.data.features[0].properties;
+                                        const val = parseInt(properties.val, 10);
                                         layerDataHtml += `<table>
                                                             <tr><th>거주 인원</th><th>위도</th><th>경도</th></tr>
-                                                            <tr><td>${properties.val}</td><td>${properties.lat}</td><td>${properties.lon}</td></tr>
+                                                            <tr><td>${val}</td><td>${properties.lat}</td><td>${properties.lon}</td></tr>
                                                           </table>`
                                         console.log(properties)
                                         console.log("인구");
@@ -2375,12 +2410,16 @@
                                         console.log("토지 이용현황");
                                     } else if (table_type === "토지 소유 정보") {
                                         const properties = result.data.features[0].properties;
+                                        let ownerRow = '';
+                                        if (properties.a8 !== null && properties.a8 !== undefined) {
+                                            ownerRow = `<tr><th>소유자</th><td>${properties.a8}</td></tr>`;
+                                        }
                                         layerDataHtml += `<table>
                                             <tr><th>주소</th><td>${properties.a2} ${properties.a5}</td></tr>
-                                            <tr><th>소유자</th><td>${properties.a8}</td></tr>
+                                            ${ownerRow} <!-- 소유자 정보가 있을 경우에만 해당 행이 포함됩니다. -->
                                             <tr><th>지목</th><td>${properties.a20}</td></tr>
                                             <tr><th>토지 면적</th><td>${properties.a22}m²</td></tr>
-                                          </table>`
+                                          </table>`;
                                         console.log(properties)
                                         console.log("토지 소유 정보");
                                     } else if (table_type === "토지 특성 공간") {
@@ -2477,12 +2516,32 @@
     fullscreenButton.addEventListener('click', () => {
         if (mapContainer.requestFullscreen) {
             mapContainer.requestFullscreen(); // 표준 API
+            fullscreenButton.classList.add('active');
         } else if (mapContainer.webkitRequestFullscreen) {
             mapContainer.webkitRequestFullscreen(); // Safari
+            fullscreenButton.classList.add('active');
         } else if (mapContainer.msRequestFullscreen) {
             mapContainer.msRequestFullscreen(); // IE/Edge
+            fullscreenButton.classList.add('active');
         } else {
             alert('전체화면 API가 지원되지 않는 브라우저입니다.');
+        }
+    });
+    
+    // 전체화면 변경 감지 이벤트 (ESC로 나왔을 때도 감지)
+    document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement) {
+            fullscreenButton.classList.remove('active');
+        }
+    });
+    document.addEventListener('webkitfullscreenchange', () => {
+        if (!document.webkitFullscreenElement) {
+            fullscreenButton.classList.remove('active');
+        }
+    });
+    document.addEventListener('msfullscreenchange', () => {
+        if (!document.msFullscreenElement) {
+            fullscreenButton.classList.remove('active');
         }
     });
 

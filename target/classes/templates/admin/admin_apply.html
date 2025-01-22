@@ -3,39 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <title>관리자 페이지</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> <!-- Bootstrap 스타일 -->
+  <link rel="stylesheet" href="/css/admin/admin-apply.css">
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/footer.css">
-  <link rel="stylesheet" href="/css/adminapply.css">
 </head>
 <body>
 <th:block th:replace="admin/adminHeader :: headerLayout"></th:block>
 
 <!-- 본문 내용 시작 -->
 <div class="ft">
-  <div class="container">
-    <!-- 페이지 제목 -->
-    <div class="main--tihome">
-      <div class="main--title">
-        <h1 class="adminapply-title">분석 신청 목록</h1>
-      <div class="split--div-post"></div> <!-- 구분선 -->
+  <div class="admin3-list-container">
+    <div class="admin3-main-tihome">
+      <div class="admin3-main-title">
+        <h1 class="admin3-apply-title">분석 신청 목록</h1>
+        <div class="admin3-split-div-post"></div> <!-- 구분선 -->
       </div>
     </div>
 
-    <h1 class="count" id="count"> 총 0건</h1>
+<!--    <h1 class="admin3-count" id="count"> 총 0건</h1>-->
 
     <div id="applyForm">
-      <label for="select_answer" class="mb-3">답변 상태 : </label>
-      <select id="select_answer">
+      <label for="select_answer">답변 상태 : </label>
+      <select id="select_answer" >
         <option value="0">전부</option>
         <option value="1">분석 신청</option>
         <option value="2">분석 종료</option>
       </select>
+    </div>
 
       <!-- 공지사항 목록을 표시하는 테이블 -->
-      <table class="post-table qna-table">
+      <table class="admin3-post-table" style="margin-top: 20px;">
         <thead>
-        <tr class="post-tbody-tr">
+        <tr class="admin3-post-tbody-tr">
           <th>번호</th>
           <th>제목</th>
           <th>작성일</th>
@@ -55,7 +54,6 @@
         </th:block>
         </tbody>
       </table>
-    </div>
   </div>
   <div th:if="${applies != null and !applies.isEmpty()}">
     <!-- 전역 변수 선언 -->
@@ -147,37 +145,29 @@
 
   // 카운트 업데이트
   function updateCounts() {
-    // applyList가 객체일 경우 content 배열로 처리
-    if (!applyList || !Array.isArray(applyList.content)) {
-      applyList = { content: [] };  // 빈 배열로 초기화
-    }
-
-    const data = applyList.content;  // 실제 데이터는 content 안에 있음
-
-    if (data.length === 0) {
+    // applyList가 빈 배열이 아니라면 카운트 업데이트
+    if (applyList.length === 0) {
       document.getElementById('count').textContent = "총 0건";
     } else {
-      let pending = 0;
-      let answered = 0;
+   		let completed = 0;
+    	let applied = 0;
 
-      // content 배열을 순회하면서 카운트
-      data.forEach(function(item) {
-        if (item.completedYn === 'N') {
-          pending++;
+        applyList.forEach(function(item) {
+            if (item.completedYn === 'Y') {
+              completed++;
+            }
+            if (item.completedYn === 'N') {
+              applied++;
+            }
+          });
+          applied = applied - completed;
+          document.getElementById('count').textContent = `총 ${applyList.length}건 (분석 종료: ${completed} / 분석 신청: ${applied})`;
         }
-        if (item.completedYn === 'Y') {
-          answered++;
-        }
-      });
+      }
 
-      document.getElementById('count').textContent = `총 ${data.length}건 (분석 신청: ${pending} / 분석 종료: ${answered})`;
-    }
-  }
-
-  // 페이지 로드 시 카운트 업데이트
-  updateCounts();
+      // 페이지 로드 시 카운트 업데이트
+      updateCounts();
 </script>
-
 <div class="footers"></div> <!-- 이거 지우면 안됨 -->
 <th:block th:replace="layout/footer :: footerLayout"></th:block>
 </body>

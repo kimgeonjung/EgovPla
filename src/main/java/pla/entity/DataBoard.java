@@ -21,20 +21,20 @@ public class DataBoard {
     private Long id; // 고유 식별자
 
     @Column(nullable = false)
-    private String title;
+    private String title; //제목
 
     @Column(nullable = false, columnDefinition = "TEXT") // 긴 텍스트 저장
-    private String content;
+    private String content; // 내용
 
     @Column(nullable = false)
-    private Integer hits;
+    private Integer hits; // 조회수
 
     private LocalDateTime createdAt;  // 생성일시
 
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt; // 수정일시
 
     @Transient
-    private String preview;
+    private String preview; // 미리보기
 
     private String a1; //파일 데이터명
     private String a2; //분류 체계

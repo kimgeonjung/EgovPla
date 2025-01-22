@@ -5,22 +5,21 @@
   <title>관리자 페이지</title>
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/footer.css">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/adminqna.css">
+  <link rel="stylesheet" href="/css/admin/admin-qna.css">
 </head>
 <body>
 <th:block th:replace="admin/adminHeader :: headerLayout"></th:block>
 
 <!-- 본문 내용 시작 -->
 <div class="ft">
-  <div class="container">
-    <!-- 페이지 제목 -->
-    <div class="main-tihome">
-      <h1 class="main-title">Q&A 목록</h1>
+  <div class="admin5-list-container">
+    <div class="admin5-main-tihome">
+      <div class="admin5-main-title">
+        <h1 class="admin5-list-title">Q&A 목록</h1>
+        <div class="admin5-split-div-post"></div>
+      </div>
     </div>
-    <div class="split--div-post"></div> <!-- 구분선 -->
-
-    <h1 class="count" id="count"> 총 0건</h1>
+    <h1 class="admin5-count" id="count"> 총 0건</h1>
 
     <div id="qnaForm">
       <label for="select_answer" class="mb-3">답변 상태 : </label>
@@ -30,11 +29,11 @@
         <option value="2">답변 완료</option>
         <option value="3">문의 종료</option>
       </select>
-
+	</div>
       <!-- 공지사항 목록을 표시하는 테이블 -->
-      <table class="post-table qna-table">
+      <table class="admin5-post-table" style="margin-top: 20px;">
         <thead>
-        <tr class="post-tbody-tr">
+        <tr class="admin5-post-tbody-tr">
           <!-- 테이블 헤더: 번호, 제목, 작성일, 조회수 -->
           <th>번호</th>
           <th>제목</th>
@@ -46,7 +45,7 @@
         <tbody>
         <th:block th:each="list, stat : ${qnaList}">
           <tr th:class="tr-click" th:id="${list.id}">
-            <td th:text="${#lists.size(qnaList) - (qnaList.pageable.pageNumber * 10) - stat.index}"></td>
+            <td th:text="${#lists.size(qna) - (qnaList.pageable.pageNumber * 10) - stat.index}"></td>
             <td th:text="${list.title}"></td>
             <td th:text="${#temporals.format(now, 'yyyy-MM-dd').equals(#temporals.format(list.created_at, 'yyyy-MM-dd'))} ? ${#temporals.format(list.created_at, 'HH:mm')} : ${#temporals.format(list.created_at, 'yyyy-MM-dd')}"></td>
             <th:block th:each="member : ${member}">
@@ -66,7 +65,6 @@
         </th:block>
         </tbody>
       </table>
-    </div>
   </div>
   <div th:if="${qnaList != null and !qnaList.isEmpty()}">
     <!-- 전역 변수 선언 -->
@@ -159,20 +157,16 @@
 
   // QnA 카운트 업데이트
   function updateCounts() {
-    // qnaList가 객체일 경우 content 배열로 처리
-    if (!qnaList || !Array.isArray(qnaList.content)) {
-      qnaList = { content: [] };  // 빈 배열로 초기화
-    }
-    const data = qnaList.content;  // 실제 데이터는 content 안에 있음
-    if (data.length === 0) {
+	    // qnaList.content가 빈 배열이 아니라면 카운트 업데이트
+	    if (qnaList.content.length === 0) {
       document.getElementById('count').textContent = "총 0건";
     } else {
       let completed = 0;
       let pending = 0;
       let answered = 0;
 
-      // content 배열을 순회하면서 카운트
-      data.forEach(function(item) {
+      // qnaList.content 배열을 순회하면서 각 상태에 맞는 카운트 증가
+      qnaList.content.forEach(function(item) {
         if (item.endYn === 'Y') {
           completed++;
         }
@@ -183,12 +177,19 @@
           answered++;
         }
       });
-      answered = answered - completed;  // 완료된 답변은 제외
-      document.getElementById('count').textContent = `총 ${data.length}건 (문의 종료: ${completed} / 대기중: ${pending} / 답변 완료: ${answered})`;    }
+      
+      // 문의 종료는 완료된 답변을 제외한 '답변 완료' 상태로 처리
+      answered = answered - completed;
+	   // 총 카운트를 업데이트
+      document.getElementById('count').textContent = `총 ${qnaList.content.length}건 (문의 종료: ${completed} / 대기중: ${pending} / 답변 완료: ${answered})`;
+      }
   }
 
   // 페이지 로드 시 카운트 업데이트
-  updateCounts();
+  window.onload = function() {
+    console.log('QNA List:', qnaList); // qnaList 확인
+    updateCounts();  // 카운트 업데이트 함수 호출
+  };
 </script>
 
 <div class="footers"></div> <!-- 이거 지우면 안됨 -->

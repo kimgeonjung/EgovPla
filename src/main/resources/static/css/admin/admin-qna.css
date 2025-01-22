@@ -66,10 +66,16 @@ html, body {
     border-collapse: collapse;
 }
 
-.admin5-post-table th,
-.admin5-post-table td {
+.admin5-post-table th {
     border: 1px solid #ddd;
     border-top: 2px solid #4B4B4B;
+    text-align: center;
+    padding: 10px;
+    color: #555;
+}
+
+.admin5-post-table td {
+    border: 1px solid #ddd;
     text-align: center;
     padding: 10px;
     color: #555;

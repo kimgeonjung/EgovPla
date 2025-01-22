@@ -33,12 +33,12 @@ public class Apply {
     @Column(nullable = false)
     private LocalDateTime createdAt; // 생성일시
     
-    private Long uid;
+    private Long uid; //사용자 아이디
     private char completedYn; // 분석 완료 여부 ('Y': 완료, 'N': 미완료)
 
-    private String link;
-    private String location;
-    private String type;
+    private String link; //링크
+    private String location; // 지역
+    private String type; // ai 종류
     private String request; // 요청 타입 ("normal" : 기본 입지 분석, "detail" : 상세 입지 분석)
     
     @ElementCollection

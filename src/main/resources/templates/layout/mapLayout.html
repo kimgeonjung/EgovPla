@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8">
     <title>입지분석</title>
-    <link rel="stylesheet" href="/css/mapOptionLayer.css">
+    <link rel="stylesheet" href="/css/map/mapOptionLayer.css">
 <style>
         .slider-container {
             width: 300px;
@@ -32,29 +32,32 @@
   </head>
   <body>
   <div class="menu" id="menu">
-    <div class="menu-header">
-      <h1 class="brand-title">
-        <a href="/" style="padding-left: 5px; text-decoration: none; color: black" class="text-decoration-none">공공복합시설 입지분석 플랫폼</a> <!-- 메인 페이지 링크 -->
-      </h1>
-      <!--          <span>레이어 선택</span>-->
-      <button onclick="toggleMenu()"><img src="/images/left.svg" style="width: 20px; height: 20px"></button> <!-- 닫기 버튼 -->
-    </div>
-    <div class="swap-button">
-      <button id="btn-gwangju" value="gwangju">광주</button>
-      <button id="btn-cheonan" value="cheonan">천안</button>
-    </div>
-    <div class="menu-search">
-      <input class="layer-search" id="layer-search" type="text" placeholder="레이어 검색..."> <!-- 검색창 -->
-      <ul class="search-list" id="search-list"></ul>
-    </div>
-    <div class="menu-category">
-      <h1>카테고리</h1>
-      <div class="category-button" id="category-button">
-        <button id="category-all" data-tooltip="전체"><img src="/images/all.svg"></button>
-        <button id="category-library" data-tooltip="도서관"><img src="/images/book.svg"></button>
-        <button id="category-wifi" data-tooltip="공공와이파이"><img src="/images/wifi.svg"></button>
-        <button id="category-issuingMachine" data-tooltip="무인발급기"><img src="/images/print.svg"></button>
-        <button id="category-shade" data-tooltip="무더위그늘막"><img src="/images/shade.svg"></button>
+    <div class="sticky-header">
+      <div class="menu-header">
+        <h1 class="brand-title">
+          <a href="/" style="padding-left: 5px; text-decoration: none; color: black" class="text-decoration-none">공공복합시설 입지분석 플랫폼</a> <!-- 메인 페이지 링크 -->
+        </h1>
+        <!--          <span>레이어 선택</span>-->
+        <button onclick="toggleMenu()" data-tooltip="메뉴 닫기"><img src="/images/left.svg" style="width: 20px; height: 20px"></button> <!-- 닫기 버튼 -->
+      </div>
+      <div class="swap-button">
+        <button id="btn-gwangju">광주</button>
+        <button id="btn-cheonan">천안</button>
+      </div>
+      <div class="menu-search">
+        <input class="layer-search" id="layer-search" type="text" placeholder="레이어 검색..."> <!-- 검색창 -->
+        <button id="btn-reset" class="reset-button">초기화</button>
+        <ul class="search-list" id="search-list"></ul>
+      </div>
+      <div class="menu-category">
+        <h1>카테고리</h1>
+        <div class="category-button" id="category-button">
+          <button id="category-all" data-tooltip="전체"><img src="/images/all.svg"></button>
+          <button id="category-library" data-tooltip="도서관"><img src="/images/book.svg"></button>
+          <button id="category-wifi" data-tooltip="공공와이파이"><img src="/images/wifi.svg"></button>
+          <button id="category-issuingMachine" data-tooltip="무인발급기"><img src="/images/print.svg"></button>
+          <button id="category-shade" data-tooltip="무더위그늘막"><img src="/images/shade.svg"></button>
+        </div>
       </div>
     </div>
     <ul class="submenu-list" id="submenu-list">
@@ -62,12 +65,12 @@
         <span class="submenu-item" onclick="toggleSubmenu(event, this)">행정경계</span>
         <ul class="submenu">
           <li class="check-item">
-            <span class="submenu-item">동계</span>
-            <input type="checkbox" id="gwangju_dong">
-          </li>
-          <li class="check-item">
             <span class="submenu-item">구계</span>
             <input type="checkbox" id="gwangju_gu">
+          </li>
+          <li class="check-item">
+            <span class="submenu-item">동계</span>
+            <input type="checkbox" id="gwangju_dong">
           </li>
         </ul>
       </li>
@@ -112,7 +115,7 @@
         <span class="submenu-item" onclick="toggleSubmenu(event, this)">인구</span>
         <ul class="submenu">
           <li class="check-item">
-            <span class="submenu-item">모든 연령대</span>
+            <span class="submenu-item">전체 연령대</span>
             <input type="checkbox" id="gwangju_population_all_2024_10">
           </li>
           <li class="check-item">
@@ -2023,7 +2026,7 @@
       </div>
     </div>
   </div>
-  <button class="menu-button hidden" id="menu-button" onclick="toggleMenu()"><img src="/images/right.svg" style="width: 20px; height: 20px"></button>
+  <button class="menu-button hidden" id="menu-button" onclick="toggleMenu()" data-tooltip="메뉴 열기"><img src="/images/right.svg" style="width: 20px; height: 20px"></button>
   <div id="modal" class="modal">
     <button class="modal-close" id="modal-close">
       <img class="cancel-image" src="/images/icons8-취소.svg">

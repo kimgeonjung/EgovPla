@@ -64,10 +64,16 @@ html, body {
 }
 
 /* 테이블 셀 스타일 */
-.admin3-post-table th,
-.admin3-post-table td {
+.admin3-post-table th{
     border: 1px solid #ddd;
     border-top: 2px solid #4B4B4B;
+    text-align: center;
+    padding: 10px;
+    color: #555;
+}
+
+.admin3-post-table td {
+    border: 1px solid #ddd;
     text-align: center;
     padding: 10px;
     color: #555;

@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <title>관리자 페이지</title>
-  <link rel="stylesheet" href="/css/noticeDetail.css">
+  <link rel="stylesheet" href="/css/admin/admin-apply-detail.css">
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/adminapply.css">
+  <link rel="stylesheet" href="/css/footer.css">
 </head>
 <body>
 <th:block th:replace="admin/adminHeader :: headerLayout"></th:block>
 <div class="ft">
-  <div class="container">
-    <div class="main-title">
+  <div class="admin4-list-container">
+    <div class="admin4-main-title">
       <h1>분석 신청</h1>
-      <div class="split--div"></div>
+      <div class="admin4-split-div-post"></div>
       <div class="container">
-        <div class="split--div-post"></div>
       </div>
       <form id="frm" method="post">
         <input type="hidden" name="id" th:value="${apply.id}" />
         <input type="hidden" name="completedYn" th:value="${apply.completedYn}" />
-        <table class="board_detail">
+        <table class="admin4-board_detail">
           <tbody>
           <tr>
             <th>글 번호</th>
@@ -44,33 +44,32 @@
             </td>
           </tr>
           <th:block th:if="${apply.files != null and !apply.files.isEmpty()}">
-          <tr>
-            <th>첨부 파일</th>
-            <td colspan="3">
-              <div th:each="file : ${apply.files}">
-                <div th:if="${#strings.endsWith(file.fileName, '.jpg') or
+            <tr>
+              <th>첨부 파일</th>
+              <td colspan="3">
+                <div th:each="file : ${apply.files}">
+                  <div th:if="${#strings.endsWith(file.fileName, '.jpg') or
                          #strings.endsWith(file.fileName, '.jpeg') or
                          #strings.endsWith(file.fileName, '.png') or
                          #strings.endsWith(file.fileName, '.gif')}">
-                  <img th:src="${file.filePath}" alt="Uploaded Image" style="max-width: 300px;" />
-                  <br />
-                  <a th:href="@{/download(filename=${file.fileName})}" download>
-                       <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
-                   </a>
-                </div>
-
-                <div th:if="${file.fileName != null and file.fileName != '' and !(#strings.endsWith(file.fileName, '.jpg') or
+                    <img th:src="${file.filePath}" alt="Uploaded Image" style="max-width: 300px;" />
+                    <br />
+                    <a th:href="@{/download(filename=${file.fileName})}" download>
+                      <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
+                    </a>
+                  </div>
+                  <div th:if="${file.fileName != null and file.fileName != '' and !(#strings.endsWith(file.fileName, '.jpg') or
                                                                   #strings.endsWith(file.fileName, '.jpeg') or
                                                                   #strings.endsWith(file.fileName, '.png') or
                                                                   #strings.endsWith(file.fileName, '.gif'))}">
-                  <p th:text="${file.fileName}"></p>
-                  <a th:href="@{/download(filename=${file.fileName})}" download>
-                       <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
-                   </a>
+                    <p th:text="${file.fileName}"></p>
+                    <a th:href="@{/download(filename=${file.fileName})}" download>
+                      <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
+                    </a>
+                  </div>
                 </div>
-              </div>
-            </td>
-          </tr>
+              </td>
+            </tr>
           </th:block>
           <tr>
           <tr>
@@ -100,9 +99,9 @@
           </tbody>
         </table>
       </form>
-      <div class="button-group">
+      <div class="admin4-button-group">
         <a href="#this" id="list" class="mbtn" >목록으로</a>
-        <a href="#this" id="result" class="mbtn" >결과 전송</a>
+        <a href="#this" id="result" class="rbtn" >결과 전송</a>
       </div>
     </div>
   </div>
@@ -160,5 +159,7 @@
 	  // Initialize options based on default city
 	  updateOptions();
 </script>
+<div class="footers"></div> <!-- 이거 지우면 안됨 -->
+<th:block th:replace="layout/footer :: footerLayout"></th:block>
 </body>
 </html>

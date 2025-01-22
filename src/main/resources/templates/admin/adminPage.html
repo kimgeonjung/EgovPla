@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/notice.css">
+  <link rel="stylesheet" href="/css/admin/admin-page.css">
   <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/footer.css">
   <title>관리자 페이지</title>
@@ -32,7 +32,7 @@
         <tbody>
                 <th:block th:each="list, stat : ${applyLists}">
                   <tr th:class="apply-tr-click" th:id="${list.id}">
-                    <td th:text="${#lists.size(applyLists) - stat.index}"></td>
+                    <td th:text="${stat.index + 1}"></td>
                     <td th:text="${list.title}"></td>
                     <td th:text="${#temporals.format(now, 'yyyy-MM-dd').equals(#temporals.format(list.createdAt, 'yyyy-MM-dd'))} ? ${#temporals.format(list.createdAt, 'HH:mm')} : ${#temporals.format(list.createdAt, 'yyyy-MM-dd')}"></td>
                     <td th:text="${list.author}"></td>
@@ -60,7 +60,7 @@
         <tbody>
         <th:block th:each="list, stat : ${qnALists}">
           <tr th:class="qna-tr-click" th:id="${list.id}">
-            <td th:text="${#lists.size(qnALists) - stat.index}"></td>
+            <td th:text="${stat.index + 1}"></td>
             <td th:text="${list.title}"></td>
             <td th:text="${#temporals.format(now, 'yyyy-MM-dd').equals(#temporals.format(list.created_at, 'yyyy-MM-dd'))} ? ${#temporals.format(list.created_at, 'HH:mm')} : ${#temporals.format(list.created_at, 'yyyy-MM-dd')}"></td>
             <th:block th:each="member : ${member}">

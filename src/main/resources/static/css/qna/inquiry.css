@@ -113,13 +113,21 @@ html, body {
     border-collapse: collapse;
 }
 
-.qna-post-table th, .qna-post-table td {
+.qna-post-table th {
     border: 1px solid #ddd;
     border-top: 2px solid #4B4B4B;
     text-align: center;
     padding: 10px;
     color: #555;
 }
+
+.qna-post-table td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+    color: #555;
+}
+
 
 .qna-post-table th {
     background-color: #f7f7f7;
