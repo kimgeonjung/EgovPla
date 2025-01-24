@@ -27,7 +27,7 @@
             <p th:text="${list.content}" class="admin-message"></p>
           </div>
         </div>
-          <form class="comments-section-form" action="/admin/answerInsert" method="POST" th:if="${(#strings.equals(lists[lists.size() - 1].state, 'A') or session.authInfo.role.equals('ADMIN')) and #strings.equals(qna.endYn, 'N')}">
+          <form class="comments-section-form" action="/admin/qna/answer" method="POST" th:if="${(#strings.equals(lists[lists.size() - 1].state, 'A') or session.authInfo.role.equals('ADMIN')) and #strings.equals(qna.endYn, 'N')}">
             <input type="hidden" id="id" name="id" th:value="${qna.id}">
             <input type="hidden" id="role" name="role" th:value="${session.authInfo.role}">
             <label for="content">답글 작성</label>
@@ -36,7 +36,7 @@
           </form>
       <!-- 목록으로 돌아가기 버튼 -->
       <div class="form-actions">
-        <button onclick="window.location.href='/admin/admin_qna';">목록으로 돌아가기</button>
+        <button onclick="window.location.href='/admin/qna';">목록으로 돌아가기</button>
       </div>
     </div>
   </div>

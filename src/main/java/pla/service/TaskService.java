@@ -11,7 +11,7 @@ public class TaskService {
     // 실행 제한 저장 (userId -> 제한 종료 시간)
     private final Map<String, Long> executionLimits = new ConcurrentHashMap<>();
 
-    // 실행 제한 시간 (밀리초, 무인발급기: 10분 / 도서관: 30분)
+    // 실행 제한 시간 (밀리초, 전체: 30분)
 //    private final long EXECUTION_LIMIT_KIOSK = 10 * 60 * 1000;
     private final long EXECUTION_LIMIT = 30 * 60 * 1000;
     

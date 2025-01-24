@@ -40,7 +40,10 @@ public class PythonExecutor {
     /**
      * Python 스크립트를 실행하고 결과를 반환하는 메서드
      *
+     * @param authInfo 세션에서 가져온 접속자 정보
      * @param modelName 실행할 Python 모델의 이름
+     * @param location 모델을 실행시킬 지역 ex)광주, 천안
+     * @param parameters 모델에 적용시킬 매개변수들
      * @return Python 스크립트 실행 결과
      */
     public String runPythonScript(AuthInfo authInfo, String modelName, String location, String... parameters) {

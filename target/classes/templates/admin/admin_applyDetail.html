@@ -111,11 +111,11 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $("#list").on("click", function(){
-    	location.href = "/admin/admin_apply";
+    	location.href = "/admin/apply";
     });
     $("#result").on("click", function(){
       var frm = $("#frm")[0];
-      frm.action = "/admin/admin_apply_result";
+      frm.action = "/admin/apply/result";
       frm.submit();
     });
   });

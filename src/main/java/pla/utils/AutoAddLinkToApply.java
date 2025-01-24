@@ -20,21 +20,27 @@ public class AutoAddLinkToApply {
 		Apply apply = applyRepository.findById(applyId).orElseThrow(()-> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
 		
 		// 결과 파일 경로 생성
-		if(modelName.equals("kiosk")) {
-			String kioskFilePath = homeDir + modelName + "/" + fileName + "_parallel.json";
-			apply.setLink(kioskFilePath);
-		} else if(modelName.equals("library")) {
-			String libraryFilePath = homeDir + modelName + "/" + fileName;
-			apply.setLink(libraryFilePath);
-		} else if(modelName.equals("public_wifi")) {
-			String wifiFilePath = homeDir + modelName + "/" + fileName + ".json";
-			apply.setLink(wifiFilePath);
-		} else if(modelName.equals("canopy")) {
-			String canopyFilePath = homeDir + modelName + "/" + fileName + "_canopy_results.json";
-			apply.setLink(canopyFilePath);
-		} else {
-			System.out.println("모델 이름이 다릅니다.");
-		}
+        switch (modelName) {
+            case "kiosk":
+                String kioskFilePath = homeDir + modelName + "/" + fileName + "_parallel.json";
+                apply.setLink(kioskFilePath);
+                break;
+            case "library":
+                String libraryFilePath = homeDir + modelName + "/" + fileName;
+                apply.setLink(libraryFilePath);
+                break;
+            case "public_wifi":
+                String wifiFilePath = homeDir + modelName + "/" + fileName + ".json";
+                apply.setLink(wifiFilePath);
+                break;
+            case "canopy":
+                String canopyFilePath = homeDir + modelName + "/" + fileName + "_canopy_results.json";
+                apply.setLink(canopyFilePath);
+                break;
+            default:
+                System.out.println("모델 이름이 다릅니다.");
+                break;
+        }
 		applyRepository.save(apply);
 	}
 }

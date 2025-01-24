@@ -79,14 +79,14 @@
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("list").addEventListener("click", function(){
-      window.location.href = "/admin/admin_notice";
+      window.location.href = "/admin/notice";
     });
 
     var editButton = document.getElementById("edit");
     if (editButton) {
       editButton.addEventListener("click", function(){
         var frm = document.getElementById("frm");
-        frm.action = "/admin/updateNotice";
+        frm.action = "/admin/notice/update";
         frm.submit();
       });
     }
@@ -95,7 +95,7 @@
     if (deleteButton) {
       deleteButton.addEventListener("click", function(){
         var frm = document.getElementById("frm");
-        frm.action = "/admin/deleteNotice";
+        frm.action = "/admin/notice/delete";
         frm.submit();
       });
     }

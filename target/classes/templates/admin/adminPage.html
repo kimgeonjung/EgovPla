@@ -15,7 +15,7 @@
   <div style="display: flex; overflow-x: auto; gap: 20px; justify-content: center; margin-top: 50px; align-items: stretch;">
     <!-- 첫 번째 테이블 블록 -->
     <div style="max-height: 600px; overflow-y: auto; width: 45%; border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #f9f9f9;">
-     <h2 style="text-align: center; margin-bottom: 10px;"><a href="/admin/admin_apply">신청현황</a></h2>
+     <h2 style="text-align: center; margin-bottom: 10px;"><a href="/admin/apply">신청현황</a></h2>
       <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
         <h5>답변대기중:&nbsp;</h5>
         <h5 th:text="${#lists.size(applyLists) == null ? 0 : #lists.size(applyLists)}"></h5>
@@ -43,7 +43,7 @@
     </div>
     <!-- 두 번째 테이블 블록 -->
     <div style="max-height: 600px; overflow-y: auto; width: 45%; border: 1px solid #ccc; border-radius: 8px; padding: 10px; background-color: #f9f9f9;">
-      <h2 style="text-align: center; margin-bottom: 10px;"><a href="/admin/admin_qna">Q&A</a></h2>
+      <h2 style="text-align: center; margin-bottom: 10px;"><a href="/admin/qna">Q&A</a></h2>
       <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
         <h5>답변대기중:&nbsp;</h5>
         <h5 th:text="${#lists.size(qnALists) == null ? 0 : #lists.size(qnALists)}"></h5>
@@ -80,13 +80,13 @@
   document.querySelectorAll('.apply-tr-click').forEach(function(tr){
     tr.addEventListener('click', function () {
       let index = tr.id.trim();
-      window.location.href = '/admin/admin_apply/detail?id=' + index;
+      window.location.href = '/admin/apply/detail?id=' + index;
     })
   })
   document.querySelectorAll('.qna-tr-click').forEach(function(tr){
     tr.addEventListener('click', function () {
       let index = tr.id.trim();
-      window.location.href = '/admin/admin_qnaDetail?id=' + index;
+      window.location.href = '/admin/qna/detail?id=' + index;
     })
   })
 </script>

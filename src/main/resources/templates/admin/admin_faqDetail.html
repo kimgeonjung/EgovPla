@@ -37,19 +37,19 @@
         <script type="text/javascript">
           $(document).ready(function(){
             $("#list").on("click", function(){
-            	location.href = "/admin/admin_faq";
+            	location.href = "/admin/faq";
             });
 
             $("#edit").on("click", function(){
               var frm = $("#update")[0];
-              frm.action = "/admin/admin_faqUpdate";
+              frm.action = "/admin/faq/update";
               frm.submit();
             });
 
             $("#delete").on("click", function(){
               if (confirm("삭제하시겠습니까?")) {
                 var frm = $("#update")[0];
-                frm.action = "/admin/admin_faqDelete";
+                frm.action = "/admin/faq/delete";
                 frm.submit();
               }
             });

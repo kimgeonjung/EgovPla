@@ -1838,11 +1838,13 @@
     </div>
     
      <div class="tabs hidden" id="cheonan_tab">
-      <button class="tab-button" data-tab="tab5">새 탭 5</button>
-      <button class="tab-button" data-tab="tab6">새 탭 6</button>
-      <button class="tab-button" data-tab="tab7">새 탭 7</button>
+      <button class="tab-button" data-tab="tab5">공공 와이파이</button>
+      <button class="tab-button" data-tab="tab6">도서관</button>
+      <button class="tab-button" data-tab="tab7">무인 발급기</button>
     </div>
-    <!-- 탭 내용 -->
+    <!-- 광주 탭 내용 -->
+
+<!--  공공 와이파이 g  -->
     <div class="tab-content" id="public_wifi-tab" style="display: block;">
       <!-- 인구수 / 사용량 가중치 -->
       <div style="margin-bottom: 10px;">
@@ -1885,7 +1887,7 @@
         </div>
       </div>
     </div>
-
+<!--  도서관 g  -->
     <div class="tab-content" id="library-tab" style="display: none;">
     
 	    <!-- 새로 만들 도서관 개수 -->
@@ -1929,7 +1931,7 @@
         </div>
       </div>
 	</div>
-	
+<!--  그늘막 g  -->
     <div class="tab-content" id="canopy-tab" style="display: none;">
       <!-- 새로 만들 그늘막 개수 -->
       <div style="margin-bottom: 10px;">
@@ -1971,6 +1973,7 @@
         </div>
       </div>
     </div>
+<!--  무인발급기 g  -->
     <div class="tab-content" id="kiosk-tab" style="display: none;">
     <!-- 처리방식 -->
       <div style="margin-bottom: 10px;">
@@ -2017,21 +2020,141 @@
         </div>
       </div>
     </div>
-    
+
+    <!--  천안 탭 내용  -->
+<!--  공공 와이파이 c  -->
      <div class="tab-content" id="tab5" style="display: none;">
-      <input type="text" placeholder="--" id="input-tab5-1" />
-      <input type="text" placeholder="--" id="input-tab5-2" />
-      <input type="text" placeholder="--" id="input-tab5-3" />
+       <!-- 인구수 / 사용량 가중치 -->
+       <div style="margin-bottom: 10px;">
+         <label style="font-weight: bold;">트래픽 / 인구 (가중치):</label>
+         <div style="display: flex; align-items: center; justify-content: center;">
+           <span style="margin-right: 10px;">트래픽</span>
+           <span id="traffic-weight-c">0.5</span>
+           <input
+                   type="range"
+                   data-name="wifi--alpha-c"
+                   id="wifi--alpha-c"
+                   min="0"
+                   max="1"
+                   step="0.1"
+                   value="0.5"
+                   style="flex: 1; margin: 10px; padding: 0"
+                   oninput="updateTab1WeightsC()"
+           />
+           <span style="margin-right: 10px;">인구</span>
+           <span id="population-weight-c">0.5</span>
+         </div>
+       </div>
+       <!-- 표출할 상위 개수 -->
+       <div style="margin-bottom: 10px;">
+         <label for="repeat-num" style="font-weight: bold;">반복수:</label>
+         <input type="number" placeholder="기본값 10000" id="repeat-num-c" min="1" max="30000" />
+       </div>
+       <!-- 표출할 상위 개수 -->
+       <div style="margin-bottom: 10px;">
+         <label for="new-wifi" style="font-weight: bold;">새로 만들 와이파이 개수:</label>
+         <input type="number" placeholder="기본값 5" id="new-wifi-c" min="1" max="1000"/>
+       </div>
+       <!-- 도움말 -->
+       <div class="help-icon">
+         <img src="/images/help-mark.svg" style="width: 15px;" height="15px;"><span>도움말</span>
+         <div class="tooltip-left">
+           - 트래픽 / 인구 &lt;&lt; 사람들이 많이 다니는 곳(트래픽) 사람들이 많이 사는 곳(인구)중 중요한 곳으로 옮겨주세요.(기본값 0.5 : 0.5)<br />
+           - 반복수 &lt;&lt; 계산을 몇번 반복할지 정해주세요 높을수록 정확하지만 오래걸리고 낮을수록 빠르지만 정확도가 떨어집니다.(기본값 10000)<br />
+           - 새로 만들 와이파이 개수 &lt;&lt; 새로 설치할 와이파이 개수를 정합니다. 정해진 개수만큼 화면에 표출합니다.(기본값 5)
+         </div>
+       </div>
     </div>
+<!--  도서관 c  -->
     <div class="tab-content" id="tab6" style="display: none;">
-      <input type="text" placeholder="--" id="input-tab6-1" />
-      <input type="text" placeholder="--" id="input-tab6-2" />
-      <input type="text" placeholder="--" id="input-tab6-3" />
+      <!-- 새로 만들 도서관 개수 -->
+      <div style="margin-bottom: 10px;">
+        <label for="new-libraries" style="font-weight: bold;">새로 만들 도서관 개수:</label>
+        <input type="number" placeholder="기본값 1" id="new-libraries-c" min="1" max="100" />
+      </div>
+      <!-- 도서관 / 버스 정류장 가중치 -->
+      <div style="margin-bottom: 10px;">
+        <label for="library-slider-c" style="font-weight: bold;">도서관 / 버스 정류장 (가중치):</label>
+        <div style="display: flex; align-items: center; justify-content: center;">
+          <span style="margin-right: 10px;">도서관</span>
+          <span id="library-weight-c">0.7</span>
+          <input
+                  type="range"
+                  id="library-slider-c"
+                  data-name="--library_weight"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value="0.7"
+                  style="flex: 1; margin: 10px; padding: 0"
+                  oninput="updateTab2WeightsC()"
+          />
+          <span style="margin-right: 10px;">버스 정류장</span>
+          <span id="bus-weight-c">0.3</span>
+        </div>
+      </div>
+
+      <!-- 표출할 상위 개수 -->
+      <div style="margin-bottom: 10px;">
+        <label for="top-n-libraries" style="font-weight: bold;">표출할 상위 개수:</label>
+        <input type="number" data-name="--top_n" placeholder="기본값 5" id="top-n-libraries-c" min="1" max="1000" />
+      </div>
+      <!-- 도움말 -->
+      <div class="help-icon">
+        <img src="/images/help-mark.svg" style="width: 15px;" height="15px;"><span>도움말</span>
+        <div class="tooltip-left">
+          - 새로 만들 도서관 개수 &lt;&lt; 새로 만들 도서관 개수를 입력합니다.(기본값 1)<br />
+          - 도서관 / 버스정류장 &lt;&lt; 더 중요시하는 쪽으로 옮겨 주세요 결과에 반영됩니다.(기본값 0.7 : 0.3)<br />
+          - 표출할 상위 개수 &lt;&lt; 추천 점수가 높은 도서관부터 설정한 숫자의 개수만큼 화면에 보여줍니다. (기본값 5)
+        </div>
+      </div>
     </div>
+<!--  무인 발급기 c  -->
     <div class="tab-content" id="tab7" style="display: none;">
-      <input type="text" placeholder="--" id="input-tab7-1" />
-      <input type="text" placeholder="--" id="input-tab7-2" />
-      <input type="text" placeholder="--" id="input-tab7-3" />
+      <!-- 처리방식 -->
+      <div style="margin-bottom: 10px;">
+        <label for="select-tab4-1-c" style="font-weight: bold;">처리방식:</label>
+        <select data-name="--mode" id="select-tab4-1-c">
+          <option value="parallel">병렬처리</option> <!-- 기본값 -->
+          <option value="sequential">순차처리</option>
+        </select>
+      </div>
+
+      <!-- 접근성 / 예측 수요량 가중치 -->
+      <div style="margin-bottom: 10px;">
+        <label for="kiosk-alpha-c" style="font-weight: bold;">예측 수요량 / 접근성 (가중치):</label>
+        <div style="display: flex; align-items: center;">
+          <span style="margin-right: 10px;">예측 수요량</span>
+          <span id="demand-weight-c">0.5</span>
+          <input
+                  type="range"
+                  data-name="--alpha"
+                  id="kiosk-alpha-c"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value="0.5"
+                  style="flex: 1; margin: 10px; padding: 0"
+                  oninput="updateTab3WeightsC()"
+          />
+          <span style="margin-right: 10px;">접근성</span>
+          <span id="accessibility-weight-c">0.5</span>
+        </div>
+      </div>
+      <!-- 표출할 상위 개수 -->
+      <div style="margin-bottom: 10px;">
+        <label for="kiosk-topn-c" style="font-weight: bold;">표출할 상위 개수:</label>
+        <input type="number" data-name="--top_n" placeholder="기본값 5" id="kiosk-topn-c" min="1" max="1000" />
+      </div>
+      <!-- 도움말 -->
+      <div class="help-icon">
+        <img src="/images/help-mark.svg" style="width: 15px;" height="15px;"><span>도움말</span>
+        <div class="tooltip-left">
+          - 처리방식 &lt;&lt; 순차처리, 병렬처리중 한가지를 선택해주세요. (기본값 병렬)<br />
+          - 접근성 / 예측 수요량 &lt;&lt; 더 중요시하는 쪽으로 옮겨 주세요 결과에 반영됩니다.(기본값 0.5 : 0.5)<br />
+          - 표출할 상위 개수 &lt;&lt; 추천 점수가 높은 무인 발급기부터 설정한 숫자의 개수만큼 화면에 보여줍니다. (기본값 5)
+        </div>
+      </div>
     </div>
     
     <!-- 하단 버튼 -->

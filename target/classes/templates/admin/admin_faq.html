@@ -27,12 +27,12 @@
       <tbody>
       <th:block  th:if="${#lists.size(faqs)} > 0" th:each="faq, stat : ${faqs}">
         <tr class="post-tbody-tr2" th:id="${faq.id}">
-          <td class="title"><a href="/admin/admin_faqDetail?id=" th:attrappend="href=${faq.id}" th:text="${faq.title}"></a></td>
+          <td class="title"><a href="/admin/faq/detail?id=" th:attrappend="href=${faq.id}" th:text="${faq.title}"></a></td>
         </tr>
       </th:block>
       </tbody>
     </table>
-    <a th:href="@{/admin/admin_faqWrite}" class="admin7-write-button">글쓰기</a>
+    <a th:href="@{/admin/faq/write}" class="admin7-write-button">글쓰기</a>
   </div>
   <!-- 페이징 -->
   <div th:if="${faqs != null and !faqs.isEmpty()}" class="text-center">
@@ -44,33 +44,33 @@
       <ul class="pagination">
         <!-- 처음으로 이동 -->
         <li th:classappend="${pageNumber == 0} ? 'disabled'" class="page-item">
-          <a class="page-link" th:href="@{/admin/admin_faq(page=0)}">
+          <a class="page-link" th:href="@{/admin/faq(page=0)}">
             <span>&laquo;</span>
           </a>
         </li>
 
         <!-- 이전으로 이동 -->
         <li th:classappend="${faqs.first} ? 'disabled'" class="page-item">
-          <a class="page-link" th:href="${faqs.first} ? '#' : @{/admin/admin_faq(page=${pageNumber - 1})}" aria-label="Previous">
+          <a class="page-link" th:href="${faqs.first} ? '#' : @{/admin/faq(page=${pageNumber - 1})}" aria-label="Previous">
             <span aria-hidden="true">&lt;</span>
           </a>
         </li>
 
         <!-- 특정 페이지로 이동 -->
         <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
-          <a th:text="${page}" class="page-link" th:href="@{/admin/admin_faq(page=${page - 1})}"></a>
+          <a th:text="${page}" class="page-link" th:href="@{/admin/faq(page=${page - 1})}"></a>
         </li>
 
         <!-- 다음으로 이동 -->
         <li th:classappend="${faqs.last} ? 'disabled'" class="page-item">
-          <a class="page-link" th:href="${faqs.last} ? '#' : @{/admin/admin_faq(page=${pageNumber + 1})}" aria-label="Next">
+          <a class="page-link" th:href="${faqs.last} ? '#' : @{/admin/faq(page=${pageNumber + 1})}" aria-label="Next">
             <span aria-hidden="true">&gt;</span>
           </a>
         </li>
 
         <!-- 마지막으로 이동 -->
         <li th:classappend=" ${pageNumber >= totalPages - 1} ? 'disabled'" class="page-item">
-          <a class="page-link" th:href="@{/admin/admin_faq(page=${totalPages - 1})}">
+          <a class="page-link" th:href="@{/admin/faq(page=${totalPages - 1})}">
             <span>&raquo;</span>
           </a>
         </li>
@@ -84,7 +84,7 @@
   document.querySelectorAll('.post-tbody-tr2').forEach(function(tr){
     tr.addEventListener('click', function () {
       let index = tr.id.trim();
-      window.location.href = '/admin/admin_faqDetail?id=' + index;
+      window.location.href = '/admin/faq/detail?id=' + index;
     })
   })
 </script>

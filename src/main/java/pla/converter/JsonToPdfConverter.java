@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class JsonToPdfConverter {
 
@@ -37,8 +38,6 @@ public class JsonToPdfConverter {
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
 
-            document.add(new Paragraph("JSON Data to PDF").setBold().setFontSize(16));
-
             // JSON 필드 추출 (첫 번째 레코드 기준)
             Set<String> fields = new LinkedHashSet<>();
             if (rootNode.isArray()) {
@@ -55,15 +54,35 @@ public class JsonToPdfConverter {
                 return;
             }
 
-            // PDF 테이블 생성
-            Table table = new Table(fields.size());
-            for (String field : fields) {
+            // 필드 이름 변환
+            Set<String> modifiedFields = fields.stream().map(field -> {
+                switch (field) {
+                    case "lat":
+                        return "위도";
+                    case "lon":
+                        return "경도";
+                    case "total_score":
+                        return "총점";
+                    case "accessibility_score_standardized":
+                        return "접근성 점수";
+                    case "predicted_usage_standardized":
+                        return "예측 사용량";
+                    case "traffic_score_standardized":
+                        return "트래픽 점수";
+                    default:
+                        return field;
+                }
+            }).collect(Collectors.toCollection(LinkedHashSet::new));
+
+            // PDF 테이블 생성 (헤더는 처음에만 추가)
+            Table table = new Table(modifiedFields.size());
+            for (String field : modifiedFields) {
                 table.addHeaderCell(new Paragraph(field).setBold());
             }
 
             int rowCount = 0;
             for (JsonNode node : rootNode) {
-                for (String field : fields) {
+                for (String field : fields) { // 원래 필드 순서를 사용해 데이터 추출
                     JsonNode valueNode = node.get(field);
                     table.addCell(valueNode != null ? valueNode.asText() : "N/A");
                 }
@@ -72,10 +91,10 @@ public class JsonToPdfConverter {
 
                 // 메모리 최적화를 위한 플러시
                 if (rowCount % 1000 == 0) {
-                    document.add(table);
-                    table = new Table(fields.size());  // 새로운 테이블 시작
-                    for (String field : fields) {
-                        table.addHeaderCell(new Paragraph(field).setBold());
+                    document.add(table); // 이미 테이블이 존재하므로 매번 추가하지 않도록
+                    table = new Table(modifiedFields.size());  // 새로운 테이블 시작
+                    for (String field : modifiedFields) {
+                        table.addHeaderCell(new Paragraph(field).setBold()); // 새로운 테이블에 헤더 추가
                     }
                     System.out.println(rowCount + "개의 레코드를 PDF에 저장 중...");
                 }

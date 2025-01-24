@@ -43,7 +43,7 @@
                               #strings.endsWith(file.fileName, '.xls') or
                               #strings.endsWith(file.fileName, '.xlsx')}"
                      style="display: flex; align-items: center; gap: 10px;">
-                  <a th:href="${file.filePath}" download>
+                  <a th:href="@{/download(filename=${file.fileName})}" download>
                     <img th:src="@{/images/file40.png}" alt="파일 다운로드 이미지" style="width: 30px; height: 30px;" />
                   </a>
                   <p th:text="${file.fileName}" style="margin: 0;"></p>
@@ -208,17 +208,17 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $("#list").on("click", function(){
-      location.href = "/admin/admin_dataList";
+      location.href = "/admin/dataList";
     });
     $("#edit").on("click", function(){
       var frm = $("#frm")[0];
-      frm.action = "/admin/updateDataList";
+      frm.action = "/admin/dataList/update";
       frm.submit();
     });
 
     $("#delete").on("click", function(){
       var frm = $("#frm")[0];
-      frm.action = "/admin/deleteDataList";
+      frm.action = "/admin/dataList/delete";
       frm.submit();
     });
   });

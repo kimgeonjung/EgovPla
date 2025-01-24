@@ -1,8 +1,7 @@
 package pla.converter;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,11 +29,12 @@ public class CsvToShpConverter {
             throw new IOException("Could not create data store");
         }
 
-        try (CSVReader csvReader = new CSVReader(new FileReader(csvPath))) {
+        // FileInputStream을 사용하고, Charset을 지정하여 CSVReader를 읽음
+        try (CSVReader csvReader = new CSVReader(new InputStreamReader(new FileInputStream(csvPath), StandardCharsets.UTF_8))) {
             // Read header row
             String[] headers = csvReader.readNext();
             if (headers == null || headers.length < 3) {
-                throw new IllegalArgumentException("CSV file must contain at least 'lon', 'lat', and one additional field");
+                throw new IllegalArgumentException("CSV file must contain at least '경도', '위도', and one additional field");
             }
 
             // Define the schema dynamically
@@ -43,10 +43,10 @@ public class CsvToShpConverter {
             typeBuilder.add("geometry", Point.class); // Geometry field
 
             for (String header : headers) {
-                if (header.equalsIgnoreCase("lon") || header.equalsIgnoreCase("lat")) {
-                    typeBuilder.add(header, Double.class);
+                if (header.equalsIgnoreCase("경도") || header.equalsIgnoreCase("위도")) {
+                    typeBuilder.add(header, Double.class); // 경도 및 위도 필드는 숫자로 정의
                 } else {
-                    typeBuilder.add(header, String.class);
+                    typeBuilder.add(header, String.class); // 기타 필드는 문자열로 정의
                 }
             }
 
@@ -68,15 +68,15 @@ public class CsvToShpConverter {
                         String columnName = headers[i];
                         String value = row[i];
 
-                        if (columnName.equalsIgnoreCase("lon") || columnName.equalsIgnoreCase("lat")) {
+                        if (columnName.equalsIgnoreCase("경도") || columnName.equalsIgnoreCase("위도")) {
                             double numericValue = Double.parseDouble(value);
                             attributes.put(columnName, numericValue);
 
-                            if (columnName.equalsIgnoreCase("lon")) {
-                                double lat = (double) attributes.getOrDefault("lat", 0.0);
+                            if (columnName.equalsIgnoreCase("경도")) {
+                                double lat = (double) attributes.getOrDefault("위도", 0.0);
                                 point = geometryFactory.createPoint(new org.locationtech.jts.geom.Coordinate(numericValue, lat));
-                            } else if (columnName.equalsIgnoreCase("lat")) {
-                                double lon = (double) attributes.getOrDefault("lon", 0.0);
+                            } else if (columnName.equalsIgnoreCase("위도")) {
+                                double lon = (double) attributes.getOrDefault("경도", 0.0);
                                 point = geometryFactory.createPoint(new org.locationtech.jts.geom.Coordinate(lon, numericValue));
                             }
                         } else {

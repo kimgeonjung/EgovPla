@@ -16,7 +16,7 @@
       <div class="admin1-split-div-post"></div>
     </div>
     <div>
-      <form th:action="@{/admin/createNotice}" method="post" enctype="multipart/form-data">
+      <form th:action="@{/admin/notice/create}" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <label for="title">제목:</label>
           <input type="text" id="title" name="title" required>
@@ -31,7 +31,8 @@
         </div>
         <div class="admin-form-actions">
           <button type="submit"  class="admin-submit-button" >작성완료</button>
-          <button type="button"  class="admin-cancel-button"  onclick="window.location.href='/admin/admin_notice';">취소</button>        </div>
+          <button type="button"  class="admin-cancel-button"  onclick="window.location.href='/admin/notice';">취소</button>
+        </div>
       </form>
     </div>
   </div>

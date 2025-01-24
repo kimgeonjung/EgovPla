@@ -16,7 +16,7 @@
       <div class="split--div-post"></div>
     </div>
     <div>
-      <form th:action="@{/admin/createFAQ}" method="post" enctype="multipart/form-data">
+      <form th:action="@{/admin/faq/create}" method="post" enctype="multipart/form-data">
         <div class="form-group">
           <label for="title">제목:</label>
           <input type="text" id="title" name="title" required>
@@ -32,7 +32,8 @@
 
         <div class="admin13-form-actions">
           <button type="submit" class="admin13-submit-button">작성완료</button>
-          <button type="button" class="admin13-cancel-button" onclick="window.location.href='/admin/admin_faq';">취소</button>        </div>
+          <button type="button" class="admin13-cancel-button" onclick="window.location.href='/admin/faq';">취소</button>
+        </div>
       </form>
     </div>
   </div>

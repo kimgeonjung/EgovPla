@@ -40,7 +40,7 @@
           <!-- 데이터 번호 출력 -->
           <td th:text="${totalDataList - (dataList.pageable.pageNumber * 10) - stat.index}"></td>
           <td>
-            <a th:href="@{/admin/admin_dataListDetail(id=${data.id})} "th:text="${data.title}"></a>
+            <a th:href="@{/admin/dataList/detail(id=${data.id})} "th:text="${data.title}"></a>
           </td>
           <!-- 데이터 작성일을 당일 작성이면 HH:mm을 아니면 yyyy-MM-dd 형식으로 출력 -->
           <td th:text="${#temporals.format(now, 'yyyy-MM-dd').equals(#temporals.format(data.createdAt, 'yyyy-MM-dd'))} ? ${#temporals.format(data.createdAt, 'HH:mm')} : ${#temporals.format(data.createdAt, 'yyyy-MM-dd')}"></td>
@@ -50,7 +50,7 @@
       </th:block>
       </tbody>
     </table>
-    <a th:href="@{/admin/admin_dataListWrite}" class="admin8-write-button">추가</a>
+    <a th:href="@{/admin/dataList/write}" class="admin8-write-button">추가</a>
   </div>
     <!-- 페이징 -->
     <div th:if="${!dataList.isEmpty()}" class="text-center">
@@ -61,14 +61,14 @@
 
           <!-- 처음으로 이동 버튼 -->
           <li th:classappend="${pageNumber == 0} ? 'disabled'" class="page-item">
-                        <a class="page-link" th:href="@{/admin/admin_dataList(page=0)}">
+                        <a class="page-link" th:href="@{/admin/dataList(page=0)}">
               <span>&laquo;</span>
             </a>
           </li>
 
           <!-- 이전 페이지로 이동 버튼 -->
           <li th:classappend="${dataList.first} ? 'disabled'" class="page-item">
-            <a class="page-link" th:href="${dataList.first} ? '#' : @{/admin/admin_dataList(page=${pageNumber - 1})}" aria-label="Previous">
+            <a class="page-link" th:href="${dataList.first} ? '#' : @{/admin/dataList(page=${pageNumber - 1})}" aria-label="Previous">
               <span aria-hidden="true">&lt;</span>
             </a>
           </li>
@@ -76,13 +76,13 @@
 
           <!-- 페이지 번호 표시 및 클릭 시 해당 페이지로 이동 -->
           <li th:each="page: ${#numbers.sequence(startPage, endPage)}" th:classappend="${page == pageNumber + 1} ? 'active'" class="page-item">
-            <a th:text="${page}" class="page-link" th:href="@{/admin/admin_dataList(page=${page - 1})}"></a>
+            <a th:text="${page}" class="page-link" th:href="@{/admin/dataList(page=${page - 1})}"></a>
           </li>
 
 
           <!-- 다음 페이지로 이동 버튼 -->
           <li th:classappend="${dataList.last} ? 'disabled'" class="page-item">
-            <a class="page-link" th:href="${dataList.last} ? '#' : @{/admin/admin_dataList(page=${pageNumber + 1})}" aria-label="Next">
+            <a class="page-link" th:href="${dataList.last} ? '#' : @{/admin/dataList(page=${pageNumber + 1})}" aria-label="Next">
               <span aria-hidden="true">&gt;</span>
             </a>
           </li>
@@ -90,7 +90,7 @@
 
           <!-- 마지막 페이지로 이동 버튼 -->
           <li th:classappend="${pageNumber >= totalPages - 1} ? 'disabled'" class="page-item">
-            <a class="page-link" th:href="@{/admin/admin_dataList(page=${totalPages - 1})}">
+            <a class="page-link" th:href="@{/admin/dataList(page=${totalPages - 1})}">
               <span>&raquo;</span>
             </a>
 
@@ -104,7 +104,7 @@
   document.querySelectorAll('.tr-click').forEach(function(tr){
   tr.addEventListener('click', function () {
     let index = tr.id.trim();
-    window.location.href = '/admin/admin_dataListDetail?id=' + index;
+    window.location.href = '/admin/dataList/detail?id=' + index;
   })
 })
 </script>
