@@ -61,7 +61,6 @@
 <script th:inline="javascript">
   /*<![CDATA[*/
   var applyList = /*[[${applies}]]*/ []; // 서버에서 받아온 데이터를 여기서 처리
-  console.log(applyList);  // 콘솔에서 applyList 확인
   var originalList = [...applyList]; // 필터링 전 전체 데이터를 저장
   /*]]>*/
 </script>
@@ -238,7 +237,6 @@
 
   // 페이지 로드 시 카운트 업데이트
   window.onload = function() {
-    console.log('Apply List:', applyList); // applyList 확인
     updateCounts();  // 카운트 업데이트 함수 호출
     displayData();   // 초기 데이터 표시
   };

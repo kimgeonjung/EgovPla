@@ -34,12 +34,10 @@ public class FileDownloadController {
     public ResponseEntity<Resource> downloadFile(@RequestParam("filename") String filename, 
     		@RequestParam(value = "dir", defaultValue = "dir1") String dir,
     		@RequestParam(value = "saveAs", required = false) String saveAs) throws IOException {
-    	log.info(saveAs);
         try {
         	// 한글 파일명 디코딩 (필요 시 적용)
 //            String decodedFilename = URLDecoder.decode(filename, StandardCharsets.UTF_8.toString());
         	String decodedFilename = filename;
-        	log.info("Using filename without decoding: {}", decodedFilename);
             // 선택된 경로 설정
             String selectedDir = "dir2".equalsIgnoreCase(dir) ? downloadDir : uploadDir;
             // 파일 경로 설정 (예: 클라우드 업로드 경로)
@@ -49,20 +47,15 @@ public class FileDownloadController {
             try {
                 resource = new UrlResource(filePath.toUri());
             } catch (MalformedURLException e) {
-                log.error("Malformed URL for file path: {}", filePath.toString(), e);
                 throw new RuntimeException("Invalid file path: " + filePath.toString());
             }           
-            log.info("Decoded filename: {}", decodedFilename);
-            log.info("Full file path: {}", filePath.toString());
-            
+
             // 파일 존재 및 읽기 가능 여부 확인
             if (!Files.exists(filePath)) {
-                log.error("File does not exist at path: {}", filePath.toString());
                 throw new RuntimeException("File does not exist: " + decodedFilename);
             }
 
             if (!Files.isReadable(filePath)) {
-                log.error("File exists but is not readable: {}", filePath.toString());
                 throw new RuntimeException("File is not readable: " + decodedFilename);
             }
            

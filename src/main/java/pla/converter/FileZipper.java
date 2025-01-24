@@ -15,16 +15,13 @@ public class FileZipper {
             for (String filePath : filePaths) {
                 File fileToZip = new File(filePath);
                 if (!fileToZip.exists()) {
-                    System.out.println("File not found: " + filePath);
                     continue;
                 }
                 addFileToZip(fileToZip, fileToZip.getName(), zos);
             }
 
-            System.out.println("ZIP file created at: " + outputZipPath);
 
         } catch (IOException e) {
-            System.err.println("Error while compressing files to ZIP: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -62,7 +59,6 @@ public class FileZipper {
             try {
                 Path path = Paths.get(filePath);
                 Files.deleteIfExists(path);
-                System.out.println(filePath + " 삭제 완료.");
             } catch (Exception e) {
                 System.err.println(filePath + " 삭제 중 오류 발생: " + e.getMessage());
             }

@@ -43,18 +43,4 @@ public class MainController {
 
         return "main/home";
     }
-    
-//    @GetMapping("/kiosk/map2")
-//	public String getKioskMap2(){
-//		return "map/map2";
-//	}
-    
-    @GetMapping("/kiosk/map2")
-    public String loadPage(Model model) {
-        String scriptPath = "/test.js";
-        model.addAttribute("scriptPath", scriptPath);
-        System.out.println("Script Path: " + scriptPath); // 디버깅용 로그
-        return "map/map2";
-    }
-    
 }

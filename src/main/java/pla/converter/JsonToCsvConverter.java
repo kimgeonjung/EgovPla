@@ -76,7 +76,6 @@ public class JsonToCsvConverter {
 
             writer.flush();
             writer.close();
-            System.out.println("CSV 파일 생성 완료: " + outputFilePath);
 
         } catch (IOException e) {
             e.printStackTrace();

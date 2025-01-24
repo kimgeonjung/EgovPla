@@ -106,7 +106,6 @@ public class JsonToPdfConverter {
                     for (String field : modifiedFields) {
                         table.addHeaderCell(new Paragraph(field).setBold());
                     }
-                    System.out.println(rowCount + "개의 레코드를 PDF에 저장 중...");
                 }
             }
 
@@ -115,8 +114,6 @@ public class JsonToPdfConverter {
             document.close();
 
             long endTime = System.currentTimeMillis();
-            System.out.println("PDF 파일 생성 완료: " + outputPdfPath);
-            System.out.println("총 실행 시간: " + (endTime - startTime) + "ms");
 
         } catch (IOException e) {
             System.err.println("파일 읽기/쓰기 중 오류 발생: " + e.getMessage());

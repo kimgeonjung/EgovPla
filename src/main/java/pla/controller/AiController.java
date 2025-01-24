@@ -76,11 +76,9 @@ public class AiController {
 	    // PythonExecutor를 비동기로 호출
 	    CompletableFuture.runAsync(() -> {
 	        try {
-	            log.info("비동기 실행 시작 - 모델명: {}", modelName);
 	            pythonExecutor.runPythonScript(authInfo, modelName, location, commandParams);
-	            log.info("비동기 실행 완료 - 모델명: {}", modelName);
 	        } catch (Exception e) {
-	            log.error("비동기 실행 중 오류 발생: ", e);
+				e.printStackTrace();
 	        }
 	    });
 

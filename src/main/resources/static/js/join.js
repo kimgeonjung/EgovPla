@@ -76,7 +76,6 @@ $(document).ready(function (){
                 alert('인증 성공');
                 codeInput.prop('readonly', true);
                 hiddenEmailField.val(email);
-                console.log('Hidden email field value:', hiddenEmailField.val());
                 emailBtn.removeClass('btn-outline-primary').addClass('btn-outline-success');
                 emailBtn.text("인증 완료");
                 codeBtn.removeClass('btn-outline-primary').addClass('btn-outline-success');
@@ -127,7 +126,6 @@ $(document).ready(function (){
                         .prop("disabled", true)
                         .text("사용 가능한 ID");
                     hiddenLoginIdField.val(id); // 숨겨진 필드에 ID 저장
-                    console.log('Hidden id field value:', hiddenLoginIdField.val());
                     loginIdInput.prop('readonly', true); // 입력 필드 비활성화
                     registerDataForm.removeClass('d-none')
                 } else {

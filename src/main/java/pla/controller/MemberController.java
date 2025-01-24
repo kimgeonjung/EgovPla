@@ -49,7 +49,6 @@ public class MemberController {
     @PostMapping("/login")
     public String login(@ModelAttribute LoginDto dto, Model model, HttpSession session) {
         boolean isLogin = memberService.loginMember(dto);
-        log.info("로그인 isLogin: {}", isLogin);
         if (!isLogin) {
             model.addAttribute("error", "ID 또는 비밀번호가 틀립니다.");
             return "user/login";

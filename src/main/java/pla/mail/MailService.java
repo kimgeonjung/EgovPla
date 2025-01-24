@@ -59,24 +59,19 @@ public class MailService {
         String number = createNumber();
 
         MimeMessage message = createMail(sendEmail, number);
-        log.info("이메일: {}", sendEmail);
-        log.info("인증번호: {}", number);
         try{
         	mailSender.send(message);
         }catch (MailException e){
-        	log.error("메일 발송 중 오류: {}", e.getMessage(), e);
             throw new IllegalArgumentException("메일 발송 중 오류가 발생했습니다.");
         }
 
         verificationCode.put(sendEmail, new VerificationCode(number, System.currentTimeMillis()));
-        log.info("코드 해시맵 {}", verificationCode.get(sendEmail).toString());
 
         return number;
     }
 
     public boolean verifyCode(String email, String code) {
         VerificationCode storedCode = verificationCode.get(email);
-        log.info("저장된 코드 {}", storedCode);
         if(storedCode != null){
             long currentTime = System.currentTimeMillis();
             if(currentTime - storedCode.getTimestamp() < 300000){

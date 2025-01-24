@@ -336,7 +336,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // 'visible'이 true인 레이어만 필터링하여 출력
                 const visibleLayers = map.getLayers().getArray().filter(layer => layer.getVisible());
-                console.log('현재 보이는 레이어:', visibleLayers);
 
                 // 레이어 우선순위에 추가
                 // ul 요소 선택
@@ -380,7 +379,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 // ul에 li 추가
                 ul.appendChild(newLi);
 
-                console.log(newLi);
 
                 // cancel 버튼 클릭 이벤트 추가
                 newBtn.addEventListener('click', function() {
@@ -401,7 +399,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     // 'visible'이 true인 레이어만 필터링하여 출력
                     const visibleLayers = map.getLayers().getArray().filter(layer => layer.getVisible());
-                    console.log('현재 보이는 레이어:', visibleLayers);
 
                 });
             } else {
@@ -440,11 +437,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (matchingLayer) {
                     // 해당 레이어가 layer_list에 존재하면 zIndex 값을 수정
                     layer.setZIndex(matchingLayer.index);
-                    console.log(`Layer ${layerId} zIndex updated to ${matchingLayer.index}`);
                 }
             });
-
-            console.log('layer_list:', layer_list); // 최종적으로 저장된 배열 출력
         }
     });
 
@@ -488,7 +482,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 클릭한 위치 좌표
         var lonLatText = '클릭한 위치의 위도 : ' +  coordinate[1].toFixed(6) + ', 경도 : ' + coordinate[0].toFixed(6); // 위도, 경도
-        console.log(lonLatText);
 
         // 클릭한 위치 이름
         var url1 = map.getLayers().item(1).getSource().getGetFeatureInfoUrl(coordinate, resolution, projection, {
@@ -500,9 +493,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())  // JSON 형식으로 응답을 처리
             .then(data => {
                 const properties = data.features.map(feature => feature.properties);
-                console.log(properties);
                 const name = data.features.map(feature => feature.properties.adm_nm);
-                console.log("이름 : "+name);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);  // 에러 처리

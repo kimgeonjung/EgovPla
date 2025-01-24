@@ -25,9 +25,7 @@ public class MailRestController {
     @PostMapping("/uniqueCheck")
     public ResponseEntity<Boolean> uniqueCheck(@RequestBody Map<String, String> requestData) {
         String email = requestData.get("email");
-        System.out.println(email);
         boolean result = memberService.checkEmail(email);
-        System.out.println(result);
         return ResponseEntity.ok(result);
     }
 

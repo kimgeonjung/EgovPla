@@ -17,7 +17,7 @@
     <meta charset="UTF-8">
     <title>결과 확인</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script type="text/javascript" src="https://map.vworld.kr/js/vworldMapInit.js.do?version=2.0&apiKey="></script> <!-- api key값 추가 필요 -->
+    <script type="text/javascript" src="https://map.vworld.kr/js/vworldMapInit.js.do?version=2.0&apiKey=insert-your-api-key"></script>
     <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <style>
@@ -63,11 +63,8 @@
 </div>
 <script>
     const apply = document.getElementById("apply").value;
-    console.log(apply);
     const loc = document.getElementById('location').value;
-    console.log(loc);
     const type = document.getElementById("type").value;
-    console.log(type);
     const layers_style = [
         { style : "ne:dot_style_amethyst_purple", shape : "dot", color : "#9b59b6" },
         { style : "ne:dot_style_bright_yellow", shape : "dot", color : "#f1c40f" },
@@ -176,8 +173,6 @@
     } else if (loc === "gwangju" && type === "canopy") {
         const layer = createWmsLayer('gwangju_civil_service_machines', "dot");
         layer.addTo(map);
-    } else {
-        console.log("문제가 발생?????")
     }
 
     // 주소를 가져오는 함수
@@ -203,7 +198,6 @@
                 return formattedAddress.trim();  // 불필요한 공백 제거
             })
             .catch(error => {
-                console.log("주소를 찾는 중 오류가 발생했습니다:", error);
                 return "";  // 오류 발생 시 빈 문자열 반환
             });
     }

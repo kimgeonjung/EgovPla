@@ -38,7 +38,6 @@ public class AutoAddLinkToApply {
                 apply.setLink(canopyFilePath);
                 break;
             default:
-                System.out.println("모델 이름이 다릅니다.");
                 break;
         }
 		applyRepository.save(apply);

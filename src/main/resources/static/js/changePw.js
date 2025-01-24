@@ -22,7 +22,6 @@ $(document).ready(function() {
                 window.location.href = "/login";
             },
             error: function (error) {
-                console.log(data)
                 alert('비밀번호 변경 실패');
             }
         });

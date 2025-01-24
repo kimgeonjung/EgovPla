@@ -111,6 +111,5 @@ public class CsvToShpConverter {
             dataStore.dispose();
         }
 
-        System.out.println("Shapefile 생성 완료: " + outputShpPath);
     }
 }

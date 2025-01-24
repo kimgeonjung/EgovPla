@@ -101,7 +101,6 @@ public class MemberService {
 
     public boolean loginMember(LoginDto dto) {
         Member member = memberRepository.findByLoginId(dto.getLoginId()).orElse(null);
-        log.info("로그인계정 정보: {}", member);
         if (member != null && passwordEncoder.matches(dto.getPassword(), member.getPassword())){ // 비밀번호 암호화 필요
             return true;
         }
@@ -138,7 +137,6 @@ public class MemberService {
         }
 
         String newPw = tempPw.toString();
-        log.info(newPw);
         String body = "안녕하세요. "+member.getName()+"님. 임시 비밀번호를 발급해드립니다.\n"+
                 "회원님의 임시 비밀번호는 "+newPw+" 입니다.\n" +
                 "임시 비밀번호로 로그인 후 비밀번호를 변경해주세요.";
@@ -165,7 +163,6 @@ public class MemberService {
 
     public String changePw(ChangePwRequest request) {
         Member member = findByLoginId(request.getLoginId());
-        log.info("아이디: {}", member.getLoginId());
         if(!passwordEncoder.matches(request.getOldPw(), member.getPassword())){
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }

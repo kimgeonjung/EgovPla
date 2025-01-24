@@ -50,10 +50,8 @@ public class PythonExecutor {
         StringBuilder output = new StringBuilder();
 
         if (!modelName.matches("[a-zA-Z0-9_]+")) {
-        	log.info("입력 오류");
             throw new IllegalArgumentException("잘못된 입력입니다.");
         } else if (!modelName.equals("kiosk") && !modelName.equals("library") && !modelName.equals("public_wifi") && !modelName.equals("canopy")) {
-        	log.info("잘못된 모델 이름이 들어갔습니다");
             throw new IllegalArgumentException("잘못된 모델 이름이 들어갔습니다.");
         }
 
@@ -78,8 +76,6 @@ public class PythonExecutor {
         		+ " --map_filename " + fileName
         };
         try {
-            log.info("Command to execute: {}", Arrays.toString(commands));
-
             // ProcessBuilder 초기화
             ProcessBuilder processBuilder = new ProcessBuilder(commands);
 
@@ -95,11 +91,10 @@ public class PythonExecutor {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        log.info("{}", line);
                         output.append(line).append("\n");
                     }
                 } catch (Exception e) {
-                    log.error("Error reading Python stdout", e);
+                    e.printStackTrace();
                 }
             }).start();
 
@@ -107,17 +102,15 @@ public class PythonExecutor {
                 try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
                     String line;
                     while ((line = errorReader.readLine()) != null) {
-                        log.error("{}", line);
                         output.append("Error: ").append(line).append("\n");
                     }
                 } catch (Exception e) {
-                    log.error("Error reading Python stderr", e);
+                    e.printStackTrace();
                 }
             }).start();
 
             // 프로세스 종료 대기
             int exitCode = process.waitFor();
-            log.info("Python process exited with code: {}", exitCode);
             output.append("Python script exited with code: ").append(exitCode).append("\n");
 
             // 정상 종료시 게시글 생성
@@ -141,29 +134,19 @@ public class PythonExecutor {
                     // 1. JSON → CSV 변환
                     String jsonInputPath = applyService.getApplyLink(applyId);
                     String csvOutputPath = downloadPath + ".csv";
-                    
-                    log.info(jsonInputPath);
-                    log.info(csvOutputPath);
 
                     JsonToCsvConverter jsonToCsvConverter = new JsonToCsvConverter();
-                    System.out.println("JSON을 CSV로 변환 중...");
                     jsonToCsvConverter.convertJsonToCsv(jsonInputPath, csvOutputPath);
-                    System.out.println("JSON → CSV 변환 완료!");
 
                     // 2. JSON → PDF 변환
                     String pdfOutputPath = downloadPath + ".pdf";
-
-                    System.out.println("JSON을 PDF로 변환 중...");
                     convertJsonToPdf(jsonInputPath, pdfOutputPath);
-                    System.out.println("JSON → PDF 변환 완료!");
 
                     // 3. CSV → SHP 변환
                     String shpOutputPath = downloadPath + ".shp";
 
                     CsvToShpConverter csvToShpConverter = new CsvToShpConverter();
-                    System.out.println("CSV를 SHP로 변환 중...");
                     csvToShpConverter.convertCsvToShapefile(csvOutputPath, shpOutputPath);
-                    System.out.println("CSV → SHP 변환 완료!");
 
                     // 4. SHP 관련 파일 압축
                     String[] filesToZip = {
@@ -176,9 +159,7 @@ public class PythonExecutor {
 
                     String outputZip = downloadPath + ".zip";
 
-                    System.out.println("SHP 파일을 ZIP으로 압축 중...");
                     compressFilesToZip(filesToZip, outputZip);
-                    System.out.println("SHP 파일 압축 완료!");
 
                     // 5. 압축하고 남은 파일 삭제
                     deleteFilesAfterCompression(filesToZip);
@@ -186,12 +167,10 @@ public class PythonExecutor {
                     userFileLinkService.createFileLink(authInfo.getId(), applyId, fileName);
 
                 } catch (Exception e) {
-                    System.err.println("처리 중 오류 발생: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
         } catch (Exception e) {
-            log.error("Exception occurred while executing Python script", e);
             output.append("Exception: ").append(e.getMessage());
         }
 

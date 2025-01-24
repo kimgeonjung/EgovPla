@@ -63,7 +63,6 @@ public class ApplyController {
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
         // 로그인한 사용자에 따른 신청서 목록 가져오기
         List<Apply> applies = applyRepository.findAllByUidAndRequest(authInfo.getId(),"detail");
-        System.out.println(applies);
         model.addAttribute("total", applyService.totalApplies(authInfo, "detail"));
         model.addAttribute("now", LocalDateTime.now());
         model.addAttribute("applies", applies);
@@ -75,11 +74,8 @@ public class ApplyController {
     public String normalDetail(@RequestParam Long id, Model model, HttpSession session) {
         Apply apply = applyService.selectApplyDetail(id);
         LocalDateTime now = LocalDateTime.now();
-        System.out.println(apply);
         AuthInfo authInfo = (AuthInfo) session.getAttribute("authInfo");
-        log.info(authInfo.getLoginId());
         String fileLink = fileLinkService.findLink(id, authInfo.getId()).getFileLink();
-        log.info(fileLink);
         String csvPath = fileLink + "/" + fileLink + ".csv";
         String pdfPath = fileLink + "/" + fileLink + ".pdf";
         String zipPath = fileLink + "/" + fileLink + ".zip";
@@ -96,7 +92,6 @@ public class ApplyController {
     public String detailDetail(@RequestParam Long id, Model model) {
         Apply apply = applyService.selectApplyDetail(id);
         LocalDateTime now = LocalDateTime.now();
-        System.out.println(apply);
         model.addAttribute("apply", apply);
         model.addAttribute("now", now);
         return "map/detailApply_detail";
@@ -178,9 +173,6 @@ public class ApplyController {
         // 파일 내용 읽기
         String filePath = apply.getLink();
         String content = new String(Files.readAllBytes(Paths.get(filePath)));
-        System.out.println(apply);
-        System.out.println(location);
-        System.out.println(type);
         model.addAttribute("location", location);
         model.addAttribute("type", type);
         model.addAttribute("content", content);  // 파일 내용을 전달

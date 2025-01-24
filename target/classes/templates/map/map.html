@@ -1183,7 +1183,6 @@
     satellite_map.addEventListener('click', function (){
         // 상태에 따라 다른 작업 실행
         if (satellite_true) {
-            console.log('True: 위성지도를 활성화');
             hybrid.addTo(map);
             satellite.addTo(map);
         }
@@ -2269,7 +2268,6 @@
                     });
                     contentHtml += `</table>`;
                     
-                    console.log(contentHtml)
                     if(contentHtml === '<table></table>'){
                         contentHtml = null;
                     }
@@ -2307,20 +2305,14 @@
                                         const properties = result.data.features[0].properties;
                                         layerDataHtml += `<table><tr><th>전체인구</th><th>남자</th><th>여자</th></tr>
                                                                  <tr><td>${properties.total_pp}</td><td>${properties.male}</td><td>${properties.female}</td></tr></table>`
-                                        console.log(properties)
-                                        console.log("행정동");
                                     } else if (table_type === "행정구") {
                                         const properties = result.data.features[0].properties;
                                         layerDataHtml += `<table><tr><th>전체인구</th><th>남자</th><th>여자</th></tr>
                                                                  <tr><td>${properties.total_pp}</td><td>${properties.male}</td><td>${properties.female}</td></tr></table>`
-                                        console.log(properties)
-                                        console.log("행정구");
                                     } else if (table_type === "행정시") {
                                         const properties = result.data.features[0].properties;
                                         layerDataHtml += `<table><tr><th>전체인구</th><th>남자</th><th>여자</th></tr>
                                                                  <tr><td>${properties.total_pp}</td><td>${properties.male}</td><td>${properties.female}</td></tr></table>`
-                                        console.log(properties)
-                                        console.log("행정시");
                                     } else if (table_type === "도서관") {
                                         const properties = result.data.features[0].properties;
                                         layerDataHtml += `<table>
@@ -2337,38 +2329,28 @@
                                             layerDataHtml += `<tr><th>사이트</th><td colspan="5"><a href="${properties.website}" target="_blank">${properties.website}</a></td></tr>`;
                                         }
                                         layerDataHtml += `</table>`
-                                        console.log(properties)
-                                        console.log("도서관");
                                     } else if (table_type === "무인 발급기") {
                                         const properties = result.data.features[0].properties;
                                         let useValue = (properties.use === null || properties.use === undefined || properties.use === 0) ? "알 수 없음" : properties.use;
                                         layerDataHtml += `<table><tr><th>연간 이용량</th><td>${useValue}</td></tr></table>`;
-                                        console.log(properties);
-                                        console.log("무인 발급기");
                                     } else if (table_type === "와이파이") {
                                         const properties = result.data.features[0].properties;
                                         layerDataHtml += `<table>
                                             <tr><th>위치</th><td colspan="3">${properties.name}</td></tr>
                                             <tr><th>위도</th><td>${properties.latitude}</td><th>경도</th><td>${properties.longitude}</td></tr>
                                           </table>`
-                                        console.log(properties)
-                                        console.log("와이파이");
                                     } else if (table_type === "열지도") {
                                         const properties = result.data.features[0].properties;
                                         const roundedTmMean = properties.tm_mean.toFixed(1); // 소수 첫째 자리까지 반올림
                                         layerDataHtml += `<table>
                                                             <tr><th>평균 온도</th><td>${roundedTmMean}</td></tr>
                                                           </table>`;
-                                        console.log(properties);
-                                        console.log("열지도");
                                     } else if (table_type === "교통현황") {
                                         const properties = result.data.features[0].properties;
                                         layerDataHtml += `<table>
                                                             <tr><th>일시</th><th>시간</th><th>평균 이용량</th></tr>
                                                             <tr><td>${properties.a1}~${properties.b1}</td><td>${properties.e1}</td><td>${properties.d1}</td></tr>
                                                           </table>`
-                                        console.log(properties)
-                                        console.log("교통현황");
                                     } else if (table_type === "건물 현황") {
                                         const properties = result.data.features[0].properties;
                                         layerDataHtml += `<table>
@@ -2376,8 +2358,6 @@
                                                             <tr><th>건물용도분류명</th><th>세부용도명</th><th>주요용도명</th></tr>
                                                             <tr><td>${properties.a29}</td><td>${properties.a27}</td><td>${properties.a25}</td></tr>
                                                           </table>`
-                                        console.log(properties)
-                                        console.log("건물 현황");
                                     } else if (table_type === "인구") {
                                         const properties = result.data.features[0].properties;
                                         const val = parseInt(properties.val, 10);
@@ -2385,23 +2365,17 @@
                                                             <tr><th>거주 인원</th><th>위도</th><th>경도</th></tr>
                                                             <tr><td>${val}</td><td>${properties.lat}</td><td>${properties.lon}</td></tr>
                                                           </table>`
-                                        console.log(properties)
-                                        console.log("인구");
                                     } else if (table_type === "유동인구") {
                                         const properties = result.data.features[0].properties;
                                         layerDataHtml += `<table>
                                             <tr><th>유동인구</th><td>${properties.freq}</td></tr>
                                           </table>`
-                                        console.log(properties)
-                                        console.log("유동인구");
                                     } else if (table_type === "신호등") {
                                         const properties = result.data.features[0].properties;
                                         layerDataHtml += `<table>
                                             <tr><th>지번 주소</th><td colspan="3">${properties.location_1}</td></tr>
                                             <tr><th>관리기관명</th><td>${properties.manageme_1}</td><th>관리기관 번호</th><td>${properties.manageme_2}</td></tr>
                                           </table>`
-                                        console.log(properties)
-                                        console.log("신호등");
                                     } else if (table_type === "토지 이용현황") {
                                         const properties = result.data.features[0].properties.ucb;
                                         const description = ucb_data[properties];
@@ -2409,8 +2383,6 @@
                                                             <tr><th>설명</th></tr>
                                                             <tr><td>${description}</td></tr>
                                                           </table>`
-                                        console.log(properties)
-                                        console.log("토지 이용현황");
                                     } else if (table_type === "토지 소유 정보") {
                                         const properties = result.data.features[0].properties;
                                         let ownerRow = '';
@@ -2423,8 +2395,6 @@
                                             <tr><th>지목</th><td>${properties.a20}</td></tr>
                                             <tr><th>토지 면적</th><td>${properties.a22}m²</td></tr>
                                           </table>`;
-                                        console.log(properties)
-                                        console.log("토지 소유 정보");
                                     } else if (table_type === "토지 특성 공간") {
                                         const properties = result.data.features[0].properties;
                                         layerDataHtml += `<table>
@@ -2433,50 +2403,30 @@
                                             <tr><th>용도</th><td>${properties.a16}</td><th>토지이용상황</th><td>${properties.a18}</td></tr>
                                             <tr></tr>
                                           </table>`
-                                        console.log(properties)
-                                        console.log("토지 특성 공간");
                                     } else if (table_type === "도로") {
                                         const properties = result.data.features[0].properties;
-                                        console.log(properties)
-                                        console.log("도로");
                                     } else if (table_type === "건물") {
                                         const properties = result.data.features[0].properties;
-                                        console.log(properties)
-                                        console.log("건물");
                                     } else if (table_type === "시설") {
                                         const properties = result.data.features[0].properties;
-                                        console.log(properties)
-                                        console.log("시설");
                                     } else if (table_type === "식생") {
                                         const properties = result.data.features[0].properties;
-                                        console.log(properties)
-                                        console.log("식생");
                                     } else if (table_type === "수계") {
                                         const properties = result.data.features[0].properties;
-                                        console.log(properties)
-                                        console.log("수계");
                                     } else if (table_type === "지형") {
                                         const properties = result.data.features[0].properties;
-                                        console.log(properties)
-                                        console.log("지형");
                                     } else if (table_type === "경계") {
                                         const properties = result.data.features[0].properties;
-                                        console.log(properties)
-                                        console.log("경계");
                                     } else if (table_type === "주기") {
                                         const properties = result.data.features[0].properties;
-                                        console.log(properties)
-                                        console.log("주기");
                                     } else {
-                                        console.log("알 수 없는 테이블 유형");
+                                        console.error("알 수 없는 테이블 유형");
                                     }
                                     // 모달에 해당 레이어의 데이터만 업데이트
                                     modalContent.innerHTML = layerDataHtml;
                                 });
                             }
                         });
-                    } else {
-                        console.log('겹치는 레이어에서 데이터가 없습니다.');
                     }
                 });
             });
@@ -2592,7 +2542,6 @@
 
     // 레이어 배열을 돌면서 WMS 레이어 생성
     const layerInstances = {};  // 레이어 인스턴스를 저장할 객체
-    console.log(layerInstances);
 
     // 레이어 추가 삭제
     layers.forEach(function(layerInfo) {
@@ -2726,20 +2675,15 @@
             // 현재 맵에 존재하는 레이어를 순회하면서 id가 일치하는 레이어의 zIndex를 수정
             map.eachLayer(function (layer) {
                 const layerId = layer.options.id;  // Leaflet에서 레이어의 id는 options에 저장됩니다.
-                console.log(`Layer ID: ${layerId}`);  // 레이어 ID 확인
 
                 const matchingLayer = layer_list.find(item => item.id === layerId);
 
                 if (matchingLayer) {
                     // 해당 레이어가 layer_list에 존재하면 zIndex 값을 수정
-                    console.log(`Layer ${layerId} zIndex updated to ${matchingLayer.index}`);
                     layer.setZIndex(matchingLayer.index);  // zIndex 설정
                 } else {
-                    console.log(`No matching layer found for ${layerId}`);
                 }
             });
-
-            console.log('layer_list:', layer_list);  // 최종적으로 저장된 배열 출력
         }
     });
 
