@@ -1,13 +1,16 @@
 package pla.converter;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.io.exceptions.IOException;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.font.PdfFontFactory.EmbeddingStrategy; // EmbeddingStrategy 임포트
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.FileReader;
@@ -33,10 +36,17 @@ public class JsonToPdfConverter {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode rootNode = mapper.readTree(new FileReader(jsonFile));
 
+            // 한글을 지원하는 로컬 폰트 지정 (예: Noto Sans KR)
+            // 로컬 경로에서 폰트 파일을 지정
+            String fontPath = "/fonts/NotoSansKR-VariableFont_wght.ttf";  // 경로 지정
+            // EmbeddingStrategy를 사용하여 폰트 내장 설정
+            PdfFont font = PdfFontFactory.createFont(fontPath, EmbeddingStrategy.PREFER_EMBEDDED);
+
             // PDF 문서 생성
             PdfWriter writer = new PdfWriter(outputPdfPath);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
+            document.setFont(font);  // 폰트 설정
 
             // JSON 필드 추출 (첫 번째 레코드 기준)
             Set<String> fields = new LinkedHashSet<>();
@@ -64,17 +74,17 @@ public class JsonToPdfConverter {
                     case "total_score":
                         return "총점";
                     case "accessibility_score_standardized":
-                        return "접근성 점수";
+                        return "접근성점수";
                     case "predicted_usage_standardized":
-                        return "예측 사용량";
+                        return "예측사용량";
                     case "traffic_score_standardized":
-                        return "트래픽 점수";
+                        return "트래픽점수";
                     default:
                         return field;
                 }
             }).collect(Collectors.toCollection(LinkedHashSet::new));
 
-            // PDF 테이블 생성 (헤더는 처음에만 추가)
+            // PDF 테이블 생성
             Table table = new Table(modifiedFields.size());
             for (String field : modifiedFields) {
                 table.addHeaderCell(new Paragraph(field).setBold());
@@ -91,10 +101,10 @@ public class JsonToPdfConverter {
 
                 // 메모리 최적화를 위한 플러시
                 if (rowCount % 1000 == 0) {
-                    document.add(table); // 이미 테이블이 존재하므로 매번 추가하지 않도록
+                    document.add(table);
                     table = new Table(modifiedFields.size());  // 새로운 테이블 시작
                     for (String field : modifiedFields) {
-                        table.addHeaderCell(new Paragraph(field).setBold()); // 새로운 테이블에 헤더 추가
+                        table.addHeaderCell(new Paragraph(field).setBold());
                     }
                     System.out.println(rowCount + "개의 레코드를 PDF에 저장 중...");
                 }
@@ -115,5 +125,4 @@ public class JsonToPdfConverter {
             e.printStackTrace();
         }
     }
-
 }

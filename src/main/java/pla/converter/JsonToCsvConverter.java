@@ -40,11 +40,11 @@ public class JsonToCsvConverter {
                     case "total_score":
                         return "총점";
                     case "accessibility_score_standardized":
-                        return "접근성 점수";
+                        return "접근성점수";
                     case "predicted_usage_standardized":
-                            return "예측 사용량";
+                        return "예측사용량";
                     case "traffic_score_standardized":
-                        return "트래픽 점수";
+                        return "트래픽점수";
                     default:
                         return field;
                 }

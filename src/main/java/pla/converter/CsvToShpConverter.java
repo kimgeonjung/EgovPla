@@ -1,6 +1,7 @@
 package pla.converter;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +9,8 @@ import java.util.Map;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFinder;
 import org.geotools.data.FeatureWriter;
+import org.geotools.data.shapefile.ShapefileDataStore;
+import org.geotools.data.shapefile.ShapefileDataStoreFactory;
 import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.geotools.feature.simple.SimpleFeatureTypeBuilder;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -22,14 +25,19 @@ public class CsvToShpConverter {
 
     public void convertCsvToShapefile(String csvPath, String outputShpPath) throws IOException {
         File newFile = new File(outputShpPath);
-        Map<String, Object> params = new HashMap<>();
-        params.put("url", newFile.toURI().toURL());
-        DataStore dataStore = DataStoreFinder.getDataStore(params);
-        if (dataStore == null) {
-            throw new IOException("Could not create data store");
-        }
 
-        // FileInputStream을 사용하고, Charset을 지정하여 CSVReader를 읽음
+        // Map<String, Serializable>로 선언
+        Map<String, Serializable> params = new HashMap<>();
+        params.put("url", newFile.toURI().toURL());
+
+        // ShapefileDataStoreFactory 사용
+        ShapefileDataStoreFactory dataStoreFactory = new ShapefileDataStoreFactory();
+        ShapefileDataStore dataStore = (ShapefileDataStore) dataStoreFactory.createNewDataStore(params);
+
+        // DBF 파일 문자 인코딩 설정
+        dataStore.setCharset(Charset.forName("EUC-KR"));
+
+        // CSVReader 설정
         try (CSVReader csvReader = new CSVReader(new InputStreamReader(new FileInputStream(csvPath), StandardCharsets.UTF_8))) {
             // Read header row
             String[] headers = csvReader.readNext();

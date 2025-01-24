@@ -119,7 +119,8 @@ public class PythonExecutor {
             int exitCode = process.waitFor();
             log.info("Python process exited with code: {}", exitCode);
             output.append("Python script exited with code: ").append(exitCode).append("\n");
-            
+
+            // 정상 종료시 게시글 생성
             if (exitCode == 0) {
                 // 게시글 생성
             	String applyTitle = authInfo.getName() + "님이 신청한 " + modelName + "분석 데이터입니다.";
