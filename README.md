@@ -1,6 +1,6 @@
-AI 애자일기반 공공복합시설 입지분석 플랫폼
------------
+# AI 애자일기반 공공복합시설 입지분석 플랫폼
 ### 공공기관의 반복적인 입지분석으로 인한 자원 낭비를 해결하기 위해, AI 기반 데이터 분석과 공간 정보 융합을 활용한 플랫폼
+
 
 ## 1. 개발 배경 및 목적
 
@@ -24,7 +24,7 @@ AI 애자일기반 공공복합시설 입지분석 플랫폼
 - **Server-side (백엔드)**: Java, Spring Boot
 - **Client-side (프론트엔드)**: HTML5, CSS, JavaScript, jQuery
 - **지도 서비스 (GIS)**: GeoServer
-- **배포 및 호스팅 (Cloud)**: NHN Cloud, Ubuntu Server
+- **배포 및 호스팅 (Cloud)**: NHN Cloud Ubuntu Server
 
 ## 4. 프로젝트 주요 기능
 
